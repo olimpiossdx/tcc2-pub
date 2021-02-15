@@ -1,11 +1,9 @@
 import React from 'react';
 
-const Content: React.FC = () => {
-  return (
-    <h4>
-      Content
-    </h4>
-  )
+const Content: React.FC = ({ children }) => {
+  return (<>
+    {children}
+  </>);
 }
 
 export default Content;
