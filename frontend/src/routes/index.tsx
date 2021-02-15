@@ -5,6 +5,7 @@ import Main from '../components/main';
 import Cadastro from '../pages/cadastro';
 import Login from '../pages/login';
 import Menu from '../pages/menu';
+import Perfil from '../pages/perfil';
 
 
 const Routes: React.FC = () => {
@@ -15,6 +16,7 @@ const Routes: React.FC = () => {
 
       <Main>
         <Route path='/menu' exact component={Menu} />
+        <Route path='/perfil' exact component={Perfil} />
       </Main>
 
     </Switch>
