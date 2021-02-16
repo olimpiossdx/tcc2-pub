@@ -20,8 +20,8 @@ const Routes: React.FC = () => {
       <Main>
         <Route path='/menu' component={Menu} />
         <Route path='/novo-agendamento' component={NovoAgendamento} />
-        <Route path='/laboratorio-agendados' component={LaboratoriosAgendados} />
-        <Route path='/laboratorio-disponiveis' component={LaboratorioDisponiveis} />
+        <Route path='/laboratorios-agendados' component={LaboratoriosAgendados} />
+        <Route path='/laboratorios-disponiveis' component={LaboratorioDisponiveis} />
         <Route path='/meu-perfil' component={MeuPerfil} />
       </Main>
 
