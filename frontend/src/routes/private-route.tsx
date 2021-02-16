@@ -7,13 +7,13 @@ interface IRouteProps extends RouteProps {
 }
 
 //TODO: Remover quando tiver o serviço de auth
-const PrivateRoute: React.FC<IRouteProps> = ({ isPrivate = true, component: Component, ...rest }) => {
+const PrivateRoute: React.FC<IRouteProps> = ({ isPrivate = false, component: Component, ...rest }) => {
   return (<Route {...rest}
     render={({ location }) => {
       return isPrivate ?
         <Component /> :
         <Redirect to={{ pathname: isPrivate ? '/' : '/menu', state: { from: location } }} />
-    }}/>)
+    }} />)
 }
 
 export default PrivateRoute

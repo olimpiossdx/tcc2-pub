@@ -9,6 +9,7 @@ import Login from '../pages/login';
 import Menu from '../pages/menu';
 import MeuPerfil from '../pages/meu-perfil';
 import NovoAgendamento from '../pages/novo-agendamento';
+import PrivateRoute from './private-route';
 
 
 const Routes: React.FC = () => {
@@ -18,11 +19,11 @@ const Routes: React.FC = () => {
       <Route path='/cadastro' component={Cadastro} />
 
       <Main>
-        <Route path='/menu' component={Menu} />
-        <Route path='/novo-agendamento' component={NovoAgendamento} />
-        <Route path='/laboratorios-agendados' component={LaboratoriosAgendados} />
-        <Route path='/laboratorios-disponiveis' component={LaboratorioDisponiveis} />
-        <Route path='/meu-perfil' component={MeuPerfil} />
+        <PrivateRoute isPrivate path='/menu' component={Menu} />
+        <PrivateRoute isPrivate path='/novo-agendamento' component={NovoAgendamento} />
+        <PrivateRoute isPrivate path='/laboratorios-agendados' component={LaboratoriosAgendados} />
+        <PrivateRoute isPrivate path='/laboratorios-disponiveis' component={LaboratorioDisponiveis} />
+        <PrivateRoute isPrivate path='/meu-perfil' component={MeuPerfil} />
       </Main>
 
     </Switch>
