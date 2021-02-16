@@ -12,7 +12,7 @@ const Header: React.FC = () => {
       <Typography variant='h6' color='inherit' component='div' noWrap style={{ flexGrow: 1, marginLeft: 5 }}>
         Universidade Federal Do Ouro Preto
         </Typography>
-      <Link to='perfil'>
+      <Link to='/meu-perfil'>
         <IconButton edge='end' color='inherit' aria-label='menu'>
           <AccountCircleIcon />
         </IconButton>
