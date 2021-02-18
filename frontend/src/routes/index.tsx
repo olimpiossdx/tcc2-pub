@@ -25,7 +25,7 @@ const Routes: React.FC = () => {
         <PrivateRoute isPrivate path='/laboratorios-disponiveis' component={LaboratorioDisponiveis} />
         <PrivateRoute isPrivate path='/meu-perfil' component={MeuPerfil} />
       </Main>
-
+      <Route component={() => (<h5>Pagina não encontrada</h5>)} />
     </Switch>
   </BrowserRouter>);
 }
