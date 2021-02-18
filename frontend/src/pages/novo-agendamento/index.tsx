@@ -1,21 +1,34 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { Paper, Grid, Typography, FormControl, InputLabel, MenuItem, Select, Button } from '@material-ui/core';
 import CalendarToday from '@material-ui/icons/CalendarToday';
 import { KeyboardDateTimePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
-import ptBRLocale from "date-fns/locale/pt-BR"
+import ptBRLocale from 'date-fns/locale/pt-BR'
 import DateFnsUtils from '@date-io/date-fns';
 
 const NovoAgendamento: React.FC = () => {
-  const [age, setAge] = React.useState('');
-  const [selectedDate, handleDateChange] = useState(new Date("2019-01-01T18:54"));
+  const [selectBloco, setSelectBloco] = React.useState('');
+  const [selectSala, setSelectSala] = React.useState('');
+  const [selectStartDate, setSelectStartDate] = useState<Date | null>(new Date());
+  const [selectEndDate, setSelectEndDate] = useState<Date | null>(new Date());
 
-  const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setAge(event.target.value as string);
-  };
+  const handleSelectBlocoChange = useCallback((event: React.ChangeEvent<{ value: unknown }>) => {
+    setSelectBloco(event.target.value as string);
+  }, []);
 
+  const handleSelectSalaChange = useCallback((event: React.ChangeEvent<{ value: unknown }>) => {
+    setSelectSala(event.target.value as string);
+  }, []);
+
+  const handleDateStartChange = useCallback((date: Date | null, _value?: string | null | undefined) => {
+    setSelectStartDate(date);
+  }, []);
+
+  const handleDateEndChange = useCallback((date: Date | null, _value?: string | null | undefined) => {
+    setSelectEndDate(date);
+  }, []);
 
   return (<Grid container justifyContent='center' alignItems='center' style={{ height: 'calc(100vh - 64px)' }}>
-    <Grid item>
+    <Grid item xs={11} sm={8} md={5}>
       <Paper style={{ padding: 10 }}>
         <Grid container spacing={2} alignItems='center' style={{ height: '100%' }} >
           <Grid item>
@@ -27,16 +40,16 @@ const NovoAgendamento: React.FC = () => {
            </Typography>
           </Grid>
           <Grid item xs={12}>
-            <FormControl variant="outlined" fullWidth>
-              <InputLabel id="demo-simple-select-outlined-label">Selecione o bloco</InputLabel>
+            <FormControl variant='outlined' fullWidth>
+              <InputLabel id='demo-simple-select-outlined-label'>Selecione o bloco</InputLabel>
               <Select
-                labelId="demo-simple-select-outlined-label"
-                id="demo-simple-select-outlined"
-                value={age}
-                onChange={handleChange}
-                label="Selecione o bloco"
+                labelId='demo-simple-select-outlined-label'
+                id='demo-simple-select-outlined'
+                value={selectBloco}
+                onChange={handleSelectBlocoChange}
+                label='Selecione o bloco'
               >
-                <MenuItem value="">
+                <MenuItem value=''>
                   <em>limpar seleção</em>
                 </MenuItem>
                 <MenuItem value={10}>B200</MenuItem>
@@ -47,16 +60,16 @@ const NovoAgendamento: React.FC = () => {
           </Grid>
 
           <Grid item xs={12}>
-            <FormControl variant="outlined" fullWidth>
-              <InputLabel id="demo-simple-select-outlined-label">Selecione a sala</InputLabel>
+            <FormControl variant='outlined' fullWidth>
+              <InputLabel id='demo-simple-select-outlined-label'>Selecione a sala</InputLabel>
               <Select
-                labelId="demo-simple-select-outlined-label"
-                id="demo-simple-select-outlined"
-                value={age}
-                onChange={handleChange}
-                label="Selecione a sala"
+                labelId='demo-simple-select-outlined-label'
+                id='demo-simple-select-outlined'
+                value={selectSala}
+                onChange={handleSelectSalaChange}
+                label='Selecione a sala'
               >
-                <MenuItem value="">
+                <MenuItem value=''>
                   <em>limpar seleção</em>
                 </MenuItem>
                 <MenuItem value={10}>C202</MenuItem>
@@ -66,41 +79,39 @@ const NovoAgendamento: React.FC = () => {
             </FormControl>
           </Grid>
 
-          <Grid item xs>
+          <Grid item xs={12} sm>
             <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ptBRLocale}>
               <KeyboardDateTimePicker
-                value={selectedDate}
-                onChange={() => { }}
-                label="Keyboard with error handler"
+                fullWidth
+                value={selectStartDate}
+                onChange={handleDateStartChange}
+                label='Data e horário de inicio'
                 onError={console.log}
-                minDate={new Date("2018-01-01T00:00")}
-                format="yyyy/MM/dd hh:mm a"
+                minDate={new Date('2018-01-01T00:00')}
+                format='yyyy/MM/dd hh:mm a'
               />
             </MuiPickersUtilsProvider>
-
           </Grid>
 
-          <Grid item xs>
+          <Grid item xs={12} sm>
             <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ptBRLocale}>
-
               <KeyboardDateTimePicker
-                value={selectedDate}
-                onChange={() => { }}
-                label="Keyboard with error handler"
+                fullWidth
+                value={selectEndDate}
+                onChange={handleDateEndChange}
+                label='Data e horário de final'
                 onError={console.log}
-                minDate={new Date("2018-01-01T00:00")}
-                format="yyyy/MM/dd hh:mm a"
+                minDate={new Date('2018-01-01T00:00')}
+                format='yyyy/MM/dd hh:mm a'
               />
-
             </MuiPickersUtilsProvider>
           </Grid>
 
           <Grid item xs={12}>
             <Grid container justifyContent='flex-end'>
               <Grid item>
-                <Button>Agendar</Button>
+                <Button variant='outlined'>Agendar</Button>
               </Grid>
-
             </Grid>
           </Grid>
 
