@@ -34,7 +34,7 @@ const NovoAgendamento: React.FC = () => {
   };
 
   return (<form onSubmit={handleSubmit}>
-    <Grid container justifyContent='center' alignItems='center' style={{ height: 'calc(100vh - 64px)' }}>
+    <Grid container justifyContent='center' alignItems='center' style={{ height: 'calc(100vh - 120px)' }}>
       <Grid item xs={11} sm={10} md={6}>
         <Paper style={{ padding: 10 }}>
           <Grid container spacing={2} alignItems='center' style={{ height: '100%' }} >
