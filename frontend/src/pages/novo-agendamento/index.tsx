@@ -28,7 +28,7 @@ const NovoAgendamento: React.FC = () => {
   }, []);
 
   return (<Grid container justifyContent='center' alignItems='center' style={{ height: 'calc(100vh - 64px)' }}>
-    <Grid item xs={11} sm={8} md={5}>
+    <Grid item xs={11} sm={10} md={6}>
       <Paper style={{ padding: 10 }}>
         <Grid container spacing={2} alignItems='center' style={{ height: '100%' }} >
           <Grid item>
