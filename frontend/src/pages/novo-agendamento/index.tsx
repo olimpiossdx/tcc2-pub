@@ -1,9 +1,12 @@
 import React, { useState, useCallback } from 'react';
+
 import { Paper, Grid, Typography, FormControl, InputLabel, MenuItem, Select, Button } from '@material-ui/core';
-import CalendarToday from '@material-ui/icons/CalendarToday';
+
 import { KeyboardDateTimePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import ptBRLocale from 'date-fns/locale/pt-BR'
 import DateFnsUtils from '@date-io/date-fns';
+
+import CalendarToday from '@material-ui/icons/CalendarToday';
 
 const NovoAgendamento: React.FC = () => {
 
@@ -35,52 +38,50 @@ const NovoAgendamento: React.FC = () => {
 
   return (<form onSubmit={handleSubmit}>
     <Grid container justifyContent='center' alignItems='center' style={{ height: 'calc(100vh - 120px)' }}>
-      <Grid item xs={11} sm={10} md={6}>
+      <Grid item xs={11} sm={10} md={7} lg={4}>
         <Paper style={{ padding: 10 }}>
-          <Grid container spacing={2} alignItems='center' style={{ height: '100%' }} >
+          <Grid container spacing={2} alignItems='center' style={{ height: '100%' }}>
             <Grid item>
               <CalendarToday />
             </Grid>
-            <Grid item >
+            <Grid item>
               <Typography align='left'>
                 Novo agendamento
-           </Typography>
+              </Typography>
             </Grid>
             <Grid item xs={12}>
               <FormControl variant='outlined' fullWidth>
-                <InputLabel id='demo-simple-select-outlined-label'>Selecione o bloco</InputLabel>
+                <InputLabel id='select-bloco-simple-select-outlined-label'>Selecione o bloco</InputLabel>
                 <Select
-                  labelId='demo-simple-select-outlined-label'
-                  id='demo-simple-select-outlined'
+                  labelId='select-bloco-simple-select-outlined-label'
+                  id='select-bloco-simple-select-outlined'
                   value={selectBloco}
                   onChange={handleSelectBlocoChange}
-                  label='Selecione o bloco'
-                >
+                  label='Selecione o bloco'>
                   <MenuItem value=''>
                     <em>limpar seleção</em>
                   </MenuItem>
-                  <MenuItem value={10}>B200</MenuItem>
-                  <MenuItem value={20}>A201</MenuItem>
-                  <MenuItem value={30}>C202</MenuItem>
+                  <MenuItem value='B200'>B200</MenuItem>
+                  <MenuItem value='A200'>A200</MenuItem>
+                  <MenuItem value='C200'>C200</MenuItem>
                 </Select>
               </FormControl>
             </Grid>
             <Grid item xs={12}>
               <FormControl variant='outlined' fullWidth>
-                <InputLabel id='demo-simple-select-outlined-label'>Selecione a sala</InputLabel>
+                <InputLabel id='select-sala-simple-select-outlined-label'>Selecione a sala</InputLabel>
                 <Select
-                  labelId='demo-simple-select-outlined-label'
-                  id='demo-simple-select-outlined'
+                  labelId='select-sala-simple-select-outlined-label'
+                  id='select-sala-simple-select-outlined'
                   value={selectSala}
                   onChange={handleSelectSalaChange}
-                  label='Selecione a sala'
-                >
+                  label='Selecione a sala'>
                   <MenuItem value=''>
                     <em>limpar seleção</em>
                   </MenuItem>
-                  <MenuItem value={10}>C202</MenuItem>
-                  <MenuItem value={20}>C203</MenuItem>
-                  <MenuItem value={30}>C204</MenuItem>
+                  <MenuItem value='C202'>C202</MenuItem>
+                  <MenuItem value='C203'>C203</MenuItem>
+                  <MenuItem value='C204'>C204</MenuItem>
                 </Select>
               </FormControl>
             </Grid>
@@ -93,8 +94,7 @@ const NovoAgendamento: React.FC = () => {
                   label='Data e horário de inicio'
                   onError={console.log}
                   minDate={new Date('2018-01-01T00:00')}
-                  format='yyyy/MM/dd hh:mm a'
-                />
+                  format='yyyy/MM/dd hh:mm' />
               </MuiPickersUtilsProvider>
             </Grid>
             <Grid item xs={12} sm>
@@ -106,8 +106,7 @@ const NovoAgendamento: React.FC = () => {
                   label='Data e horário de final'
                   onError={console.log}
                   minDate={new Date('2018-01-01T00:00')}
-                  format='yyyy/MM/dd hh:mm a'
-                />
+                  format='yyyy/MM/dd hh:mm' />
               </MuiPickersUtilsProvider>
             </Grid>
             <Grid item xs={12}>
