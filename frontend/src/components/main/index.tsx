@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Content from '../content';
 import Header from '../header';
 
@@ -9,30 +9,29 @@ import InsertDriveFile from '@material-ui/icons/InsertDriveFile';
 import InsertInvitation from '@material-ui/icons/InsertInvitation';
 import CalendarToday from '@material-ui/icons/CalendarToday';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import { useHistory } from 'react-router-dom';
 
-interface IMainProps {
-  isBottomNavigation?: boolean;
-}
+const Main: React.FC = ({ children }) => {
+  const { location, push } = useHistory();
 
-const Main: React.FC<IMainProps> = ({ children, isBottomNavigation = true }) => {
-  const [value, setValue] = React.useState('NovoAgendamento');
+  const [value, setValue] = useState(location.pathname.substr(1));
+  const isBottomNavigation = !!value;
 
-  const handleChange = (event: React.ChangeEvent<{}>, newValue: string) => {
+  const handleChange = (_event: React.ChangeEvent<{}>, newValue: string) => {
     setValue(newValue);
+    push(newValue);
   };
+
   return (<>
     <Header />
     <Content>
       {children}
-      {isBottomNavigation ? (
-        <BottomNavigation showLabels value={value} onChange={handleChange}>
-          <BottomNavigationAction label="Novo agendamento" value="NovoAgendamento" icon={<InsertDriveFile />} />
-          <BottomNavigationAction label="Laboratórios agendados" value="laboratoriosAgendados" icon={<InsertInvitation />} />
-          <BottomNavigationAction label="Laboratórios disponíveis" value="laboratoriosDisponíveis" icon={<CalendarToday />} />
-          <BottomNavigationAction label="Sair" value="sair" icon={<ExitToAppIcon />} />
-        </BottomNavigation>
-      ) : (null)}
-
+      {isBottomNavigation ? (<BottomNavigation showLabels value={value} onChange={handleChange}>
+        <BottomNavigationAction label="Novo agendamento" value="novo-agendamento" icon={<InsertDriveFile />} />
+        <BottomNavigationAction label="Laboratórios agendados" value="laboratorios-agendados" icon={<InsertInvitation />} />
+        <BottomNavigationAction label="Laboratórios disponíveis" value="laboratorios-disponiveis" icon={<CalendarToday />} />
+        <BottomNavigationAction label="Sair" value="/" icon={<ExitToAppIcon />} />
+      </BottomNavigation>) : (null)}
     </Content>
   </>)
 }
