@@ -45,12 +45,11 @@ const LaboratoriosAgendados: React.FC = () => {
         ]));
       }, 300);
     }).then(() => setLoading(false));
-
   }, []);
 
   return (<Grid container justifyContent='center' alignItems='center' style={{ height: 'calc(100vh - 120px)' }}>
     <Grid item xs={11} sm={10} md={6}>
-      <Grid component={Paper} container spacing={2} alignItems='center' style={{ height: '100%', padding: '1%' }} >
+      <Grid component={Paper} container spacing={2} justifyContent='center' alignItems='center' style={{ height: '100%', padding: '1%' }} >
         <TableContainer>
           <Toolbar>
             <InsertInvitation />
@@ -72,10 +71,8 @@ const LaboratoriosAgendados: React.FC = () => {
                   <TableCell colSpan={3} align='center'>
                     <Loading />
                   </TableCell>
-                </TableRow>
-                ) :
+                </TableRow>) :
                 <RenderROw agendamentos={agendamentos} />}
-
             </TableBody>
           </Table>
         </TableContainer>
