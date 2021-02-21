@@ -78,7 +78,7 @@ const MainContent: React.FC<MainContentProps> = ({ activeStep, steps, setAcessKe
           <Grid item >
             <Grid container spacing={1} alignItems='center'>
               <Grid item>
-                <PersonIcon />
+                <PersonIcon fontSize='small' />
               </Grid>
               <Grid item>
                 <TextField id='input-name' label='Nome' size='small' disabled />
@@ -89,7 +89,7 @@ const MainContent: React.FC<MainContentProps> = ({ activeStep, steps, setAcessKe
           <Grid item>
             <Grid container spacing={1} alignItems='center'>
               <Grid item>
-                <EmailIcon />
+                <EmailIcon fontSize='small'  />
               </Grid>
               <Grid item>
                 <TextField id='input-email' label='E-maili' size='small' disabled />
@@ -100,7 +100,7 @@ const MainContent: React.FC<MainContentProps> = ({ activeStep, steps, setAcessKe
           <Grid item>
             <Grid container spacing={1} alignItems='center' >
               <Grid item>
-                <VpnKeyIcon />
+                <VpnKeyIcon fontSize='small'  />
               </Grid>
               <Grid item>
                 <TextField
