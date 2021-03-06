@@ -36,11 +36,11 @@ const LaboratorioDisponiveis: React.FC = () => {
     new Promise(resolve => {
       setTimeout(() => {
         resolve(setAgendamentos([
-          { id: '1', laboratorio: 'B200', dataInicio: '01/02/2021 13:30', dataFim: '01/02/2021 21:00' },
-          { id: '2', laboratorio: 'C201', dataInicio: '01/02/2021 14:30', dataFim: '01/02/2021 18:00' },
-          { id: '3', laboratorio: 'D401', dataInicio: '01/02/2021 12:30', dataFim: '01/02/2021 16:00' },
-          { id: '4', laboratorio: 'E201', dataInicio: '01/02/2021 15:00', dataFim: '01/02/2021 19:00' },
-          { id: '5', laboratorio: 'F208', dataInicio: '01/02/2021 08:30', dataFim: '01/02/2021 10:00' },
+          { id: '1', laboratorio: 'A200', dataInicio: '01/02/2021 13:30', dataFim: '01/02/2021 21:00' },
+          { id: '2', laboratorio: 'E201', dataInicio: '01/02/2021 14:30', dataFim: '01/02/2021 18:00' },
+          { id: '3', laboratorio: 'B301', dataInicio: '01/02/2021 12:30', dataFim: '01/02/2021 16:00' },
+          { id: '4', laboratorio: 'A201', dataInicio: '01/02/2021 15:00', dataFim: '01/02/2021 19:00' },
+          { id: '5', laboratorio: 'D208', dataInicio: '01/02/2021 08:30', dataFim: '01/02/2021 10:00' },
         ]));
       }, 300);
     }).then(() => setLoading(false));
