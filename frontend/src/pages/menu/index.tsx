@@ -9,7 +9,7 @@ import CalendarToday from '@material-ui/icons/CalendarToday';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 
 const Menu: React.FC = () => {
-  return (<Grid container justifyContent='center' alignItems='center' style={{ height: 'calc(100vh - 11.93vh)' }}>
+  return (<Grid container justifyContent='center' alignItems='center' style={{ height: 'calc(100vh - 12.5vh)' }}>
     <Grid item xs={11}>
       <Grid container spacing={1} justifyContent='center' style={{ height: '100%' }}>
         <Grid item xs={12} sm={6} md={5}>
