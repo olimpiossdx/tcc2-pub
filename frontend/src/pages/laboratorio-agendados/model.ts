@@ -1,4 +1,4 @@
-export interface IAgendamento {
+export interface IAgendamentoModel {
   id?: string;
   laboratorio: string;
   dataInicio: string;
