@@ -1,9 +1,9 @@
 import { TableRow, TableCell } from "@material-ui/core";
 import React from "react";
-import { IAgendamento } from "../../pages/laboratorio-agendados/model";
+import { IAgendamentoModel } from "../../pages/laboratorio-agendados/model";
 import { dataFormatter } from "../../utils/formatted";
 
-const TableDataRow: React.FC<{ agendamento: IAgendamento }> = ({ agendamento }) => {
+const TableDataRow: React.FC<{ agendamento: IAgendamentoModel }> = ({ agendamento }) => {
   return (<TableRow key={agendamento.id} hover>
     <TableCell component='th' scope='row'>
       {agendamento.laboratorio}
