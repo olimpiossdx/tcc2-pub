@@ -2,18 +2,7 @@ import React from 'react';
 import { AlertProps, Button, Snackbar } from '@material-ui/core';
 import MuiAlert from '@material-ui/lab/Alert';
 import INotification from './model';
-import { makeStyles } from '@material-ui/core/styles';
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    width: '100%',
-    '& > * + *': {
-      marginTop: theme.spacing(2),
-    },
-  },
-}));
-
-export type Status = 'success' | 'info' | 'warning' | 'error';
+import useStyles from './styles';
 
 function Alert(props: AlertProps) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -24,7 +13,7 @@ interface IProps {
   setNotification: (notification: INotification) => void;
 }
 
-const Notification: React.FC = (props) => {
+const Notification: React.FC<IProps> = (props) => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
 

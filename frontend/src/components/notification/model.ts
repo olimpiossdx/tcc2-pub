@@ -1,4 +1,4 @@
-import { Status } from ".";
+export type Status = 'success' | 'info' | 'warning' | 'error';
 
 interface INotification {
   status: Status;
