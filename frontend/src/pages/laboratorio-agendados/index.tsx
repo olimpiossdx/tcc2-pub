@@ -16,7 +16,7 @@ interface IAgendamento {
 const RenderROw: React.FC<{ agendamentos: IAgendamento[] }> = ({ agendamentos }) => {
   return (<>
     {agendamentos.map(agendamento => (
-      <TableRow key={agendamento.id}>
+      <TableRow key={agendamento.id} hover>
         <TableCell component='th' scope='row'>
           {agendamento.laboratorio}
         </TableCell>
