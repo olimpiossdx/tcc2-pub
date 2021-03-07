@@ -2,8 +2,10 @@ import React from 'react';
 
 import { Button, Grid, Paper } from '@material-ui/core';
 import LoginIMG from '../../assets/ufop2.png';
+import { useHistory } from 'react-router';
 
 const Login: React.FC = () => {
+  const history = useHistory();
   return (<Grid container justifyContent='center' alignItems='center' style={{ height: 'calc(100vh - 64px)' }}>
     <Paper component={Grid} style={{ padding: 10, margin: 5 }}>
       <Grid item xs={12}>
@@ -14,7 +16,8 @@ const Login: React.FC = () => {
           <Grid item xs={12}>
             <Grid container justifyContent='flex-end'>
               <Grid item>
-                <Button variant='contained'>inciar com google</Button>
+                {/* TODO: alterar para rota  */}
+                <Button variant='contained' onClick={() => history.push('/menu')}>inciar com google</Button>
               </Grid>
             </Grid>
           </Grid>
