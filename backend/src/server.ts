@@ -1,9 +1,11 @@
 import express, { NextFunction, Response, Request } from 'express';
+import cors from 'cors';
 import routes from './routes';
 import AppError from './shared/erros';
 
 const app = express();
 
+app.use(cors());
 app.use(express.json());
 app.use(routes);
 
