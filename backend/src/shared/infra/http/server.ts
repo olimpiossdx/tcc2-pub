@@ -1,7 +1,7 @@
 import express, { NextFunction, Response, Request } from 'express';
 import cors from 'cors';
 import routes from './routes';
-import AppError from './shared/erros';
+import AppError from '../../erros';
 
 const app = express();
 
