@@ -47,7 +47,7 @@ const LaboratoriosAgendados: React.FC = () => {
     }).then(() => setLoading(false));
   }, []);
 
-  return (<Grid container justifyContent='center' alignItems='center' style={{ height: 'calc(100vh - 120px)' }}>
+  return (<Grid container justifyContent='center' alignItems='center' style={{ height: 'calc(100vh - 12.5vh)' }}>
     <Grid item xs={11} sm={10} md={6}>
       <Grid component={Paper} container spacing={2} justifyContent='center' alignItems='center' style={{ height: '100%', padding: '1%' }} >
         <TableContainer>

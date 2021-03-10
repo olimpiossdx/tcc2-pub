@@ -7,8 +7,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 const MeuPefil: React.FC = () => {
   const [disabled, setDisabled] = useState(true);
 
-  return (<Grid container justifyContent='center' alignItems='center'
-    style={{ height: 'calc(100vh - 120px)' }}>
+  return (<Grid container justifyContent='center' alignItems='center' style={{ height: 'calc(100vh - 12.5vh)' }}>
     <Grid item xs={11} sm={10} md={6}>
       <Grid component={Paper} container spacing={2} alignItems='center' style={{ height: '100%', padding: '2%' }} >
         <Grid item>

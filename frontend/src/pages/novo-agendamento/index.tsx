@@ -78,7 +78,7 @@ const NovoAgendamento: React.FC = () => {
 
   return (loadingSkeleton ? (<NovoAgendamentoAnimatedLoading />) :
     (<form onSubmit={handleSubmit}>
-      <Grid container justifyContent='center' alignItems='center' style={{ height: 'calc(100vh - 120px)', minHeight: 350 }}>
+      <Grid container justifyContent='center' alignItems='center' style={{ height: 'calc(100vh - 12.5vh)', minHeight: 350 }}>
         <Grid item xs={11} sm={10} md={7} lg={4}>
           <Paper style={{ padding: 10 }}>
             <Grid container spacing={2} alignItems='center' style={{ height: '100%' }}>
