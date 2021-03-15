@@ -2,7 +2,7 @@ import React, { useState, useCallback, useEffect } from 'react';
 
 import { Paper, Grid, Typography, FormControl, InputLabel, MenuItem, Select, Button, LinearProgress } from '@material-ui/core';
 
-import { KeyboardDateTimePicker, KeyboardTimePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
+import { KeyboardDatePicker, KeyboardTimePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import ptBRLocale from 'date-fns/locale/pt-BR'
 import DateFnsUtils from '@date-io/date-fns';
 
@@ -130,7 +130,7 @@ const NovoAgendamento: React.FC = () => {
               </Grid>
               <Grid item xs={12}>
                 <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ptBRLocale}>
-                  <KeyboardDateTimePicker
+                  <KeyboardDatePicker
                     fullWidth
                     value={data}
                     onChange={(data) => setData(data)}
