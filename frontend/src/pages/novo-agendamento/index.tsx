@@ -10,6 +10,7 @@ import CalendarToday from '@material-ui/icons/CalendarToday';
 import api from '../../services';
 import { IBlocoModel, ILaboratorioModel } from './model';
 import NovoAgendamentoAnimatedLoading from '../../components/skeleton';
+import { useNotifcation } from '../../components/hooks/notification';
 
 interface IReseponse {
   blocos: IBlocoModel[];
@@ -17,6 +18,7 @@ interface IReseponse {
 }
 
 const NovoAgendamento: React.FC = () => {
+  const { addNotification } = useNotifcation();
   const [loading, setLoading] = useState(true);
   const [loadingSkeleton, setLoadingSkeleton] = useState(true);
   const [blocos, setBlocos] = useState<IBlocoModel[]>([]);
@@ -73,6 +75,8 @@ const NovoAgendamento: React.FC = () => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    console.log("tes")
+    addNotification({ tipo: 'success', descricao: 'Agendamento realizado com sucesso! ' });
     //TODO ADICIONAR REGRA PARA CADASTRAMENTO
   };
 
