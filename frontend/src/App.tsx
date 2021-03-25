@@ -1,4 +1,6 @@
 import React from 'react';
+import 'dotenv/config';
+
 import Routes from './routes';
 
 import './globalStyles.css';

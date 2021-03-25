@@ -3,6 +3,7 @@ import React from 'react';
 import { Button, Grid, Paper } from '@material-ui/core';
 import LoginIMG from '../../assets/ufop2.png';
 import { useHistory } from 'react-router';
+import firebase from '../../config/firebase';
 
 const Login: React.FC = () => {
   const history = useHistory();
@@ -17,7 +18,14 @@ const Login: React.FC = () => {
             <Grid container justifyContent='flex-end'>
               <Grid item>
                 {/* TODO: alterar para rota  */}
-                <Button variant='contained' onClick={() => history.push('/menu')}>inciar com google</Button>
+                <Button variant='contained' onClick={() => {
+                  const provider = new firebase.auth.GoogleAuthProvider();
+                  firebase.auth().signInWithPopup(provider).then(response => {
+                    console.log('response', response);
+                  });
+
+                }}>inciar com google</Button>
+                {/* <Button variant='contained' onClick={() => history.push('/menu')}>inciar com google</Button> */}
               </Grid>
             </Grid>
           </Grid>
