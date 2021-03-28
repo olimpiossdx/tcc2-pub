@@ -1,12 +1,14 @@
 import React from 'react';
 
 import { Button, Grid, Paper } from '@material-ui/core';
+
 import LoginIMG from '../../assets/ufop2.png';
-import { useHistory } from 'react-router';
-import firebase from '../../config/firebase';
+import { useAuth } from '../../components/hooks/authentication';
+
 
 const Login: React.FC = () => {
-  const history = useHistory();
+  const { signIn } = useAuth();
+  
   return (<Grid container justifyContent='center' alignItems='center' style={{ height: 'calc(100vh - 12.5vh)' }}>
     <Paper component={Grid} style={{ padding: 10, margin: 5 }}>
       <Grid item xs={12}>
@@ -17,15 +19,7 @@ const Login: React.FC = () => {
           <Grid item xs={12}>
             <Grid container justifyContent='flex-end'>
               <Grid item>
-                {/* TODO: alterar para rota  */}
-                <Button variant='contained' onClick={() => {
-                  const provider = new firebase.auth.GoogleAuthProvider();
-                  firebase.auth().signInWithPopup(provider).then(response => {
-                    console.log('response', response);
-                  });
-
-                }}>inciar com google</Button>
-                {/* <Button variant='contained' onClick={() => history.push('/menu')}>inciar com google</Button> */}
+                <Button variant='contained' onClick={signIn}>inciar com google</Button>
               </Grid>
             </Grid>
           </Grid>
