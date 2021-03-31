@@ -1,4 +1,5 @@
 import React from 'react';
+import { BrowserRouter as Router } from 'react-router-dom';
 import 'dotenv/config';
 
 import Routes from './routes';
@@ -11,7 +12,9 @@ import AppProvider from './components/hooks';
 const App: React.FC = () =>
 (<ThemeProvider theme={DefaulTheme}>
   <AppProvider>
-    <Routes />
+    <Router>
+      <Routes />
+    </Router>
   </AppProvider>
 </ThemeProvider>);
 

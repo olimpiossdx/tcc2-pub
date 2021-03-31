@@ -1,5 +1,4 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
 import firebase from '../../../config/firebase';
 import api from '../../../services';
 
@@ -33,8 +32,6 @@ interface AuthContextData {
 const AuthContext = React.createContext<AuthContextData>({} as AuthContextData);
 
 const AuthenticationProvider: React.FC = ({ children }) => {
-  const history = useHistory();
-
   const [state, setState] = React.useState<IAuthState>(() => {
     const oauthCrendial = localStorage.getItem('@sisag:token');
     const user = localStorage.getItem('@sisag:user');
@@ -50,27 +47,21 @@ const AuthenticationProvider: React.FC = ({ children }) => {
 
   const signIn = React.useCallback(async () => {
     const provider = new firebase.auth.GoogleAuthProvider();
-    firebase.auth().signInWithPopup(provider).then(async (response) => {
+    const response = await firebase.auth().signInWithPopup(provider);
+    const oauthCredential = (response.credential as firebase.auth.OAuthCredential);
+    const user = response.additionalUserInfo as IFirebaseAdditionalUserInfo;
 
-      const oauthCredential = (response.credential as firebase.auth.OAuthCredential);
-      const user = response.additionalUserInfo as IFirebaseAdditionalUserInfo;
+    localStorage.setItem('@sisag:token', JSON.stringify(oauthCredential));
+    localStorage.setItem('@sisag:user', JSON.stringify(user));
 
-      localStorage.setItem('@sisag:token', JSON.stringify(oauthCredential));
-      localStorage.setItem('@sisag:user', JSON.stringify(user));
+    //TODO: tratamento de erro
+    //await api.post('/login', (response.credential as firebase.auth.OAuthCredential).idToken);
 
-      //TODO: tratamento de erro
-      await api.post('/login', (response.credential as firebase.auth.OAuthCredential).idToken);
+    api.defaults.headers.authorization = `Bearer ${oauthCredential.idToken}`;
 
-      setState({ user, oauthCredential });
+    setState({ user, oauthCredential });
 
-      history.push('/menu');
-
-    }).catch(error => {
-      //TODO: tratamento de erro
-      console.log(error);
-    });
-
-  }, [history]);
+  }, []);
 
 
   const signOut = React.useCallback(async () => {

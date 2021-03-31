@@ -10,9 +10,11 @@ import InsertInvitation from '@material-ui/icons/InsertInvitation';
 import CalendarToday from '@material-ui/icons/CalendarToday';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { useHistory } from 'react-router-dom';
+import { useAuth } from '../hooks/authentication';
 
 const Main: React.FC = ({ children }) => {
   const { location, push } = useHistory();
+  const { signOut } = useAuth();
 
   const [value, setValue] = useState(location.pathname.substr(1));
   const isBottomNavigation = !!value;
@@ -30,7 +32,7 @@ const Main: React.FC = ({ children }) => {
         <BottomNavigationAction label="Novo agendamento" value="novo-agendamento" icon={<InsertDriveFile />} />
         <BottomNavigationAction label="Laboratórios agendados" value="laboratorios-agendados" icon={<InsertInvitation />} />
         <BottomNavigationAction label="Laboratórios disponíveis" value="laboratorios-disponiveis" icon={<CalendarToday />} />
-        <BottomNavigationAction label="Sair" value="/" icon={<ExitToAppIcon />} />
+        <BottomNavigationAction label="Sair" value="/" icon={<ExitToAppIcon />} onClick={signOut} />
       </BottomNavigation>) : (null)}
     </Content>
   </>)
