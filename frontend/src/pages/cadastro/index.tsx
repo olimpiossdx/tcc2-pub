@@ -1,11 +1,12 @@
 import React from 'react';
 
-import { Grid, Paper, Button, Step, StepLabel, Stepper, Typography, TextField } from '@material-ui/core';
+import { Grid, Paper, Button, Step, StepLabel, Stepper, Typography, TextField, Avatar } from '@material-ui/core';
 
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import PersonIcon from '@material-ui/icons/Person';
 import EmailIcon from '@material-ui/icons/Email';
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
+import { IFirebaseAdditionalUserInfo, useAuth } from '../../components/hooks/authentication';
 
 function getSteps() {
   return ['Selecionar conta', 'Adicionar código', 'Concluir'];
@@ -39,10 +40,11 @@ const BottomContent: React.FC<IBottomContetProps> = ({ activeStep, steps, handle
       (<Button onClick={handleReset} variant='outlined' size='small'>Novo cadastro</Button>) :
       (<>
         <Typography >{getStepContent(activeStep.active)}</Typography>
-        <Button disabled={activeStep.active === 0} onClick={handleBack} size='small' >
+        <Button variant='outlined' disabled={activeStep.active === 0} onClick={handleBack} size='small' >
           Voltar
         </Button>
-        <Button variant='contained' color='primary' onClick={handleNext} size='small'>
+        &nbsp;
+        <Button variant='outlined' color='primary' onClick={handleNext} size='small'>
           {activeStep.active === steps.length - 1 ? 'Concluir' : 'Próxmo'}
         </Button>
       </>)}
@@ -52,25 +54,43 @@ const BottomContent: React.FC<IBottomContetProps> = ({ activeStep, steps, handle
 interface MainContentProps {
   activeStep: IActiveStep;
   steps: string[];
-  setAcessKey: (acessKey: string) => void;
+  acessKey: string;
+  setAcessKey(acessKey: string): void;
+  handleNext(): void;
 };
 
+interface IUser {
+  nome: string;
+  email: string;
+  urlImg: undefined | string;
+}
 
-const MainContent: React.FC<MainContentProps> = ({ activeStep, steps, setAcessKey }) => {
+const MainContent: React.FC<MainContentProps> = ({ activeStep, steps, acessKey, setAcessKey, handleNext }) => {
+  const [user, setUser] = React.useState<IUser>({ nome: '', email: '', urlImg: undefined });
+  const { firebaseAuthAsync } = useAuth();
+
+  const handleFirebaseAuthAasync = async () => {
+    const response = await firebaseAuthAsync();
+    console.log((response.additionalUserInfo as IFirebaseAdditionalUserInfo).profile);
+    const { profile } = (response.additionalUserInfo as IFirebaseAdditionalUserInfo);
+    setUser({ nome: profile.given_name, email: profile.email, urlImg: profile.picture })
+    handleNext();
+  }
+
   const stepContent = () => {
     switch (activeStep.active) {
       case 0:
         return (<>
           <Typography variant='subtitle1'>Cadastre-se com sua Google</Typography>
-          <Button variant='outlined' size='small'>Adicionar conta Google</Button>
+          <Button variant='outlined' size='small' onClick={handleFirebaseAuthAasync}>Adicionar conta Google</Button>
         </>);
 
       case 1:
-        return (<Grid container spacing={1} justifyContent='space-evenly'>
+        return (<Grid container spacing={2} justifyContent='space-evenly'>
           <Grid item xs={12}>
             <Grid container spacing={1} justifyContent='center' alignItems='center'>
               <Grid item>
-                <AccountCircle fontSize='large' />
+                {user.urlImg ? <Avatar alt={user.nome} src={user.urlImg} /> : <AccountCircle fontSize='large' />}
               </Grid>
             </Grid>
           </Grid>
@@ -81,7 +101,7 @@ const MainContent: React.FC<MainContentProps> = ({ activeStep, steps, setAcessKe
                 <PersonIcon fontSize='small' />
               </Grid>
               <Grid item>
-                <TextField id='input-name' label='Nome' size='small' disabled />
+                <TextField id='input-name' label='Nome' value={user.nome} size='small' disabled />
               </Grid>
             </Grid>
           </Grid>
@@ -89,10 +109,10 @@ const MainContent: React.FC<MainContentProps> = ({ activeStep, steps, setAcessKe
           <Grid item>
             <Grid container spacing={1} alignItems='center'>
               <Grid item>
-                <EmailIcon fontSize='small'  />
+                <EmailIcon fontSize='small' />
               </Grid>
               <Grid item>
-                <TextField id='input-email' label='E-maili' size='small' disabled />
+                <TextField id='input-email' label='E-maili' value={user.email} size='small' disabled />
               </Grid>
             </Grid>
           </Grid>
@@ -100,12 +120,12 @@ const MainContent: React.FC<MainContentProps> = ({ activeStep, steps, setAcessKe
           <Grid item>
             <Grid container spacing={1} alignItems='center' >
               <Grid item>
-                <VpnKeyIcon fontSize='small'  />
+                <VpnKeyIcon fontSize='small' />
               </Grid>
               <Grid item>
                 <TextField
                   id='input-key-rfid'
-                  label='Código da tag rfid'
+                  label='Código rfid'
                   size='small'
                   onChange={e => setAcessKey(e.target.value)}
                   error={activeStep.error}
@@ -118,7 +138,7 @@ const MainContent: React.FC<MainContentProps> = ({ activeStep, steps, setAcessKe
         </ Grid>);
 
       case 2:
-        return (<Grid container spacing={1} justifyContent='space-evenly'>
+        return (<Grid container spacing={2} justifyContent='space-evenly'>
           <Grid item xs={12}>
             <Grid container spacing={1} justifyContent='center' alignItems='center'>
               <Grid item>
@@ -130,7 +150,7 @@ const MainContent: React.FC<MainContentProps> = ({ activeStep, steps, setAcessKe
           <Grid item xs={12}>
             <Grid container spacing={1} justifyContent='center' alignItems='center'>
               <Grid item>
-                <AccountCircle fontSize='large' />
+                {user.urlImg ? <Avatar alt={user.nome} src={user.urlImg} /> : <AccountCircle fontSize='large' />}
               </Grid>
             </Grid>
           </Grid>
@@ -141,7 +161,7 @@ const MainContent: React.FC<MainContentProps> = ({ activeStep, steps, setAcessKe
                 <PersonIcon />
               </Grid>
               <Grid item>
-                <TextField id='input-name' label='Nome' size='small' disabled />
+                <TextField id='input-name' label='Nome' value={user.nome} size='small' disabled />
               </Grid>
             </Grid>
           </Grid>
@@ -152,7 +172,7 @@ const MainContent: React.FC<MainContentProps> = ({ activeStep, steps, setAcessKe
                 <EmailIcon />
               </Grid>
               <Grid item>
-                <TextField id='input-email' label='E-maili' size='small' disabled />
+                <TextField id='input-email' label='E-maili' value={user.email} size='small' disabled />
               </Grid>
             </Grid>
           </Grid>
@@ -163,7 +183,7 @@ const MainContent: React.FC<MainContentProps> = ({ activeStep, steps, setAcessKe
                 <VpnKeyIcon />
               </Grid>
               <Grid item>
-                <TextField id='input-key-rfid' label='Código da tag rfid' size='small' required />
+                <TextField id='input-key-rfid' value={acessKey} label='Código da tag rfid' size='small' disabled />
               </Grid>
             </Grid>
           </Grid>
@@ -192,13 +212,10 @@ const MainContent: React.FC<MainContentProps> = ({ activeStep, steps, setAcessKe
       </Grid>
     </Grid>
     <Stepper activeStep={activeStep.active} alternativeLabel>
-      {steps.map((label) => (
-        <Step key={label}>
-          <StepLabel>{label}</StepLabel>
-        </Step>
-      ))}
+      {steps.map((label) => (<Step key={label}>
+        <StepLabel>{label}</StepLabel>
+      </Step>))}
     </Stepper>
-
   </Grid>);
 };
 
@@ -241,8 +258,8 @@ const Cadastro: React.FC = () => {
   return (
     <Grid container justifyContent='center' alignItems='center' style={{ height: '100vh' }}>
       <Grid item xs={11} sm={6} component={Paper} style={{ padding: '1%' }}>
-        <Grid container spacing={1} >
-          <MainContent activeStep={activeStep} steps={steps} setAcessKey={setAcessKey} />
+        <Grid container spacing={1}>
+          <MainContent activeStep={activeStep} steps={steps} acessKey={acessKey} setAcessKey={setAcessKey} handleNext={handleNext} />
           <BottomContent
             activeStep={activeStep} steps={steps}
             handleNext={handleNext} handleBack={handleBack}
