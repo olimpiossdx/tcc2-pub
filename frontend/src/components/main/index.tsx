@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Content from '../content';
 import Header from '../header';
 
 import BottomNavigation from '@material-ui/core/BottomNavigation';
@@ -26,15 +25,13 @@ const Main: React.FC = ({ children }) => {
 
   return (<>
     <Header />
-    <Content>
-      {children}
-      {isBottomNavigation ? (<BottomNavigation showLabels value={value} onChange={handleChange}>
-        <BottomNavigationAction label="Novo agendamento" value="novo-agendamento" icon={<InsertDriveFile />} />
-        <BottomNavigationAction label="Laboratórios agendados" value="laboratorios-agendados" icon={<InsertInvitation />} />
-        <BottomNavigationAction label="Laboratórios disponíveis" value="laboratorios-disponiveis" icon={<CalendarToday />} />
-        <BottomNavigationAction label="Sair" value="/" icon={<ExitToAppIcon />} onClick={signOut} />
-      </BottomNavigation>) : (null)}
-    </Content>
+    {children}
+    {isBottomNavigation ? (<BottomNavigation showLabels value={value} onChange={handleChange}>
+      <BottomNavigationAction label="Novo agendamento" value="novo-agendamento" icon={<InsertDriveFile />} />
+      <BottomNavigationAction label="Laboratórios agendados" value="laboratorios-agendados" icon={<InsertInvitation />} />
+      <BottomNavigationAction label="Laboratórios disponíveis" value="laboratorios-disponiveis" icon={<CalendarToday />} />
+      <BottomNavigationAction label="Sair" value="/" icon={<ExitToAppIcon />} onClick={signOut} />
+    </BottomNavigation>) : (null)}
   </>)
 }
 

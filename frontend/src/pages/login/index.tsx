@@ -17,7 +17,7 @@ const Login: React.FC = () => {
     });
   }
 
-  return (<Grid container justifyContent='center' alignItems='center' style={{ height: 'calc(100vh - 12.5vh)' }}>
+  return (<Grid container justifyContent='center' alignItems='center' style={{ height: 'calc(100vh - 13vh)' }}>
     <Paper component={Grid} style={{ padding: 10, margin: 5 }}>
       <Grid item xs={12}>
         <Grid container justifyContent='center' alignItems='center'>

@@ -1,7 +1,6 @@
 import React from 'react'
-import { Route, Switch } from 'react-router-dom';
+import { Switch } from 'react-router-dom';
 
-import Main from '../components/main';
 import Cadastro from '../pages/cadastro';
 import LaboratoriosAgendados from '../pages/laboratorio-agendados';
 import LaboratorioDisponiveis from '../pages/laboratorio-disponiveis';
@@ -11,20 +10,17 @@ import MeuPerfil from '../pages/meu-perfil';
 import NovoAgendamento from '../pages/novo-agendamento';
 import PrivateRoute from './private-route';
 
-
 const Routes: React.FC = () => {
   return (<Switch>
-    <Route path='/' exact component={Login} />
-    <Route path='/cadastro' component={Cadastro} />
+    <PrivateRoute path='/' exact component={Login} />
+    <PrivateRoute path='/cadastro' component={Cadastro} />
+    <PrivateRoute path='/menu' component={Menu} isPrivate />
 
-    <Main>
-      <PrivateRoute isPrivate path='/menu' component={Menu} />
-      <PrivateRoute isPrivate path='/novo-agendamento' component={NovoAgendamento} />
-      <PrivateRoute isPrivate path='/laboratorios-agendados' component={LaboratoriosAgendados} />
-      <PrivateRoute isPrivate path='/laboratorios-disponiveis' component={LaboratorioDisponiveis} />
-      <PrivateRoute isPrivate path='/meu-perfil' component={MeuPerfil} />
-    </Main>
-    <Route component={() => (<h5>Pagina não encontrada</h5>)} />
+    <PrivateRoute isPrivate path='/novo-agendamento' component={NovoAgendamento} />
+    <PrivateRoute isPrivate path='/laboratorios-agendados' component={LaboratoriosAgendados} />
+    <PrivateRoute isPrivate path='/laboratorios-disponiveis' component={LaboratorioDisponiveis} />
+    <PrivateRoute isPrivate path='/meu-perfil' component={MeuPerfil} />
+    <PrivateRoute component={() => (<h5>Pagina não encontrada</h5>)} />
   </Switch>);
 }
 

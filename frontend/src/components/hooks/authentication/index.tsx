@@ -67,6 +67,7 @@ const AuthenticationProvider: React.FC = ({ children }) => {
   const signOut = React.useCallback(async () => {
     localStorage.removeItem('@sisag:token');
     localStorage.removeItem('@sisag:user');
+    setState({} as IAuthState);
   }, []);
 
   return (<AuthContext.Provider value={{ user: state.user, signIn, signOut }}>

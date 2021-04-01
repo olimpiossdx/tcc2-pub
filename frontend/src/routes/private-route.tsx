@@ -1,9 +1,9 @@
-import React from 'react'
-import { Redirect, Route, RouteProps } from 'react-router-dom'
-import { useAuth } from '../components/hooks/authentication'
+import React from 'react';
+import { Redirect, Route, RouteProps } from 'react-router-dom';
+import { useAuth } from '../components/hooks/authentication';
 
 interface IRouteProps extends RouteProps {
-  isPrivate: boolean;
+  isPrivate?: boolean;
   component: React.ComponentType;
 }
 

@@ -5,6 +5,7 @@ import { Grid, Paper, Table, TableBody, TableCell, TableContainer, TableHead, Ta
 import InsertInvitation from '@material-ui/icons/InsertInvitation';
 import { dataFormatter } from '../../utils/formatted';
 import Loading from '../../components/loading';
+import Main from '../../components/main';
 
 interface IAgendamento {
   id?: string;
@@ -47,38 +48,41 @@ const LaboratoriosAgendados: React.FC = () => {
     }).then(() => setLoading(false));
   }, []);
 
-  return (<Grid container justifyContent='center' alignItems='center' style={{ height: 'calc(100vh - 12.5vh)' }}>
-    <Grid item xs={11} sm={10} md={6}>
-      <Grid component={Paper} container spacing={2} justifyContent='center' alignItems='center' style={{ height: '100%', padding: '1%' }} >
-        <TableContainer>
-          <Toolbar>
-            <InsertInvitation />
-            <Typography >
-              Laboratórios agendados
+  return (<Main>
+    <Grid container justifyContent='center' alignItems='center' style={{ height: 'calc(100vh - 13vh)' }}>
+      <Grid item xs={11} sm={10} md={6}>
+        <Grid component={Paper} container spacing={2} justifyContent='center' alignItems='center' style={{ height: '100%', padding: '1%' }} >
+          <TableContainer>
+            <Toolbar>
+              <InsertInvitation />
+              <Typography >
+                Laboratórios agendados
             </Typography>
-          </Toolbar>
-          <Table size='small' aria-label='a dense table'>
-            <TableHead>
-              <TableRow>
-                <TableCell>Laboratório</TableCell>
-                <TableCell >Data</TableCell>
-                <TableCell >Período</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {loading ?
-                (<TableRow>
-                  <TableCell colSpan={3} align='center'>
-                    <Loading />
-                  </TableCell>
-                </TableRow>) :
-                <RenderROw agendamentos={agendamentos} />}
-            </TableBody>
-          </Table>
-        </TableContainer>
+            </Toolbar>
+            <Table size='small' aria-label='a dense table'>
+              <TableHead>
+                <TableRow>
+                  <TableCell>Laboratório</TableCell>
+                  <TableCell >Data</TableCell>
+                  <TableCell >Período</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {loading ?
+                  (<TableRow>
+                    <TableCell colSpan={3} align='center'>
+                      <Loading />
+                    </TableCell>
+                  </TableRow>) :
+                  <RenderROw agendamentos={agendamentos} />}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </Grid>
       </Grid>
     </Grid>
-  </Grid>);
+  </Main>
+  );
 }
 
 export default LaboratoriosAgendados;
