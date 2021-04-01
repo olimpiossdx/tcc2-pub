@@ -14,7 +14,7 @@ interface IProfile {
   verified_email: boolean;
 };
 
-interface IFirebaseAdditionalUserInfo extends firebase.auth.AdditionalUserInfo {
+export interface IFirebaseAdditionalUserInfo extends firebase.auth.AdditionalUserInfo {
   profile: IProfile;
 };
 
@@ -27,6 +27,7 @@ interface AuthContextData {
   user: IFirebaseAdditionalUserInfo;
   signIn(): Promise<void>;
   signOut(): void;
+  firebaseAuthAsync(): Promise<firebase.auth.UserCredential>
 };
 
 const AuthContext = React.createContext<AuthContextData>({} as AuthContextData);
@@ -45,9 +46,13 @@ const AuthenticationProvider: React.FC = ({ children }) => {
     return {} as IAuthState;
   });
 
-  const signIn = React.useCallback(async () => {
+  const firebaseAuthAsync = React.useCallback(async (): Promise<firebase.auth.UserCredential> => {
     const provider = new firebase.auth.GoogleAuthProvider();
-    const response = await firebase.auth().signInWithPopup(provider);
+    return await firebase.auth().signInWithPopup(provider);
+  }, []);
+
+  const signIn = React.useCallback(async () => {
+    const response = await firebaseAuthAsync();
     const oauthCredential = (response.credential as firebase.auth.OAuthCredential);
     const user = response.additionalUserInfo as IFirebaseAdditionalUserInfo;
 
@@ -61,7 +66,7 @@ const AuthenticationProvider: React.FC = ({ children }) => {
 
     setState({ user, oauthCredential });
 
-  }, []);
+  }, [firebaseAuthAsync]);
 
 
   const signOut = React.useCallback(async () => {
@@ -70,7 +75,7 @@ const AuthenticationProvider: React.FC = ({ children }) => {
     setState({} as IAuthState);
   }, []);
 
-  return (<AuthContext.Provider value={{ user: state.user, signIn, signOut }}>
+  return (<AuthContext.Provider value={{ user: state.user, signIn, signOut, firebaseAuthAsync }}>
     {children}
   </AuthContext.Provider>);
 }
