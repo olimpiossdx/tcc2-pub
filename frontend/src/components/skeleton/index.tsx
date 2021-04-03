@@ -1,5 +1,3 @@
-import React from 'react'
-
 import { Grid, Paper, Typography, Skeleton } from '@material-ui/core';
 
 const NovoAgendamentoAnimatedLoading = () => (<Grid container justifyContent='center' alignItems='center' style={{ height: 'calc(100vh - 120px)', minHeight: 350 }}>

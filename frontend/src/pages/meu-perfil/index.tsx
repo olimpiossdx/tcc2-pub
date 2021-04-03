@@ -6,12 +6,14 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import Main from '../../components/main';
 import { useAuth } from '../../components/hooks/authentication';
 import useStyles from './styes';
+import MeuPerfilAnimatedLoading from '../../components/skeleton/meu-perfil';
 
 const MeuPefil: React.FC = () => {
   const classes = useStyles();
   const { user } = useAuth();
   const [disabled, setDisabled] = React.useState(true);
-  const [loading, setLoading] = React.useState(false);
+  const [loading, setLoading] = React.useState(true);
+  const [loadingData, setLoadingData] = React.useState(true);
 
   //TODO: integrar com api para edição
   const handleSubmit = () => {
@@ -20,10 +22,17 @@ const MeuPefil: React.FC = () => {
 
   const hanldeCancel = () => setDisabled(!disabled);
 
+  React.useEffect(() => {
+    new Promise((resolve) => {
+      resolve(window.setTimeout(() => {
+        setLoadingData(false);
+      }, 800));
+    });
+  }, []);
 
   return (<Main>
     <Grid container justifyContent='center' alignItems='center' style={{ height: 'calc(100vh - 13vh)' }}>
-      <Grid item xs={11} sm={10} md={6}>
+      {loadingData ? <MeuPerfilAnimatedLoading /> : <Grid item xs={11} sm={10} md={6}>
         <Grid component={Paper} container spacing={2} alignItems='center' style={{ height: '100%', padding: '2%' }} >
           <Grid item>
             {user.profile.picture ? <Avatar alt={user.profile.name} src={user.profile.picture} /> : <AccountCircleIcon />}
@@ -82,7 +91,9 @@ const MeuPefil: React.FC = () => {
               </Grid>)}
           </Grid>
         </Grid>
-      </Grid>
+      </Grid>}
+
+
     </Grid>
   </Main>)
 }
