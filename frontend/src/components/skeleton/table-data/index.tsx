@@ -1,41 +1,40 @@
 import { TableRow, TableCell, Skeleton } from '@material-ui/core'
 
-const TableDataAnimatedLoading = () => {
-  return (<>
-    <TableRow>
-      <TableCell component='th' scope='row'>
-        <Skeleton  height={35} width={110} />
-      </TableCell>
-      <TableCell scope='row'>
-        <Skeleton height={35} width={110} />
-      </TableCell>
-      <TableCell >
-        <Skeleton height={35} width={110} />
-      </TableCell>
-    </TableRow>
-    <TableRow>
-      <TableCell component='th' scope='row'>
-        <Skeleton height={35} width={110} />
-      </TableCell>
-      <TableCell scope='row'>
-        <Skeleton height={35} width={110} />
-      </TableCell>
-      <TableCell >
-        <Skeleton height={35} width={110} />
-      </TableCell>
-    </TableRow>
-    <TableRow>
-      <TableCell component='th' scope='row'>
-        <Skeleton height={35} width={110} />
-      </TableCell>
-      <TableCell scope='row'>
-        <Skeleton height={35} width={110} />
-      </TableCell>
-      <TableCell >
-        <Skeleton height={35} width={110} />
-      </TableCell>
-    </TableRow>
-  </>)
-}
+const TableDataAnimatedLoading = () =>
+(<>
+  <TableRow component='tr'>
+    <TableCell>
+      <Skeleton height={36} />
+    </TableCell>
+    <TableCell>
+      <Skeleton height={36} />
+    </TableCell>
+    <TableCell>
+      <Skeleton height={36} />
+    </TableCell>
+  </TableRow>
+  <TableRow component='tr'>
+    <TableCell>
+      <Skeleton height={36} />
+    </TableCell>
+    <TableCell>
+      <Skeleton height={36} />
+    </TableCell>
+    <TableCell>
+      <Skeleton height={36} />
+    </TableCell>
+  </TableRow>
+  <TableRow component='tr'>
+    <TableCell>
+      <Skeleton height={36} />
+    </TableCell>
+    <TableCell>
+      <Skeleton height={36} />
+    </TableCell>
+    <TableCell>
+      <Skeleton height={36} />
+    </TableCell>
+  </TableRow>
+</>);
 
 export default TableDataAnimatedLoading

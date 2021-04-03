@@ -8,7 +8,6 @@ import { IAgendamentoModel } from '../laboratorio-agendados/model';
 import TableDataRow from '../../components/table-data-row';
 import TableDataAnimatedLoading from '../../components/skeleton/table-data';
 
-
 const LaboratorioDisponiveis: React.FC = () => {
   const [agendamentos, setAgendamentos] = useState<IAgendamentoModel[]>([]);
   const [loading, setLoading] = useState(true);
@@ -54,12 +53,7 @@ const LaboratorioDisponiveis: React.FC = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {loading ?
-                  (<TableRow>
-                    <TableCell colSpan={3} align='left'>
-                    <TableDataAnimatedLoading />
-                    </TableCell>
-                  </TableRow>) :
+                {loading ? <TableDataAnimatedLoading /> :
                   <TableDataRow agendamentos={agendamentos} />}
               </TableBody>
             </Table>
@@ -67,7 +61,7 @@ const LaboratorioDisponiveis: React.FC = () => {
         </Grid>
       </Grid>
     </Grid>
-  </Main>)
+  </Main>);
 }
 
 export default LaboratorioDisponiveis;

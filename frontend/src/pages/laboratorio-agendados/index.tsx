@@ -53,11 +53,7 @@ const LaboratoriosAgendados: React.FC = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {loading ? (<TableRow>
-                  <TableCell colSpan={3} align='left'>
-                    <TableDataAnimatedLoading />
-                  </TableCell>
-                </TableRow>) :
+                {loading ? <TableDataAnimatedLoading /> :
                   <TableDataRow agendamentos={agendamentos} />}
               </TableBody>
             </Table>
@@ -65,8 +61,7 @@ const LaboratoriosAgendados: React.FC = () => {
         </Grid>
       </Grid>
     </Grid>
-  </Main>
-  );
+  </Main>);
 }
 
 export default LaboratoriosAgendados;
