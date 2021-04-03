@@ -81,10 +81,10 @@ const NovoAgendamento: React.FC = () => {
     //TODO ADICIONAR REGRA PARA CADASTRAMENTO
   };
 
-  return (loadingSkeleton ? (<NovoAgendamentoAnimatedLoading />) :
-    (<Main>
-      <form onSubmit={handleSubmit}>
-        <Grid container justifyContent='center' alignItems='center' style={{ height: 'calc(100vh - 13vh)', minHeight: 350 }}>
+  return (<Main>
+    <form onSubmit={handleSubmit}>
+      <Grid container justifyContent='center' alignItems='center' style={{ height: 'calc(100vh - 13vh)', minHeight: 350 }}>
+        {loadingSkeleton ? (<NovoAgendamentoAnimatedLoading />) :
           <Grid item xs={11} sm={10} md={7} lg={4}>
             <Paper style={{ padding: 10 }}>
               <Grid container spacing={2} alignItems='center' style={{ height: '100%' }}>
@@ -94,7 +94,7 @@ const NovoAgendamento: React.FC = () => {
                 <Grid item>
                   <Typography align='left'>
                     Novo agendamento
-                </Typography>
+                  </Typography>
                 </Grid>
                 <Grid item xs={12}>
                   {loading && <LinearProgress />}
@@ -177,10 +177,10 @@ const NovoAgendamento: React.FC = () => {
                 </Grid>
               </Grid>
             </Paper>
-          </Grid>
-        </Grid>
-      </form>
-    </Main>));
+          </Grid>}
+      </Grid>
+    </form>
+  </Main>);
 
 }
 
