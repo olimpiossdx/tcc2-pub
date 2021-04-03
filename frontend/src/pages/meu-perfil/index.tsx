@@ -1,14 +1,25 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-import { Grid, Paper, Typography, Button, TextField, Avatar } from '@material-ui/core';
+import { Grid, Paper, Typography, Button, TextField, Avatar, CircularProgress } from '@material-ui/core';
 
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import Main from '../../components/main';
 import { useAuth } from '../../components/hooks/authentication';
+import useStyles from './styes';
 
 const MeuPefil: React.FC = () => {
+  const classes = useStyles();
   const { user } = useAuth();
-  const [disabled, setDisabled] = useState(true);
+  const [disabled, setDisabled] = React.useState(true);
+  const [loading, setLoading] = React.useState(false);
+
+  //TODO: integrar com api para edição
+  const handleSubmit = () => {
+    setLoading(true);
+  };
+
+  const hanldeCancel = () => setDisabled(!disabled);
+
 
   return (<Main>
     <Grid container justifyContent='center' alignItems='center' style={{ height: 'calc(100vh - 13vh)' }}>
@@ -50,22 +61,23 @@ const MeuPefil: React.FC = () => {
               defaultValue='76 3B 39 07'
               variant='outlined'
               fullWidth
-              disabled={disabled} />
+              disabled={loading} />
           </Grid>
 
           <Grid item xs={12}>
             {disabled ?
               (<Grid container justifyContent='flex-end'>
                 <Grid item>
-                  <Button variant='outlined' onClick={() => setDisabled(false)}>Editar</Button>
+                  <Button variant='outlined' onClick={hanldeCancel}>Editar</Button>
                 </Grid>
               </Grid>) :
               (<Grid container justifyContent='flex-end' spacing={1}>
                 <Grid item>
-                  <Button variant='outlined' color='secondary' onClick={() => setDisabled(true)} >Cancelar</Button>
+                  <Button variant='outlined' color='secondary' onClick={hanldeCancel} >Cancelar</Button>
                 </Grid>
-                <Grid item>
-                  <Button variant='outlined' color='primary' >salvar</Button>
+                <Grid item className={classes.wrapper}>
+                  <Button variant='outlined' color='primary' disabled={loading} onClick={handleSubmit}>salvar</Button>
+                  {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
                 </Grid>
               </Grid>)}
           </Grid>
