@@ -28,13 +28,14 @@ function getStepContent(stepIndex: number) {
 interface IBottomContetProps {
   activeStep: IActiveStep;
   steps: string[];
+  isNext: boolean;
   handleNext: () => void;
   handleBack: () => void;
   handleReset: () => void;
   getStepContent: (stepIndex: number) => string;
 }
 
-const BottomContent: React.FC<IBottomContetProps> = ({ activeStep, steps, handleNext, handleBack, handleReset, getStepContent }) => {
+const BottomContent: React.FC<IBottomContetProps> = ({ activeStep, steps, isNext, handleNext, handleBack, handleReset, getStepContent }) => {
   return (<Grid item>
     {activeStep.active === steps.length ?
       (<Button onClick={handleReset} variant='outlined' size='small'>Novo cadastro</Button>) :
@@ -44,36 +45,37 @@ const BottomContent: React.FC<IBottomContetProps> = ({ activeStep, steps, handle
           Voltar
         </Button>
         &nbsp;
-        <Button variant='outlined' color='primary' onClick={handleNext} size='small'>
+        <Button variant='outlined' color='primary' onClick={handleNext} size='small' disabled={isNext}>
           {activeStep.active === steps.length - 1 ? 'Concluir' : 'Próxmo'}
         </Button>
       </>)}
   </Grid>);
 };
 
-interface MainContentProps {
-  activeStep: IActiveStep;
-  steps: string[];
-  acessKey: string;
-  setAcessKey(acessKey: string): void;
-  handleNext(): void;
-};
-
 interface IUser {
   nome: string;
   email: string;
   urlImg: undefined | string;
+  acessKey: string;
 }
 
-const MainContent: React.FC<MainContentProps> = ({ activeStep, steps, acessKey, setAcessKey, handleNext }) => {
-  const [user, setUser] = React.useState<IUser>({ nome: '', email: '', urlImg: undefined });
+interface MainContentProps {
+  activeStep: IActiveStep;
+  steps: string[];
+  user: IUser
+  setUser(user: IUser): void;
+  handleNext(): void;
+};
+
+
+const MainContent: React.FC<MainContentProps> = ({ activeStep, steps, user, handleNext, setUser }) => {
   const { firebaseAuthAsync } = useAuth();
 
   const handleFirebaseAuthAasync = async () => {
     const response = await firebaseAuthAsync();
-    console.log((response.additionalUserInfo as IFirebaseAdditionalUserInfo).profile);
+
     const { profile } = (response.additionalUserInfo as IFirebaseAdditionalUserInfo);
-    setUser({ nome: profile.given_name, email: profile.email, urlImg: profile.picture })
+    setUser({ ...user, nome: profile.given_name, email: profile.email, urlImg: profile.picture, });
     handleNext();
   }
 
@@ -127,7 +129,8 @@ const MainContent: React.FC<MainContentProps> = ({ activeStep, steps, acessKey, 
                   id='input-key-rfid'
                   label='Código rfid'
                   size='small'
-                  onChange={e => setAcessKey(e.target.value)}
+                  value={user.acessKey}
+                  onChange={e => setUser({ ...user, acessKey: e.target.value })}
                   error={activeStep.error}
                   helperText={activeStep.message}
                   required />
@@ -183,7 +186,7 @@ const MainContent: React.FC<MainContentProps> = ({ activeStep, steps, acessKey, 
                 <VpnKeyIcon />
               </Grid>
               <Grid item>
-                <TextField id='input-key-rfid' value={acessKey} label='Código da tag rfid' size='small' disabled />
+                <TextField id='input-key-rfid' value={user.acessKey} label='Código da tag rfid' size='small' disabled />
               </Grid>
             </Grid>
           </Grid>
@@ -226,42 +229,45 @@ interface IActiveStep {
 }
 
 const Cadastro: React.FC = () => {
+  const [user, setUser] = React.useState<IUser>({ acessKey: '' } as IUser);
   const [activeStep, setActiveStep] = React.useState<IActiveStep>({ active: 0, error: false, message: '' });
-  const [acessKey, setAcessKey] = React.useState('');
   const steps = getSteps();
 
   // TODO: validar campos obrigatório
-  const handleNext = () => {
-
+  const handleNext = React.useCallback(() => {
     setActiveStep((prevActiveStep) => {
-      if ((prevActiveStep.active + 1) === 2 && !acessKey) {
-        return prevActiveStep;
+      if ((prevActiveStep.active + 1) === 2 && (user.acessKey.length < 8)) {
+        return { ...prevActiveStep, error: true, message: 'Adicione chave do cartão RFID' };
       }
-      return ({ ...activeStep, active: prevActiveStep.active + 1 });
+      return ({ ...activeStep, error: false, message: '', active: prevActiveStep.active + 1 });
     });
-
 
     if (activeStep.active === steps.length - 1) {
       //TODO: finalizar processo de cadastrar usuário
-      alert('cadastro concluido!')
+      setUser({ acessKey: '' } as IUser);
     }
-  };
+  }, [activeStep, user, steps]);
 
-  const handleBack = () => {
+  const handleBack = React.useCallback(() => {
     setActiveStep((prevActiveStep) => ({ ...activeStep, active: prevActiveStep.active - 1 }));
-  };
+  }, [activeStep]);
 
-  const handleReset = () => {
-    setActiveStep((prevActiveStep) => ({ ...activeStep, active: 0 }));
-  };
+  const handleReset = React.useCallback(() => {
+    setActiveStep(() => ({ ...activeStep, active: 0 }));
+  }, [activeStep]);
+
+  const isNext = () => !(Object.keys(user).length > 1);
 
   return (
     <Grid container justifyContent='center' alignItems='center' style={{ height: '100vh' }}>
       <Grid item xs={11} sm={6} component={Paper} style={{ padding: '1%' }}>
         <Grid container spacing={1}>
-          <MainContent activeStep={activeStep} steps={steps} acessKey={acessKey} setAcessKey={setAcessKey} handleNext={handleNext} />
+          <MainContent
+            activeStep={activeStep} steps={steps} user={user}
+            handleNext={handleNext} setUser={setUser} />
+
           <BottomContent
-            activeStep={activeStep} steps={steps}
+            activeStep={activeStep} steps={steps} isNext={isNext()}
             handleNext={handleNext} handleBack={handleBack}
             handleReset={handleReset} getStepContent={getStepContent} />
         </Grid>
