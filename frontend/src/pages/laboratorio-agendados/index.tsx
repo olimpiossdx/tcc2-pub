@@ -3,34 +3,13 @@ import React, { useState, useEffect } from 'react';
 import { Grid, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Toolbar, Typography } from '@material-ui/core';
 
 import InsertInvitation from '@material-ui/icons/InsertInvitation';
-import { dataFormatter } from '../../utils/formatted';
-import Loading from '../../components/loading';
 import Main from '../../components/main';
-
-interface IAgendamento {
-  id?: string;
-  laboratorio: string;
-  dataInicio: string;
-  dataFim: string;
-}
-
-const RenderROw: React.FC<{ agendamentos: IAgendamento[] }> = ({ agendamentos }) => {
-  return (<>
-    {agendamentos.map(agendamento => (
-      <TableRow key={agendamento.id} hover>
-        <TableCell component='th' scope='row'>
-          {agendamento.laboratorio}
-        </TableCell>
-        <TableCell scope='row'>
-          {dataFormatter(agendamento.dataInicio, {})}
-        </TableCell>
-        <TableCell >{`${dataFormatter(agendamento.dataInicio, { type: 'HH:mm' })} às ${dataFormatter(agendamento.dataFim, { type: 'HH:mm' })}`}</TableCell>
-      </TableRow>))}
-  </>);
-}
+import TableDataAnimatedLoading from '../../components/skeleton/table-data';
+import TableDataRow from '../../components/table-data-row';
+import { IAgendamentoModel } from './model';
 
 const LaboratoriosAgendados: React.FC = () => {
-  const [agendamentos, setAgendamentos] = useState<IAgendamento[]>([]);
+  const [agendamentos, setAgendamentos] = useState<IAgendamentoModel[]>([]);
   const [loading, setLoading] = useState(true);
 
   //TODO: alterar fake mock para, fake api e adicionar filtro
@@ -74,13 +53,12 @@ const LaboratoriosAgendados: React.FC = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {loading ?
-                  (<TableRow>
-                    <TableCell colSpan={3} align='center'>
-                      <Loading />
-                    </TableCell>
-                  </TableRow>) :
-                  <RenderROw agendamentos={agendamentos} />}
+                {loading ? (<TableRow>
+                  <TableCell colSpan={3} align='left'>
+                    <TableDataAnimatedLoading />
+                  </TableCell>
+                </TableRow>) :
+                  <TableDataRow agendamentos={agendamentos} />}
               </TableBody>
             </Table>
           </TableContainer>

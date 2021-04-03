@@ -4,32 +4,13 @@ import { TableRow, TableCell, Grid, Paper, TableContainer, Toolbar, Typography, 
 import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
 
 import Loading from '../../components/loading';
-import { dataFormatter } from '../../utils/formatted';
 import Main from '../../components/main';
+import { IAgendamentoModel } from '../laboratorio-agendados/model';
+import TableDataRow from '../../components/table-data-row';
 
-interface IAgendamento {
-  id?: string;
-  laboratorio: string;
-  dataInicio: string;
-  dataFim: string;
-}
-
-const RenderROw: React.FC<{ agendamentos: IAgendamento[] }> = ({ agendamentos }) => {
-  return (<>
-    {agendamentos.map(agendamento => (<TableRow key={agendamento.id}>
-      <TableCell component='th' scope='row'>
-        {agendamento.laboratorio}
-      </TableCell>
-      <TableCell scope='row'>
-        {dataFormatter(agendamento.dataInicio, {})}
-      </TableCell>
-      <TableCell >{`${dataFormatter(agendamento.dataInicio, { type: 'HH:mm' })} às ${dataFormatter(agendamento.dataFim, { type: 'HH:mm' })}`}</TableCell>
-    </TableRow>))}
-  </>);
-}
 
 const LaboratorioDisponiveis: React.FC = () => {
-  const [agendamentos, setAgendamentos] = useState<IAgendamento[]>([]);
+  const [agendamentos, setAgendamentos] = useState<IAgendamentoModel[]>([]);
   const [loading, setLoading] = useState(true);
 
   //TODO: alterar fake mock para, fake api e adicionar filtro
@@ -79,7 +60,7 @@ const LaboratorioDisponiveis: React.FC = () => {
                       <Loading />
                     </TableCell>
                   </TableRow>) :
-                  <RenderROw agendamentos={agendamentos} />}
+                  <TableDataRow agendamentos={agendamentos} />}
               </TableBody>
             </Table>
           </TableContainer>
