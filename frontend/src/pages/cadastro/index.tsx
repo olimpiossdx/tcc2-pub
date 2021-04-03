@@ -8,11 +8,11 @@ import EmailIcon from '@material-ui/icons/Email';
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
 import { IFirebaseAdditionalUserInfo, useAuth } from '../../components/hooks/authentication';
 
-function getSteps() {
+const getSteps = () => {
   return ['Selecionar conta', 'Adicionar código', 'Concluir'];
 }
 
-function getStepContent(stepIndex: number) {
+const getStepContent = (stepIndex: number) => {
   switch (stepIndex) {
     case 0:
       return 'Selecione sua conta google';
