@@ -3,10 +3,10 @@ import React, { useEffect, useState } from 'react';
 import { TableRow, TableCell, Grid, Paper, TableContainer, Toolbar, Typography, Table, TableHead, TableBody } from '@material-ui/core';
 import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
 
-import Loading from '../../components/loading';
 import Main from '../../components/main';
 import { IAgendamentoModel } from '../laboratorio-agendados/model';
 import TableDataRow from '../../components/table-data-row';
+import TableDataAnimatedLoading from '../../components/skeleton/table-data';
 
 
 const LaboratorioDisponiveis: React.FC = () => {
@@ -56,8 +56,8 @@ const LaboratorioDisponiveis: React.FC = () => {
               <TableBody>
                 {loading ?
                   (<TableRow>
-                    <TableCell colSpan={3} align='center'>
-                      <Loading />
+                    <TableCell colSpan={3} align='left'>
+                    <TableDataAnimatedLoading />
                     </TableCell>
                   </TableRow>) :
                   <TableDataRow agendamentos={agendamentos} />}
