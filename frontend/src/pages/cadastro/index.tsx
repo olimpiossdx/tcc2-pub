@@ -67,7 +67,6 @@ interface MainContentProps {
   handleNext(): void;
 };
 
-
 const MainContent: React.FC<MainContentProps> = ({ activeStep, steps, user, handleNext, setUser }) => {
   const { firebaseAuthAsync } = useAuth();
 
@@ -258,22 +257,20 @@ const Cadastro: React.FC = () => {
 
   const isNext = () => !(Object.keys(user).length > 1);
 
-  return (
-    <Grid container justifyContent='center' alignItems='center' style={{ height: '100vh' }}>
-      <Grid item xs={11} sm={6} component={Paper} style={{ padding: '1%' }}>
-        <Grid container spacing={1}>
-          <MainContent
-            activeStep={activeStep} steps={steps} user={user}
-            handleNext={handleNext} setUser={setUser} />
+  return (<Grid container justifyContent='center' alignItems='center' style={{ height: '100vh' }}>
+    <Grid item xs={11} sm={6} component={Paper} style={{ padding: '1%' }}>
+      <Grid container spacing={1}>
+        <MainContent
+          activeStep={activeStep} steps={steps} user={user}
+          handleNext={handleNext} setUser={setUser} />
 
-          <BottomContent
-            activeStep={activeStep} steps={steps} isNext={isNext()}
-            handleNext={handleNext} handleBack={handleBack}
-            handleReset={handleReset} getStepContent={getStepContent} />
-        </Grid>
+        <BottomContent
+          activeStep={activeStep} steps={steps} isNext={isNext()}
+          handleNext={handleNext} handleBack={handleBack}
+          handleReset={handleReset} getStepContent={getStepContent} />
       </Grid>
     </Grid>
-  );
+  </Grid>);
 }
 
 export default Cadastro;

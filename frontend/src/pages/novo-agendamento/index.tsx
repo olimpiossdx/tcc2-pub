@@ -6,7 +6,7 @@ import { KeyboardDatePicker, KeyboardTimePicker, MuiPickersUtilsProvider } from 
 import ptBRLocale from 'date-fns/locale/pt-BR'
 import DateFnsUtils from '@date-io/date-fns';
 
-import CalendarToday from '@material-ui/icons/CalendarToday';
+import EventNoteIcon from '@material-ui/icons/EventNote';
 import api from '../../services';
 import { IBlocoModel, ILaboratorioModel } from './model';
 import NovoAgendamentoAnimatedLoading from '../../components/skeleton';
@@ -89,7 +89,7 @@ const NovoAgendamento: React.FC = () => {
             <Paper style={{ padding: 10 }}>
               <Grid container spacing={2} alignItems='center' style={{ height: '100%' }}>
                 <Grid item>
-                  <CalendarToday />
+                  <EventNoteIcon />
                 </Grid>
                 <Grid item>
                   <Typography align='left'>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import { TableRow, TableCell, Grid, Paper, TableContainer, Toolbar, Typography, Table, TableHead, TableBody } from '@material-ui/core';
-import CalendarToday from '@material-ui/icons/CalendarToday';
+import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
 
 import Loading from '../../components/loading';
 import { dataFormatter } from '../../utils/formatted';
@@ -53,10 +53,16 @@ const LaboratorioDisponiveis: React.FC = () => {
         <Grid component={Paper} container spacing={2} justifyContent='center' alignItems='center' style={{ height: '100%', padding: '1%' }} >
           <TableContainer>
             <Toolbar>
-              <CalendarToday />
-              <Typography >
-                Laboratórios dispníveis
-            </Typography>
+              <Grid container spacing={2} alignItems='center'>
+                <Grid item>
+                  <CalendarTodayIcon />
+                </Grid>
+                <Grid item>
+                  <Typography >
+                    Laboratórios dispníveis
+                  </Typography>
+                </Grid>
+              </Grid>
             </Toolbar>
             <Table size='small' aria-label='a dense table'>
               <TableHead>

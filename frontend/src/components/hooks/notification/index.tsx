@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useCallback, useState } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 import { Alert, Snackbar, Typography } from '@material-ui/core';
 import INotification from './model';
 
@@ -22,21 +22,21 @@ const NotificationProvider: React.FC = ({ children }) => {
   const [open, setOpen] = React.useState(false);
   const [message, setMessage] = useState<INotification>({} as INotification)
 
-  const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
+  const handleClose = (_event?: React.SyntheticEvent, reason?: string) => {
     if (reason === 'clickaway') {
       return;
     }
     setOpen(false);
   };
 
-  const addNotification = useCallback(({ tipo, descricao }: INotification) => {
+  const addNotification = React.useCallback(({ tipo, descricao }: INotification) => {
     const message = { tipo, descricao };
     setMessage(message);
     setOpen(true);
   }, []);
 
-  const removeNotification = useCallback((id: string) => {
-    setMessage(state => ({}) as INotification);
+  const removeNotification = React.useCallback((id: string) => {
+    setMessage(_state => ({}) as INotification);
   }, []);
 
   return (<NotificationContext.Provider value={{ addNotification, removeNotification }}>

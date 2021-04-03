@@ -54,10 +54,16 @@ const LaboratoriosAgendados: React.FC = () => {
         <Grid component={Paper} container spacing={2} justifyContent='center' alignItems='center' style={{ height: '100%', padding: '1%' }} >
           <TableContainer>
             <Toolbar>
-              <InsertInvitation />
-              <Typography >
-                Laboratórios agendados
-            </Typography>
+              <Grid container spacing={2} alignItems='center'>
+                <Grid item>
+                  <InsertInvitation />
+                </Grid>
+                <Grid item>
+                  <Typography >
+                    Laboratórios agendados
+                  </Typography>
+                </Grid>
+              </Grid>
             </Toolbar>
             <Table size='small' aria-label='a dense table'>
               <TableHead>

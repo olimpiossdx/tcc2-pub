@@ -1,21 +1,21 @@
 import React, { useState } from 'react';
 
-import { Grid, Paper, Typography, Button, TextField } from '@material-ui/core';
+import { Grid, Paper, Typography, Button, TextField, Avatar } from '@material-ui/core';
 
-import AccountCircle from '@material-ui/icons/AccountCircle';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import Main from '../../components/main';
+import { useAuth } from '../../components/hooks/authentication';
 
 const MeuPefil: React.FC = () => {
+  const { user } = useAuth();
   const [disabled, setDisabled] = useState(true);
 
   return (<Main>
-
-
     <Grid container justifyContent='center' alignItems='center' style={{ height: 'calc(100vh - 13vh)' }}>
       <Grid item xs={11} sm={10} md={6}>
         <Grid component={Paper} container spacing={2} alignItems='center' style={{ height: '100%', padding: '2%' }} >
           <Grid item>
-            <AccountCircle />
+            {user.profile.picture ? <Avatar alt={user.profile.name} src={user.profile.picture} /> : <AccountCircleIcon />}
           </Grid>
           <Grid item >
             <Typography align='left'>
@@ -27,7 +27,7 @@ const MeuPefil: React.FC = () => {
             <TextField
               id='filled-nome'
               label='Nome'
-              defaultValue='Teste teste teste'
+              value={user.profile.name}
               variant='outlined'
               fullWidth
               disabled />
@@ -37,12 +37,12 @@ const MeuPefil: React.FC = () => {
             <TextField
               id='filled-email'
               label='E-mail'
-              defaultValue='teste@example.com.br'
+              value={user.profile.email}
               variant='outlined'
               fullWidth
               disabled />
           </Grid>
-
+          {/* TODO: alterar para valor de código de acesso */}
           <Grid item xs={12}>
             <TextField
               id='filled-chave-de-acesso'

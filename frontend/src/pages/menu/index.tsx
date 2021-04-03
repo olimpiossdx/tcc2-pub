@@ -3,10 +3,10 @@ import { Link } from 'react-router-dom';
 
 import { Grid, Paper, Typography } from '@material-ui/core';
 
-import InsertDriveFile from '@material-ui/icons/InsertDriveFile';
-import InsertInvitation from '@material-ui/icons/InsertInvitation';
-import CalendarToday from '@material-ui/icons/CalendarToday';
-import AccountCircle from '@material-ui/icons/AccountCircle';
+import EventNoteIcon from '@material-ui/icons/EventNote';
+import InsertInvitationIcon from '@material-ui/icons/InsertInvitation';
+import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import Main from '../../components/main';
 
 const Menu: React.FC = () => {
@@ -19,12 +19,12 @@ const Menu: React.FC = () => {
               <Paper style={{ height: 60, padding: 10 }}>
                 <Grid container spacing={1} alignItems='center' style={{ height: '100%' }}>
                   <Grid item>
-                    <InsertDriveFile />
+                    <EventNoteIcon />
                   </Grid>
                   <Grid item >
                     <Typography align='left'>
                       Novo agendamento
-                </Typography>
+                    </Typography>
                   </Grid>
                 </Grid>
               </Paper>
@@ -36,12 +36,12 @@ const Menu: React.FC = () => {
               <Paper style={{ height: 60, padding: 10 }}>
                 <Grid container spacing={1} alignItems='center' style={{ height: '100%' }}>
                   <Grid item>
-                    <InsertInvitation />
+                    <InsertInvitationIcon />
                   </Grid>
                   <Grid item >
                     <Typography align='left'>
                       Laboratórios agendados
-                </Typography>
+                    </Typography>
                   </Grid>
                 </Grid>
               </Paper>
@@ -53,12 +53,12 @@ const Menu: React.FC = () => {
               <Paper style={{ height: 60, padding: 10 }}>
                 <Grid container spacing={1} alignItems='center' style={{ height: '100%' }}>
                   <Grid item>
-                    <CalendarToday />
+                    <CalendarTodayIcon />
                   </Grid>
                   <Grid item >
                     <Typography align='left'>
                       Laboratórios disponíveis
-                </Typography>
+                    </Typography>
                   </Grid>
                 </Grid>
               </Paper>
@@ -70,12 +70,12 @@ const Menu: React.FC = () => {
               <Paper style={{ height: 60, padding: 10 }}>
                 <Grid container spacing={1} alignItems='center' style={{ height: '100%' }}>
                   <Grid item>
-                    <AccountCircle />
+                    <AccountCircleIcon />
                   </Grid>
                   <Grid item >
                     <Typography align='left'>
                       Meu perfil
-                </Typography>
+                  </Typography>
                   </Grid>
                 </Grid>
               </Paper>
