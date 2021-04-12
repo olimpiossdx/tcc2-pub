@@ -16,7 +16,7 @@ const Header: React.FC = () => {
         </Typography>
       <Link to='/meu-perfil'>
         <IconButton edge='end' color='inherit' aria-label='menu'>
-          {user.profile.picture ? <Avatar alt={user.profile.name} src={user.profile.picture} /> : <AccountCircleIcon />}
+          {user.photoURL ? <Avatar alt={user.displayName} src={user.photoURL} /> : <AccountCircleIcon />}
         </IconButton>
       </Link>
     </Toolbar>

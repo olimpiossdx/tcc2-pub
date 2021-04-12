@@ -6,7 +6,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import PersonIcon from '@material-ui/icons/Person';
 import EmailIcon from '@material-ui/icons/Email';
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
-import { IFirebaseAdditionalUserInfo, useAuth } from '../../components/hooks/authentication';
+import { useAuth } from '../../components/hooks/authentication';
 
 const getSteps = () => {
   return ['Selecionar conta', 'Adicionar código', 'Concluir'];
@@ -72,10 +72,15 @@ const MainContent: React.FC<MainContentProps> = ({ activeStep, steps, user, hand
 
   const handleFirebaseAuthAasync = async () => {
     const response = await firebaseAuthAsync();
-
-    const { profile } = (response.additionalUserInfo as IFirebaseAdditionalUserInfo);
-    setUser({ ...user, nome: profile.given_name, email: profile.email, urlImg: profile.picture, });
-    handleNext();
+    if (response.user) {
+      setUser({
+        ...user,
+        nome: response.user.displayName as string,
+        email: response.user.email as string,
+        urlImg: response.user?.photoURL as string
+      });
+      handleNext();
+    }
   }
 
   const stepContent = () => {

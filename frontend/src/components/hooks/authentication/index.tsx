@@ -2,29 +2,21 @@ import React from 'react';
 import firebase from '../../../config/firebase';
 import api from '../../../services';
 
-interface IProfile {
+interface IFirebaseUserInfo {
+  uid: string;
+  displayName: string;
   email: string;
-  family_name: string;
-  given_name: string;
-  granted_scopes: string;
-  id: string;
-  locale: string;
-  name: string;
-  picture: string;
-  verified_email: boolean;
-};
-
-export interface IFirebaseAdditionalUserInfo extends firebase.auth.AdditionalUserInfo {
-  profile: IProfile;
+  photoURL: string;
+  accesKey: string;
 };
 
 interface IAuthState {
-  oauthCredential: firebase.auth.OAuthCredential;
-  user: IFirebaseAdditionalUserInfo;
+  token: string;
+  user: IFirebaseUserInfo;
 };
 
 interface AuthContextData {
-  user: IFirebaseAdditionalUserInfo;
+  user: IFirebaseUserInfo;
   signIn(): Promise<void>;
   signOut(): void;
   firebaseAuthAsync(): Promise<firebase.auth.UserCredential>
@@ -34,13 +26,13 @@ const AuthContext = React.createContext<AuthContextData>({} as AuthContextData);
 
 const AuthenticationProvider: React.FC = ({ children }) => {
   const [state, setState] = React.useState<IAuthState>(() => {
-    const oauthCrendial = localStorage.getItem('@sisag:token');
+    const token = localStorage.getItem('@sisag:token');
     const user = localStorage.getItem('@sisag:user');
 
-    if (oauthCrendial && user) {
-      const parsedOauthCredential = JSON.parse(oauthCrendial) as firebase.auth.OAuthCredential;
-      api.defaults.headers.authorization = `Bearer ${parsedOauthCredential.idToken}`;
-      return { user: JSON.parse(user), oauthCredential: parsedOauthCredential };
+    if (token && user) {
+      const parsedTOken = JSON.parse(token) as string;
+      api.defaults.headers.authorization = `Bearer ${parsedTOken}`;
+      return { user: JSON.parse(user), token: parsedTOken };
     }
 
     return {} as IAuthState;
@@ -53,18 +45,24 @@ const AuthenticationProvider: React.FC = ({ children }) => {
 
   const signIn = React.useCallback(async () => {
     const response = await firebaseAuthAsync();
-    const oauthCredential = (response.credential as firebase.auth.OAuthCredential);
-    const user = response.additionalUserInfo as IFirebaseAdditionalUserInfo;
+    const token = await response.user?.getIdToken() as string;
 
-    localStorage.setItem('@sisag:token', JSON.stringify(oauthCredential));
+    const user = {
+      uid: response.user?.uid,
+      displayName: response.user?.displayName,
+      email: response.user?.email,
+      photoURL: response.user?.photoURL
+    } as IFirebaseUserInfo;
+
+    localStorage.setItem('@sisag:token', JSON.stringify(token));
     localStorage.setItem('@sisag:user', JSON.stringify(user));
 
     //TODO: tratamento de erro
     //await api.post('/login', (response.credential as firebase.auth.OAuthCredential).idToken);
 
-    api.defaults.headers.authorization = `Bearer ${oauthCredential.idToken}`;
+    api.defaults.headers.authorization = `Bearer ${token}`;
 
-    setState({ user, oauthCredential });
+    setState({ user, token });
 
   }, [firebaseAuthAsync]);
 

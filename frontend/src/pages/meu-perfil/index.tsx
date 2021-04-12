@@ -35,7 +35,7 @@ const MeuPefil: React.FC = () => {
       {loadingData ? <MeuPerfilAnimatedLoading /> : <Grid item xs={11} sm={10} md={6}>
         <Grid component={Paper} container spacing={2} alignItems='center' style={{ height: '100%', padding: '2%' }} >
           <Grid item>
-            {user.profile.picture ? <Avatar alt={user.profile.name} src={user.profile.picture} /> : <AccountCircleIcon />}
+            {user.photoURL ? <Avatar alt={user.displayName} src={user.photoURL} /> : <AccountCircleIcon />}
           </Grid>
           <Grid item >
             <Typography align='left'>
@@ -47,7 +47,7 @@ const MeuPefil: React.FC = () => {
             <TextField
               id='filled-nome'
               label='Nome'
-              value={user.profile.name}
+              value={user.displayName}
               variant='outlined'
               fullWidth
               disabled />
@@ -57,7 +57,7 @@ const MeuPefil: React.FC = () => {
             <TextField
               id='filled-email'
               label='E-mail'
-              value={user.profile.email}
+              value={user.email}
               variant='outlined'
               fullWidth
               disabled />

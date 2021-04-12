@@ -31,6 +31,7 @@ const NovoAgendamento: React.FC = () => {
   const [selectEndTime, setSelectEndTime] = useState<Date | null>(new Date());
 
   useEffect(() => {
+    // TODO: ajuste  para get correto
     api.get<IReseponse>('laboratorios')
       .then(response => {
         setBlocos(response.data.blocos);
@@ -43,6 +44,13 @@ const NovoAgendamento: React.FC = () => {
         setLoadingSkeleton(false);
         setLoading(false)
       });
+
+    api.get('blocos').then(response => {
+      console.log('response', response);
+
+    }).catch(error => {
+      console.log('blocos-error', error);
+    })
 
   }, []);
 
@@ -59,7 +67,7 @@ const NovoAgendamento: React.FC = () => {
   }, [selectBloco]);
 
   useEffect(() => {
-    loadSalasByBloco();
+    // loadSalasByBloco();
     return () => {
       loadSalasByBloco()
     }
