@@ -1,12 +1,15 @@
 import React from 'react';
-
+import { AxiosError } from 'axios';
 import { Grid, Paper, Button, Step, StepLabel, Stepper, Typography, TextField, Avatar } from '@material-ui/core';
 
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import PersonIcon from '@material-ui/icons/Person';
 import EmailIcon from '@material-ui/icons/Email';
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
+
 import { useAuth } from '../../components/hooks/authentication';
+import api from '../../services';
+import { useNotifcation } from '../../components/hooks/notification';
 
 const getSteps = () => {
   return ['Selecionar conta', 'Adicionar código', 'Concluir'];
@@ -33,9 +36,10 @@ interface IBottomContetProps {
   handleBack: () => void;
   handleReset: () => void;
   getStepContent: (stepIndex: number) => string;
+  handleSubmitAsync: () => void;
 }
 
-const BottomContent: React.FC<IBottomContetProps> = ({ activeStep, steps, isNext, handleNext, handleBack, handleReset, getStepContent }) => {
+const BottomContent: React.FC<IBottomContetProps> = ({ activeStep, steps, isNext, handleNext, handleBack, handleReset, getStepContent, handleSubmitAsync }) => {
   return (<Grid item>
     {activeStep.active === steps.length ?
       (<Button onClick={handleReset} variant='outlined' size='small'>Novo cadastro</Button>) :
@@ -45,9 +49,13 @@ const BottomContent: React.FC<IBottomContetProps> = ({ activeStep, steps, isNext
           Voltar
         </Button>
         &nbsp;
-        <Button variant='outlined' color='primary' onClick={handleNext} size='small' disabled={isNext}>
-          {activeStep.active === steps.length - 1 ? 'Concluir' : 'Próxmo'}
-        </Button>
+        {activeStep.active === steps.length - 1 ?
+          (<Button variant='outlined' color='primary' onClick={handleSubmitAsync} size='small' disabled={isNext}>
+            Concluir
+          </Button>) :
+          (<Button variant='outlined' color='primary' onClick={handleNext} size='small' disabled={isNext}>
+            Próxmo
+          </Button>)}
       </>)}
   </Grid>);
 };
@@ -55,6 +63,7 @@ const BottomContent: React.FC<IBottomContetProps> = ({ activeStep, steps, isNext
 interface IUser {
   nome: string;
   email: string;
+  id: string;
   urlImg: undefined | string;
   acessKey: string;
 }
@@ -72,12 +81,15 @@ const MainContent: React.FC<MainContentProps> = ({ activeStep, steps, user, hand
 
   const handleFirebaseAuthAasync = async () => {
     const response = await firebaseAuthAsync();
+    console.log('user', response.user);
     if (response.user) {
+      const providerUserData = response.user?.providerData[0];
       setUser({
         ...user,
-        nome: response.user.displayName as string,
-        email: response.user.email as string,
-        urlImg: response.user?.photoURL as string
+        id: providerUserData?.uid as string,
+        nome: providerUserData?.displayName as string,
+        email: providerUserData?.email as string,
+        urlImg: providerUserData?.photoURL as string              
       });
       handleNext();
     }
@@ -101,8 +113,8 @@ const MainContent: React.FC<MainContentProps> = ({ activeStep, steps, user, hand
             </Grid>
           </Grid>
 
-          <Grid item >
-            <Grid container spacing={1} alignItems='center'>
+          <Grid item xs={12}>
+            <Grid container spacing={1} justifyContent='center' alignItems='center'>
               <Grid item>
                 <PersonIcon fontSize='small' />
               </Grid>
@@ -112,8 +124,8 @@ const MainContent: React.FC<MainContentProps> = ({ activeStep, steps, user, hand
             </Grid>
           </Grid>
 
-          <Grid item>
-            <Grid container spacing={1} alignItems='center'>
+          <Grid item xs={12}>
+            <Grid container spacing={1} justifyContent='center' alignItems='center'>
               <Grid item>
                 <EmailIcon fontSize='small' />
               </Grid>
@@ -123,8 +135,8 @@ const MainContent: React.FC<MainContentProps> = ({ activeStep, steps, user, hand
             </Grid>
           </Grid>
 
-          <Grid item>
-            <Grid container spacing={1} alignItems='center' >
+          <Grid item xs={12}>
+            <Grid container spacing={1} justifyContent='center' alignItems='center'>
               <Grid item>
                 <VpnKeyIcon fontSize='small' />
               </Grid>
@@ -162,8 +174,8 @@ const MainContent: React.FC<MainContentProps> = ({ activeStep, steps, user, hand
             </Grid>
           </Grid>
 
-          <Grid item >
-            <Grid container spacing={1} alignItems='center'>
+          <Grid item xs={12}>
+            <Grid container spacing={1} justifyContent='center' alignItems='center'>
               <Grid item>
                 <PersonIcon />
               </Grid>
@@ -173,8 +185,8 @@ const MainContent: React.FC<MainContentProps> = ({ activeStep, steps, user, hand
             </Grid>
           </Grid>
 
-          <Grid item>
-            <Grid container spacing={1} alignItems='center'>
+          <Grid item xs={12}>
+            <Grid container spacing={1} justifyContent='center' alignItems='center'>
               <Grid item>
                 <EmailIcon />
               </Grid>
@@ -184,8 +196,8 @@ const MainContent: React.FC<MainContentProps> = ({ activeStep, steps, user, hand
             </Grid>
           </Grid>
 
-          <Grid item>
-            <Grid container spacing={1} alignItems='center' >
+          <Grid item xs={12}>
+            <Grid container spacing={1} justifyContent='center' alignItems='center' >
               <Grid item>
                 <VpnKeyIcon />
               </Grid>
@@ -233,6 +245,7 @@ interface IActiveStep {
 }
 
 const Cadastro: React.FC = () => {
+  const { addNotification } = useNotifcation();
   const [user, setUser] = React.useState<IUser>({ acessKey: '' } as IUser);
   const [activeStep, setActiveStep] = React.useState<IActiveStep>({ active: 0, error: false, message: '' });
   const steps = getSteps();
@@ -243,12 +256,14 @@ const Cadastro: React.FC = () => {
       if ((prevActiveStep.active + 1) === 2 && (user.acessKey.length < 8)) {
         return { ...prevActiveStep, error: true, message: 'Adicione chave do cartão RFID' };
       }
+
       return ({ ...activeStep, error: false, message: '', active: prevActiveStep.active + 1 });
     });
 
     if (activeStep.active === steps.length - 1) {
       //TODO: finalizar processo de cadastrar usuário
-      setUser({ acessKey: '' } as IUser);
+      // setUser({} as IUser);
+
     }
   }, [activeStep, user, steps]);
 
@@ -262,6 +277,20 @@ const Cadastro: React.FC = () => {
 
   const isNext = () => !(Object.keys(user).length > 1);
 
+  const handleSubmitAsync = () => {
+    api.post('usuario', user)
+      .then(response => {
+        setActiveStep((prevActiveStep) => ({ ...activeStep, active: prevActiveStep.active + 1 }));
+      }).catch((error: AxiosError) => {
+        //TODO: tratar menssagem de erro no cadastro
+        console.log(error);
+        if (error.response?.status === 401) {
+          addNotification({ tipo: 'error', descricao: 'Não foi possível cadastrar' });
+        }
+        addNotification({ tipo: 'error', descricao: 'Caso erro persista contacte o suporte' });
+      });
+  };
+
   return (<Grid container justifyContent='center' alignItems='center' style={{ height: '100vh' }}>
     <Grid item xs={11} sm={6} component={Paper} style={{ padding: '1%' }}>
       <Grid container spacing={1}>
@@ -272,7 +301,8 @@ const Cadastro: React.FC = () => {
         <BottomContent
           activeStep={activeStep} steps={steps} isNext={isNext()}
           handleNext={handleNext} handleBack={handleBack}
-          handleReset={handleReset} getStepContent={getStepContent} />
+          handleReset={handleReset} getStepContent={getStepContent}
+          handleSubmitAsync={handleSubmitAsync} />
       </Grid>
     </Grid>
   </Grid>);
