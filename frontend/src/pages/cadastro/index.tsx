@@ -10,6 +10,7 @@ import VpnKeyIcon from '@material-ui/icons/VpnKey';
 import { useAuth } from '../../components/hooks/authentication';
 import api from '../../services';
 import { useNotifcation } from '../../components/hooks/notification';
+import IReseponseError from '../../services/IResponseError';
 
 const getSteps = () => {
   return ['Selecionar conta', 'Adicionar código', 'Concluir'];
@@ -61,9 +62,9 @@ const BottomContent: React.FC<IBottomContetProps> = ({ activeStep, steps, isNext
 };
 
 interface IUser {
+  id: string;
   nome: string;
   email: string;
-  id: string;
   urlImg: undefined | string;
   acessKey: string;
 }
@@ -89,7 +90,7 @@ const MainContent: React.FC<MainContentProps> = ({ activeStep, steps, user, hand
         id: providerUserData?.uid as string,
         nome: providerUserData?.displayName as string,
         email: providerUserData?.email as string,
-        urlImg: providerUserData?.photoURL as string              
+        urlImg: providerUserData?.photoURL as string
       });
       handleNext();
     }
@@ -261,9 +262,7 @@ const Cadastro: React.FC = () => {
     });
 
     if (activeStep.active === steps.length - 1) {
-      //TODO: finalizar processo de cadastrar usuário
-      // setUser({} as IUser);
-
+      setUser({} as IUser);
     }
   }, [activeStep, user, steps]);
 
@@ -278,16 +277,17 @@ const Cadastro: React.FC = () => {
   const isNext = () => !(Object.keys(user).length > 1);
 
   const handleSubmitAsync = () => {
-    api.post('usuario', user)
+    api.post('usuarios', user)
       .then(response => {
+        addNotification({ tipo: 'success', descricao: 'Usuário cadastrado com sucesso!' });
         setActiveStep((prevActiveStep) => ({ ...activeStep, active: prevActiveStep.active + 1 }));
-      }).catch((error: AxiosError) => {
+      }).catch((error: AxiosError<IReseponseError>) => {
         //TODO: tratar menssagem de erro no cadastro
-        console.log(error);
-        if (error.response?.status === 401) {
-          addNotification({ tipo: 'error', descricao: 'Não foi possível cadastrar' });
+        if (error.response?.status === 400) {
+          addNotification({ tipo: 'error', descricao: error.response?.data.message as string });
+        } else {
+          addNotification({ tipo: 'error', descricao: 'Caso erro persista contacte o suporte' });
         }
-        addNotification({ tipo: 'error', descricao: 'Caso erro persista contacte o suporte' });
       });
   };
 
