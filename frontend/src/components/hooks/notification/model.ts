@@ -1,5 +1,7 @@
+export type Status = 'success' | 'info' | 'warning' | 'error';
+
 interface INotification {
-  tipo: 'success' | 'info' | 'warning' | 'error';
+  tipo: Status;
   descricao: string;
 };
 
