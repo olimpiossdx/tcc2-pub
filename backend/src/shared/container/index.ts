@@ -1,10 +1,7 @@
 // Todo: Adicionar importão de repostory e instalar lib
-//import { container } from 'tsyringe';
+import { container } from 'tsyringe';
 
-//container.registerSingleton<any>('AgendamentosRepository', {});
+import UsuariosRepository from '../../usuarios/infra/firebase/repositories/UsuariosRepository';
+import IUsuariosRepository from '../../usuarios/repositories/IUsuariosRepository';
 
-function teste(){
-
-};
-
-export default teste;
+container.registerSingleton<IUsuariosRepository>('UsuariosRepository', UsuariosRepository);
