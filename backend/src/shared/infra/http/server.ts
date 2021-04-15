@@ -2,6 +2,7 @@ import 'dotenv/config';
 import 'reflect-metadata';
 import 'express-async-errors';
 import '../../container';
+import '../../../config/firebase.config';
 
 import { errors } from 'celebrate';
 import express, { NextFunction, Response, Request } from 'express';

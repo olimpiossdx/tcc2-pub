@@ -13,7 +13,7 @@ class CreateUsuarioService {
     const existeUsuario = await this.usuariosRepository.findByAuthId(id);
 
     if (existeUsuario) {
-      throw new AppError('authId already used.');
+      throw new AppError('Usuário já cadastrado.');
     }
 
     await this.usuariosRepository.create({ id, nome, email, acessKey, urlImg });
