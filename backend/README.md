@@ -20,3 +20,7 @@
 
 # Cadastrar periódo disponível para agendamentos 
 - O administrador deve cadastrar período disponível para listagem de horários disponíveis para agendamento;
+ 
+## Testes de cobertura de funcionalidades.
+
+ <img alt='GitHub language count' src='.github/teste-criar-usuario-2021-04-15 22-59-08.png'>
