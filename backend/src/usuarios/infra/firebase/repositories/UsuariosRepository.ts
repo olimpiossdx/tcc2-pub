@@ -15,6 +15,11 @@ class UsuariosRepository implements IUsuariosRepository {
     this.usariosRepository = firebaseDatabase.ref('usuarios');
   }
 
+  async isUnicKey(acessKey: string): Promise<boolean> {
+    const response = await this.usariosRepository.orderByChild('acessKey').equalTo(acessKey).get();
+    return response.exists();
+  }
+
   async findByAuthId(authId: string): Promise<Usuario | undefined> {
     const response = await this.usariosRepository.orderByChild('id').equalTo(authId).get();
     let usuario: Usuario | undefined = new Usuario();

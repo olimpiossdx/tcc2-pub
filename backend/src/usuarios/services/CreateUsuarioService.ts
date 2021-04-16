@@ -16,6 +16,12 @@ class CreateUsuarioService {
       throw new AppError('Usuário já cadastrado.');
     }
 
+    const isUnicKey = await this.usuariosRepository.isUnicKey(acessKey);
+
+    if (isUnicKey) {
+      throw new AppError('Chave de acesso ja cadastrada.');
+    }
+
     await this.usuariosRepository.create({ id, nome, email, acessKey, urlImg });
   }
 }
