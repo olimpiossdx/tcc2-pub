@@ -6,6 +6,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import PersonIcon from '@material-ui/icons/Person';
 import EmailIcon from '@material-ui/icons/Email';
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
+import CircularProgress, { circularProgressClasses } from '@material-ui/core/CircularProgress';
 
 import { useAuth } from '../../components/hooks/authentication';
 import api from '../../services';
@@ -78,12 +79,14 @@ interface MainContentProps {
 };
 
 const MainContent: React.FC<MainContentProps> = ({ activeStep, steps, user, handleNext, setUser }) => {
+  const { addNotification } = useNotifcation();
   const { firebaseAuthAsync } = useAuth();
-
+  const [loading, setLoading] = React.useState(false);
   const handleFirebaseAuthAasync = async () => {
+    setLoading(true)
     const response = await firebaseAuthAsync();
     console.log('user', response.user);
-    if (response.user) {
+      if (response.user) {
       const providerUserData = response.user?.providerData[0];
       setUser({
         ...user,
@@ -93,7 +96,10 @@ const MainContent: React.FC<MainContentProps> = ({ activeStep, steps, user, hand
         urlImg: providerUserData?.photoURL as string
       });
       handleNext();
+    } else {
+      addNotification({ tipo: 'error', descricao: 'Não foi possível carregar os dados, tente novamente' });
     }
+    setLoading(false);
   }
 
   const stepContent = () => {
@@ -101,7 +107,10 @@ const MainContent: React.FC<MainContentProps> = ({ activeStep, steps, user, hand
       case 0:
         return (<>
           <Typography variant='subtitle1'>Cadastre-se com sua Google</Typography>
-          <Button variant='outlined' size='small' onClick={handleFirebaseAuthAasync}>Adicionar conta Google</Button>
+          <div style={{ position: 'relative', margin: 8 }}>
+            <Button variant='outlined' size='small' onClick={handleFirebaseAuthAasync} disabled={loading}>Adicionar conta Google</Button>
+            {loading && <CircularProgress size={19} style={{ position: 'absolute', top: '50%', left: '50%', marginTop: -9, marginLeft: -12 }} />}
+          </div>
         </>);
 
       case 1:
@@ -282,7 +291,7 @@ const Cadastro: React.FC = () => {
         addNotification({ tipo: 'success', descricao: 'Usuário cadastrado com sucesso!' });
         setActiveStep((prevActiveStep) => ({ ...activeStep, active: prevActiveStep.active + 1 }));
       }).catch((error: AxiosError<IReseponseError>) => {
-        //TODO: tratar menssagem de erro no cadastro
+
         if (error.response?.status === 400) {
           addNotification({ tipo: 'error', descricao: error.response?.data.message as string });
         } else {
