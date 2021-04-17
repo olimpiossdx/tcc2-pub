@@ -27,7 +27,7 @@ const Login: React.FC = () => {
           <Grid item xs={12}>
             <Grid container justifyContent='flex-end'>
               <Grid item>
-                <Button variant='contained' onClick={handleSubmit}>inciar com google</Button>
+                <Button variant='contained' onClick={handleSubmit}>iniciar com google</Button>
               </Grid>
             </Grid>
           </Grid>
