@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { AxiosError } from 'axios';
 import { Grid, Paper, Button, Step, StepLabel, Stepper, Typography, TextField, Avatar } from '@material-ui/core';
 
@@ -44,7 +45,11 @@ interface IBottomContetProps {
 const BottomContent: React.FC<IBottomContetProps> = ({ activeStep, steps, isNext, handleNext, handleBack, handleReset, getStepContent, handleSubmitAsync }) => {
   return (<Grid item>
     {activeStep.active === steps.length ?
-      (<Button onClick={handleReset} variant='outlined' size='small'>Novo cadastro</Button>) :
+      (<>
+        <Button onClick={handleReset} variant='outlined' size='small'>Novo cadastro</Button>
+        &nbsp;
+        <Button onClick={handleReset} variant='outlined' size='small' component={Link} to='/'>Logar</Button>
+      </>) :
       (<>
         <Typography >{getStepContent(activeStep.active)}</Typography>
         <Button variant='outlined' disabled={activeStep.active === 0} onClick={handleBack} size='small' >
