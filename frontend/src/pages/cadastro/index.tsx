@@ -72,7 +72,7 @@ interface IUser {
   nome: string;
   email: string;
   urlImg: undefined | string;
-  acessKey: string;
+  accesskey: string;
 }
 
 interface MainContentProps {
@@ -160,8 +160,8 @@ const MainContent: React.FC<MainContentProps> = ({ activeStep, steps, user, hand
                   id='input-key-rfid'
                   label='Código rfid'
                   size='small'
-                  value={user.acessKey}
-                  onChange={e => setUser({ ...user, acessKey: e.target.value })}
+                  value={user.accesskey}
+                  onChange={e => setUser({ ...user, accesskey: e.target.value })}
                   error={activeStep.error}
                   helperText={activeStep.message}
                   required />
@@ -217,7 +217,7 @@ const MainContent: React.FC<MainContentProps> = ({ activeStep, steps, user, hand
                 <VpnKeyIcon />
               </Grid>
               <Grid item>
-                <TextField id='input-key-rfid' value={user.acessKey} label='Código da tag rfid' size='small' disabled />
+                <TextField id='input-key-rfid' value={user.accesskey} label='Código da tag rfid' size='small' disabled />
               </Grid>
             </Grid>
           </Grid>
@@ -261,14 +261,14 @@ interface IActiveStep {
 
 const Cadastro: React.FC = () => {
   const { addNotification } = useNotifcation();
-  const [user, setUser] = React.useState<IUser>({ acessKey: '' } as IUser);
+  const [user, setUser] = React.useState<IUser>({ accesskey: '' } as IUser);
   const [activeStep, setActiveStep] = React.useState<IActiveStep>({ active: 0, error: false, message: '' });
   const steps = getSteps();
 
   // TODO: validar campos obrigatório
   const handleNext = React.useCallback(() => {
     setActiveStep((prevActiveStep) => {
-      if ((prevActiveStep.active + 1) === 2 && (user.acessKey.length < 8)) {
+      if ((prevActiveStep.active + 1) === 2 && (user.accesskey.length < 8)) {
         return { ...prevActiveStep, error: true, message: 'Adicione chave do cartão RFID' };
       }
 

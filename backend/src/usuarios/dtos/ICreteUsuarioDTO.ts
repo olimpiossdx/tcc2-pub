@@ -1,6 +1,6 @@
 export default interface ICreteUsuarioDTO {
   id: string;
-  acessKey: string;
+  accesskey: string;
   nome: string;
   email: string;
   urlImg: undefined | string;

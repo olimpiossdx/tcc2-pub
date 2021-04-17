@@ -6,10 +6,10 @@ import CreateUsuarioService from "../../../services/CreateUsuarioService";
 
 export default class UsuariosController {
   async create(request: Request, response: Response): Promise<Response> {
-    const { id, nome, email, urlImg, acessKey } = request.body as ICreteUsuarioDTO;
+    const { id, nome, email, urlImg, accesskey } = request.body as ICreteUsuarioDTO;
 
     const createUsarioService = container.resolve(CreateUsuarioService);
-    await createUsarioService.execute({ id, nome, email, urlImg, acessKey });
+    await createUsarioService.execute({ id, nome, email, urlImg, accesskey });
     
     return response.json({ status: 'sucess', message: 'Usuário criado com sucesso!' });
   }
