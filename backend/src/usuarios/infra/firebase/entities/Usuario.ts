@@ -1,6 +1,6 @@
 class Usuario {
   id: string;
-  acessKey: string;
+  accessKey: string;
   nome: string;
   email: string;
   urlImg: undefined | string;

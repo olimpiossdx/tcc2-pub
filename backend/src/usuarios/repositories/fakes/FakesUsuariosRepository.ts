@@ -12,7 +12,7 @@ class FakeUsuariosRepository implements IUsuariosRepository {
   };
 
   public async isUnicKey(acessKey: string): Promise<boolean> {
-    const isUsuario = this.usuarios.find(usuario => usuario.acessKey === acessKey);
+    const isUsuario = this.usuarios.find(usuario => usuario.accessKey === acessKey);
 
     return !!isUsuario;
   };
