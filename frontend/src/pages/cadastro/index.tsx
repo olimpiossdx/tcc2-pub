@@ -6,7 +6,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import PersonIcon from '@material-ui/icons/Person';
 import EmailIcon from '@material-ui/icons/Email';
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
-import CircularProgress, { circularProgressClasses } from '@material-ui/core/CircularProgress';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import { useAuth } from '../../components/hooks/authentication';
 import api from '../../services';
@@ -86,7 +86,7 @@ const MainContent: React.FC<MainContentProps> = ({ activeStep, steps, user, hand
     setLoading(true)
     const response = await firebaseAuthAsync();
     console.log('user', response.user);
-      if (response.user) {
+    if (response.user) {
       const providerUserData = response.user?.providerData[0];
       setUser({
         ...user,
@@ -288,7 +288,6 @@ const Cadastro: React.FC = () => {
   const handleSubmitAsync = () => {
     api.post('usuarios', user)
       .then(response => {
-        addNotification({ tipo: 'success', descricao: 'Usuário cadastrado com sucesso!' });
         setActiveStep((prevActiveStep) => ({ ...activeStep, active: prevActiveStep.active + 1 }));
       }).catch((error: AxiosError<IReseponseError>) => {
 
