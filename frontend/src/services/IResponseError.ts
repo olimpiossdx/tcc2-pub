@@ -1,8 +1,8 @@
-import { Status } from "../components/hooks/notification/model";
+import { Status } from '../components/hooks/notification/model';
 
-interface IReseponseError {
+interface IResponseError {
   status: Status;
   message: string;
 }
 
-export default IReseponseError;
+export default IResponseError;

@@ -1,34 +1,47 @@
 import React from 'react';
 
 import { Grid, Paper, Typography, Button, TextField, Avatar, CircularProgress } from '@material-ui/core';
-
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import Main from '../../components/main';
+
+import { ApiServiceRequest } from '../../services';
+
 import { useAuth } from '../../components/hooks/authentication';
-import useStyles from './styes';
+import Main from '../../components/main';
 import MeuPerfilAnimatedLoading from '../../components/skeleton/meu-perfil';
+import useStyles from './styes';
+import { useNotifcation } from '../../components/hooks/notification';
 
 const MeuPefil: React.FC = () => {
   const classes = useStyles();
-  const { user } = useAuth();
+  const { user, updateAccesskey } = useAuth();
+  const { addNotification } = useNotifcation();
+  const accessKeyRef = React.useRef<string>(user.accessKey);
   const [disabled, setDisabled] = React.useState(true);
-  const [loading, setLoading] = React.useState(true);
+  const [loading, setLoading] = React.useState(false);
   const [loadingData, setLoadingData] = React.useState(true);
-
-  //TODO: integrar com api para edição
-  const handleSubmit = () => {
-    setLoading(true);
-  };
-
-  const hanldeCancel = () => setDisabled(!disabled);
 
   React.useEffect(() => {
     new Promise((resolve) => {
       resolve(window.setTimeout(() => {
         setLoadingData(false);
-      }, 800));
+      }, 200));
     });
   }, []);
+
+  const handleSubmitAsync = async () => {
+    const response = await ApiServiceRequest({ method: 'patch', url: 'usuarios/chave-acesso', data: { id: user.uid, accessKey: accessKeyRef.current } }, setLoading, addNotification);
+
+    if (!('status' in response)) {
+      updateAccesskey(accessKeyRef.current);
+    };
+
+  };
+
+  const handelChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    accessKeyRef.current = event.target.value;
+  }
+
+  const hanldeCancel = () => setDisabled(!disabled);
 
   return (<Main>
     <Grid container justifyContent='center' alignItems='center' style={{ height: 'calc(100vh - 13vh)' }}>
@@ -67,10 +80,11 @@ const MeuPefil: React.FC = () => {
             <TextField
               id='filled-chave-de-acesso'
               label='Chave de acesso'
-              defaultValue='76 3B 39 07'
+              defaultValue={user.accessKey}
               variant='outlined'
+              onChange={handelChange}
               fullWidth
-              disabled={loading} />
+              disabled={disabled || loading} />
           </Grid>
 
           <Grid item xs={12}>
@@ -85,7 +99,7 @@ const MeuPefil: React.FC = () => {
                   <Button variant='outlined' color='secondary' onClick={hanldeCancel} >Cancelar</Button>
                 </Grid>
                 <Grid item className={classes.wrapper}>
-                  <Button variant='outlined' color='primary' disabled={loading} onClick={handleSubmit}>salvar</Button>
+                  <Button variant='outlined' color='primary' disabled={loading} onClick={handleSubmitAsync}>salvar</Button>
                   {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
                 </Grid>
               </Grid>)}

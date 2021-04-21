@@ -7,7 +7,7 @@ interface IFirebaseUserInfo {
   displayName: string;
   email: string;
   photoURL: string;
-  accesKey: string;
+  accessKey: string;
 };
 
 interface IAuthState {
@@ -20,6 +20,11 @@ interface AuthContextData {
   signIn(): Promise<void>;
   signOut(): void;
   firebaseAuthAsync(): Promise<firebase.auth.UserCredential>
+  updateAccesskey(accessKey: string): void;
+};
+
+interface IAuthResponse {
+  accessKey: string
 };
 
 const AuthContext = React.createContext<AuthContextData>({} as AuthContextData);
@@ -44,23 +49,25 @@ const AuthenticationProvider: React.FC = ({ children }) => {
   }, []);
 
   const signIn = React.useCallback(async () => {
-    const response = await firebaseAuthAsync();
-    const token = await response.user?.getIdToken() as string;
-
+    const firebaseAuthResponse = await firebaseAuthAsync();
+    const token = await firebaseAuthResponse.user?.getIdToken() as string;
+    const providerUserData = firebaseAuthResponse.user?.providerData[0];
     const user = {
-      uid: response.user?.uid,
-      displayName: response.user?.displayName,
-      email: response.user?.email,
-      photoURL: response.user?.photoURL
+      uid: providerUserData?.uid,
+      displayName: firebaseAuthResponse.user?.displayName,
+      email: firebaseAuthResponse.user?.email,
+      photoURL: firebaseAuthResponse.user?.photoURL,
+      accessKey: ''
     } as IFirebaseUserInfo;
+
+
+    api.defaults.headers.authorization = `Bearer ${token}`;
+
+    const response = await api.get<IAuthResponse>('/authentication');
+    user.accessKey = response.data.accessKey;
 
     localStorage.setItem('@sisag:token', JSON.stringify(token));
     localStorage.setItem('@sisag:user', JSON.stringify(user));
-
-    //TODO: tratamento de erro
-    //await api.post('/login', (response.credential as firebase.auth.OAuthCredential).idToken);
-
-    api.defaults.headers.authorization = `Bearer ${token}`;
 
     setState({ user, token });
 
@@ -73,7 +80,14 @@ const AuthenticationProvider: React.FC = ({ children }) => {
     setState({} as IAuthState);
   }, []);
 
-  return (<AuthContext.Provider value={{ user: state.user, signIn, signOut, firebaseAuthAsync }}>
+  const updateAccesskey = React.useCallback((accessKey: string) => {
+    const usuario = state.user
+    usuario.accessKey = accessKey;
+
+    setState({ ...state, user: usuario });
+  }, [state]);
+
+  return (<AuthContext.Provider value={{ user: state.user, signIn, signOut, firebaseAuthAsync, updateAccesskey }}>
     {children}
   </AuthContext.Provider>);
 }

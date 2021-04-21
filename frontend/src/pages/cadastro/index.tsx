@@ -12,7 +12,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { useAuth } from '../../components/hooks/authentication';
 import api from '../../services';
 import { useNotifcation } from '../../components/hooks/notification';
-import IReseponseError from '../../services/IResponseError';
+import IResponseError from '../../services/IResponseError';
 
 const getSteps = () => {
   return ['Selecionar conta', 'Adicionar código', 'Concluir'];
@@ -72,7 +72,7 @@ interface IUser {
   nome: string;
   email: string;
   urlImg: undefined | string;
-  accesskey: string;
+  accessKey: string;
 }
 
 interface MainContentProps {
@@ -160,8 +160,8 @@ const MainContent: React.FC<MainContentProps> = ({ activeStep, steps, user, hand
                   id='input-key-rfid'
                   label='Código rfid'
                   size='small'
-                  value={user.accesskey}
-                  onChange={e => setUser({ ...user, accesskey: e.target.value })}
+                  value={user.accessKey}
+                  onChange={e => setUser({ ...user, accessKey: e.target.value })}
                   error={activeStep.error}
                   helperText={activeStep.message}
                   required />
@@ -217,7 +217,7 @@ const MainContent: React.FC<MainContentProps> = ({ activeStep, steps, user, hand
                 <VpnKeyIcon />
               </Grid>
               <Grid item>
-                <TextField id='input-key-rfid' value={user.accesskey} label='Código da tag rfid' size='small' disabled />
+                <TextField id='input-key-rfid' value={user.accessKey} label='Código da tag rfid' size='small' disabled />
               </Grid>
             </Grid>
           </Grid>
@@ -261,14 +261,14 @@ interface IActiveStep {
 
 const Cadastro: React.FC = () => {
   const { addNotification } = useNotifcation();
-  const [user, setUser] = React.useState<IUser>({ accesskey: '' } as IUser);
+  const [user, setUser] = React.useState<IUser>({ accessKey: '' } as IUser);
   const [activeStep, setActiveStep] = React.useState<IActiveStep>({ active: 0, error: false, message: '' });
   const steps = getSteps();
 
   // TODO: validar campos obrigatório
   const handleNext = React.useCallback(() => {
     setActiveStep((prevActiveStep) => {
-      if ((prevActiveStep.active + 1) === 2 && (user.accesskey.length < 8)) {
+      if ((prevActiveStep.active + 1) === 2 && (user.accessKey.length < 8)) {
         return { ...prevActiveStep, error: true, message: 'Adicione chave do cartão RFID' };
       }
 
@@ -294,7 +294,7 @@ const Cadastro: React.FC = () => {
     api.post('usuarios', user)
       .then(response => {
         setActiveStep((prevActiveStep) => ({ ...activeStep, active: prevActiveStep.active + 1 }));
-      }).catch((error: AxiosError<IReseponseError>) => {
+      }).catch((error: AxiosError<IResponseError>) => {
 
         if (error.response?.status === 400) {
           addNotification({ tipo: 'error', descricao: error.response?.data.message as string });
