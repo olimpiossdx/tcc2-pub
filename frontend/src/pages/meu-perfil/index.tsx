@@ -24,7 +24,7 @@ const MeuPefil: React.FC = () => {
     new Promise((resolve) => {
       resolve(window.setTimeout(() => {
         setLoadingData(false);
-      }, 200));
+      }, 150));
     });
   }, []);
 
@@ -34,7 +34,6 @@ const MeuPefil: React.FC = () => {
     if (!('status' in response)) {
       updateAccesskey(accessKeyRef.current);
     };
-
   };
 
   const handelChange = (event: React.ChangeEvent<HTMLInputElement>) => {

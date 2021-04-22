@@ -33,7 +33,6 @@ export async function ApiServiceRequest<TViewModel = any>({ baseURL = 'http://lo
     // Do something with response error
     if (counter < retry) {
       counter += 1;
-      // return new Promise((resolve) => resolve(api.request<TViewModel>({ ...rest, method })));
       return new Promise((resolve) => setTimeout(() => resolve(api.request<TViewModel>({ ...rest, method })), retryDelay));
     };
 
