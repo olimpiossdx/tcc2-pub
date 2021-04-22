@@ -12,7 +12,8 @@ export default async function ensureAuthenticated(request: Request, response: Re
 
   const [, token] = authHeader.split(' ');
   try {
-    await admin.auth().verifyIdToken(token) as firebase.auth.DecodedIdToken;
+    const decodeToken = await admin.auth().verifyIdToken(token) as firebase.auth.DecodedIdToken;
+    request.user = { email: decodeToken?.email as string };
     return next();
   } catch (error) {
     const { code, message } = error as FirebaseError;
