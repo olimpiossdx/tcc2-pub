@@ -2,11 +2,15 @@ import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } f
 import INotification from '../components/hooks/notification/model';
 import IResponseError from './IResponseError';
 
+interface IApiServiceConfig extends AxiosRequestConfig {
+  retry?: number;
+  retryDelay?: number;
+};
+
 //TODO: mudar para variáveis de ambiente
-export async function ApiServiceRequest<TViewModel = any>({ baseURL = 'http://localhost:3333', method = 'get', ...rest }: AxiosRequestConfig,
+export async function ApiServiceRequest<TViewModel = any>({ baseURL = 'http://localhost:3333', method = 'get', timeout = 500, retry = 2, retryDelay = 3000, ...rest }: IApiServiceConfig,
   setLoad: React.Dispatch<React.SetStateAction<boolean>>, setNotification: (message: Omit<INotification, "id">) => void) {
   let counter = 0;
-  const maxRetry = 2;
   setLoad(true);
 
   const api: AxiosInstance = axios.create({ baseURL });
@@ -27,9 +31,10 @@ export async function ApiServiceRequest<TViewModel = any>({ baseURL = 'http://lo
   }, function (error: AxiosError) {
     // Any status codes that falls outside the range of 2xx cause this function to trigger
     // Do something with response error
-    if (counter < maxRetry) {
+    if (counter < retry) {
       counter += 1;
-      return new Promise((resolve) => resolve(api.request<TViewModel>({ ...rest, method })));
+      // return new Promise((resolve) => resolve(api.request<TViewModel>({ ...rest, method })));
+      return new Promise((resolve) => setTimeout(() => resolve(api.request<TViewModel>({ ...rest, method })), retryDelay));
     };
 
     return Promise.reject(error);
@@ -71,13 +76,12 @@ export async function ApiServiceRequest<TViewModel = any>({ baseURL = 'http://lo
       };
 
     }
-
+    
     setLoad(false);
     setNotification({ tipo: 'error', descricao: (axiosResponse.data as IResponseError).message });
   }
 
   return axiosResponse.data;
-
 };
 
 //TODO: remover após alteração para nova api de consulta ao back-end
