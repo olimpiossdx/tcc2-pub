@@ -60,9 +60,6 @@ const AuthenticationProvider: React.FC = ({ children }) => {
       accessKey: ''
     } as IFirebaseUserInfo;
 
-
-    api.defaults.headers.authorization = `Bearer ${token}`;
-
     const response = await api.get<IAuthResponse>('/authentication');
     user.accessKey = response.data.accessKey;
 
