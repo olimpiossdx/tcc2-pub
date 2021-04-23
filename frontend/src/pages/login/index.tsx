@@ -4,18 +4,12 @@ import { Button, Grid, Paper } from '@material-ui/core';
 
 import LoginIMG from '../../assets/ufop2.png';
 import { useAuth } from '../../components/hooks/authentication';
-import { useHistory } from 'react-router';
 
 //TODO: adicionar notificação 
 const Login: React.FC = () => {
-  const history = useHistory();
   const { signIn } = useAuth();
 
-  const handleSubmit = async () => {
-    await signIn().then(() => {
-      history.push('/menu');
-    });
-  } 
+  const handleSubmit = async () => await signIn();
 
   return (<Grid container justifyContent='center' alignItems='center' style={{ height: 'calc(100vh - 13vh)' }}>
     <Paper component={Grid} style={{ padding: 10, margin: 5 }}>

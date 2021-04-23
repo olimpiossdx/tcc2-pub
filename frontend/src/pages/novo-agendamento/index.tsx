@@ -47,7 +47,7 @@ const NovoAgendamento: React.FC = () => {
 
     const requestAsync = async () => {
       setLoadingSkeleton(false);
-      const response = await ApiServiceRequest({ baseURL: 'http://localhost:3333', method: 'get', url: 'blocaos' }, setLoading, addNotification);
+      const response = await ApiServiceRequest({ baseURL: 'http://localhost:3333', method: 'get', url: 'blocos' }, setLoading, addNotification);
       if (!('status' in response)) {
         console.log('response', response);
       };
