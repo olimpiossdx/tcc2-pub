@@ -7,15 +7,33 @@ interface IApiServiceConfig extends AxiosRequestConfig {
   retryDelay?: number;
 };
 
+let cancellationToken = axios.CancelToken.source();
+
+export const cancellationRequest = (cancellationReason: string) => {
+  cancellationToken.cancel(cancellationReason);
+};
+
+export const newCancellationToken = () => {
+  cancellationToken = axios.CancelToken.source();
+};
+
+const api: AxiosInstance = axios.create({ baseURL: 'http://localhost:3333' });
+
 //TODO: mudar para variáveis de ambiente
-export async function ApiServiceRequest<TViewModel = any>({ baseURL = 'http://localhost:3333', method = 'get', timeout = 500, retry = 2, retryDelay = 3000, ...rest }: IApiServiceConfig,
+export async function ApiServiceRequest<TViewModel = any>({ method = 'get', timeout = 500, retry = 2, retryDelay = 3000, ...rest }: IApiServiceConfig,
   setLoad: React.Dispatch<React.SetStateAction<boolean>>, setNotification: (message: Omit<INotification, "id">) => void) {
   let counter = 0;
   setLoad(true);
 
-  const api: AxiosInstance = axios.create({ baseURL });
-
   api.interceptors.request.use(function (config) {
+    config.cancelToken = cancellationToken.token;
+
+    if (!config.url?.includes('login')) {
+      const localStorageToken = localStorage.getItem('@sisag:token') as string;
+      const token = JSON.parse(localStorageToken);
+      config.headers.authorization = `Bearer ${token}`;
+    };
+
     // Do something before request is sent
     return config;
   }, function (error) {
@@ -39,7 +57,6 @@ export async function ApiServiceRequest<TViewModel = any>({ baseURL = 'http://lo
     return Promise.reject(error);
   });
 
-
   let axiosResponse: AxiosResponse<TViewModel | IResponseError>;
 
   try {
@@ -55,36 +72,31 @@ export async function ApiServiceRequest<TViewModel = any>({ baseURL = 'http://lo
       request: rest,
     } as AxiosResponse<IResponseError>;
 
-
+    //TODO: melhorar lógica de tratamento de erro
     if (error && axios.isAxiosError(error)) {
-      if (error.response?.status !== 500 && error.response?.status !== 404) {
+      if (error.response && error.response.status !== 500 && error.response.status !== 404) {
         axiosResponse = {
           ...axiosResponse,
-          status: error.response?.status as number,
-          data: error.response?.data,
+          status: error.response.status as number,
+          data: error.response.data,
+          statusText: error.response.statusText as string,
+          headers: error.response.headers as AxiosRequestConfig,
+          config: error.response.config as AxiosRequestConfig,
+          request: error.response.request,
         }
       }
 
-      axiosResponse = {
-        ...axiosResponse,
-        status: error.response?.status as number,
-        statusText: error.response?.statusText as string,
-        headers: error.response?.headers as AxiosRequestConfig,
-        config: error.response?.config as AxiosRequestConfig,
-        request: error.response?.request,
-      };
-
-    }
-    
+      if (!axios.isCancel(error)) {
+        setNotification({ tipo: 'error', descricao: (axiosResponse.data as IResponseError).message });
+      }
+    };
     setLoad(false);
-    setNotification({ tipo: 'error', descricao: (axiosResponse.data as IResponseError).message });
-  }
+  };
 
+  newCancellationToken();
   return axiosResponse.data;
 };
 
-//TODO: remover após alteração para nova api de consulta ao back-end
-const api = axios.create({ baseURL: 'http://localhost:3333' });
-
+//TODO: remover api antiga e padronizar as requisições
 export default api;
 
