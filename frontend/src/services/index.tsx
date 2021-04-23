@@ -21,9 +21,10 @@ const api: AxiosInstance = axios.create({ baseURL: 'http://localhost:3333' });
 
 //TODO: mudar para variáveis de ambiente
 export async function ApiServiceRequest<TViewModel = any>({ method = 'get', timeout = 500, retry = 2, retryDelay = 3000, ...rest }: IApiServiceConfig,
-  setLoad: React.Dispatch<React.SetStateAction<boolean>>, setNotification: (message: Omit<INotification, "id">) => void) {
+  setLoad?: React.Dispatch<React.SetStateAction<boolean>>, setNotification?: (message: Omit<INotification, "id">) => void) {
   let counter = 0;
-  setLoad(true);
+
+  setLoad && setLoad(true);
 
   api.interceptors.request.use(function (config) {
     config.cancelToken = cancellationToken.token;
@@ -87,10 +88,11 @@ export async function ApiServiceRequest<TViewModel = any>({ method = 'get', time
       }
 
       if (!axios.isCancel(error)) {
-        setNotification({ tipo: 'error', descricao: (axiosResponse.data as IResponseError).message });
+        setNotification && setNotification({ tipo: 'error', descricao: (axiosResponse.data as IResponseError).message });
       }
     };
-    setLoad(false);
+    
+    setLoad && setLoad(false);
   };
 
   newCancellationToken();

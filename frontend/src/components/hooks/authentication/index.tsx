@@ -1,6 +1,6 @@
 import React from 'react';
 import firebase from '../../../config/firebase';
-import api from '../../../services';
+import api, { ApiServiceRequest } from '../../../services';
 
 interface IFirebaseUserInfo {
   uid: string;
@@ -52,6 +52,7 @@ const AuthenticationProvider: React.FC = ({ children }) => {
     const firebaseAuthResponse = await firebaseAuthAsync();
     const token = await firebaseAuthResponse.user?.getIdToken() as string;
     const providerUserData = firebaseAuthResponse.user?.providerData[0];
+
     const user = {
       uid: providerUserData?.uid,
       displayName: firebaseAuthResponse.user?.displayName,
@@ -60,11 +61,11 @@ const AuthenticationProvider: React.FC = ({ children }) => {
       accessKey: ''
     } as IFirebaseUserInfo;
 
-    const response = await api.get<IAuthResponse>('/authentication');
-    user.accessKey = response.data.accessKey;
-
     localStorage.setItem('@sisag:token', JSON.stringify(token));
     localStorage.setItem('@sisag:user', JSON.stringify(user));
+
+    const response = await ApiServiceRequest({ method: 'get', url: 'authentication' });
+    user.accessKey = response.accessKey;
 
     setState({ user, token });
 
