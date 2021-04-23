@@ -7,7 +7,7 @@ import ptBRLocale from 'date-fns/locale/pt-BR'
 import DateFnsUtils from '@date-io/date-fns';
 
 import EventNoteIcon from '@material-ui/icons/EventNote';
-import api from '../../services';
+import { ApiServiceRequest, cancellationRequest } from '../../services';
 import { IBlocoModel, ILaboratorioModel } from './model';
 import NovoAgendamentoAnimatedLoading from '../../components/skeleton';
 import { useNotifcation } from '../../components/hooks/notification';
@@ -32,46 +32,34 @@ const NovoAgendamento: React.FC = () => {
 
   useEffect(() => {
     // TODO: ajuste  para get correto
-    api.get<IReseponse>('laboratorios')
-      .then(response => {
-        setBlocos(response.data.blocos);
-        setBlocos(response.data.laboratorios);
-      })
-      .catch((error) => {
-        console.log(error);
-      })
-      .finally(() => {
-        setLoadingSkeleton(false);
-        setLoading(false)
-      });
+    // api.get<IReseponse>('laboratorios')
+    //   .then(response => {
+    //     setBlocos(response.data.blocos);
+    //     setBlocos(response.data.laboratorios);
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   })
+    //   .finally(() => {
+    //     setLoadingSkeleton(false);
+    //     setLoading(false)
+    //   });
 
-    api.get('blocos').then(response => {
-      console.log('response', response);
+    const requestAsync = async () => {
+      setLoadingSkeleton(false);
+      const response = await ApiServiceRequest({ baseURL: 'http://localhost:3333', method: 'get', url: 'blocaos' }, setLoading, addNotification);
+      if (!('status' in response)) {
+        console.log('response', response);
+      };
+      setLoading(false);
+    };
 
-    }).catch(error => {
-      console.log('blocos-error', error);
-    })
+    requestAsync();
 
-  }, []);
-
-  const loadSalasByBloco = useCallback(() => {
-    setLoading(true);
-    api.get<ILaboratorioModel[]>(`laboratorios-por-bloco/${selectBloco}`)
-      .then(response => {
-        setLaboratorios(response.data);
-      })
-      .catch(error => {
-        console.log(error);
-      })
-      .finally(() => setLoading(false));
-  }, [selectBloco]);
-
-  useEffect(() => {
-    // loadSalasByBloco();
-    return () => {
-      loadSalasByBloco()
+    return function cleanUpFunction() {
+      cancellationRequest('cancelou');
     }
-  }, [loadSalasByBloco]);
+  }, [addNotification]);
 
 
   const handleSelectBlocoChange = useCallback((event: React.ChangeEvent<{ value: unknown }>) => {
