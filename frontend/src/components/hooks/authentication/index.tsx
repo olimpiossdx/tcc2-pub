@@ -1,6 +1,7 @@
 import React from 'react';
 import firebase from '../../../config/firebase';
-import api, { ApiServiceRequest } from '../../../services';
+import { ApiServiceRequest } from '../../../services';
+import INotification from '../notification/model';
 
 interface IFirebaseUserInfo {
   uid: string;
@@ -17,14 +18,10 @@ interface IAuthState {
 
 interface AuthContextData {
   user: IFirebaseUserInfo;
-  signIn(): Promise<void>;
+  signIn(setNotification: ((message: Omit<INotification, "id">) => void)): Promise<void>;
   signOut(): void;
   firebaseAuthAsync(): Promise<firebase.auth.UserCredential>
   updateAccesskey(accessKey: string): void;
-};
-
-interface IAuthResponse {
-  accessKey: string
 };
 
 const AuthContext = React.createContext<AuthContextData>({} as AuthContextData);
@@ -36,7 +33,6 @@ const AuthenticationProvider: React.FC = ({ children }) => {
 
     if (token && user) {
       const parsedTOken = JSON.parse(token) as string;
-      api.defaults.headers.authorization = `Bearer ${parsedTOken}`;
       return { user: JSON.parse(user), token: parsedTOken };
     }
 
@@ -48,7 +44,7 @@ const AuthenticationProvider: React.FC = ({ children }) => {
     return await firebase.auth().signInWithPopup(provider);
   }, []);
 
-  const signIn = React.useCallback(async () => {
+  const signIn = React.useCallback(async (addNotification?: ((message: Omit<INotification, "id">) => void)) => {
     const firebaseAuthResponse = await firebaseAuthAsync();
     const token = await firebaseAuthResponse.user?.getIdToken() as string;
     const providerUserData = firebaseAuthResponse.user?.providerData[0];
@@ -61,13 +57,15 @@ const AuthenticationProvider: React.FC = ({ children }) => {
       accessKey: ''
     } as IFirebaseUserInfo;
 
-    localStorage.setItem('@sisag:token', JSON.stringify(token));
-    localStorage.setItem('@sisag:user', JSON.stringify(user));
 
-    const response = await ApiServiceRequest({ method: 'get', url: 'authentication' });
-    user.accessKey = response.accessKey;
+    const response = await ApiServiceRequest({ method: 'get', url: 'authentication' }, undefined, addNotification);
 
-    setState({ user, token });
+    if (!('status' in response)) {
+      localStorage.setItem('@sisag:token', JSON.stringify(token));
+      localStorage.setItem('@sisag:user', JSON.stringify(user));
+      user.accessKey = response.accessKey;
+      setState({ user, token });
+    };
 
   }, [firebaseAuthAsync]);
 

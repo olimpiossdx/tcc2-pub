@@ -7,7 +7,6 @@ interface IRouteProps extends RouteProps {
   component: React.ComponentType;
 }
 
-//TODO: Remover quando tiver o serviço de auth
 const PrivateRoute: React.FC<IRouteProps> = ({ isPrivate = false, component: Component, ...rest }) => {
   const { user } = useAuth();
   return (<Route {...rest}
