@@ -58,10 +58,11 @@ const AuthenticationProvider: React.FC = ({ children }) => {
     } as IFirebaseUserInfo;
 
 
+    localStorage.setItem('@sisag:token', JSON.stringify(token));
+    
     const response = await ApiServiceRequest({ method: 'get', url: 'authentication' }, undefined, addNotification);
 
     if (!('status' in response)) {
-      localStorage.setItem('@sisag:token', JSON.stringify(token));
       localStorage.setItem('@sisag:user', JSON.stringify(user));
       user.accessKey = response.accessKey;
       setState({ user, token });
