@@ -12,10 +12,6 @@ import { useNotifcation } from '../../components/hooks/notification';
 import Main from '../../components/main';
 import BlocoModel from './models/bloco.model';
 
-interface IReseponse {
-  blocos: BlocoModel[];
-}
-
 const NovoAgendamento: React.FC = () => {
   const { addNotification } = useNotifcation();
   const [loading, setLoading] = useState(true);
@@ -29,7 +25,7 @@ const NovoAgendamento: React.FC = () => {
 
   useEffect(() => {
     const requestAsync = async () => {
-      const response = await ApiServiceRequest({ baseURL: 'http://localhost:3333', method: 'get', url: 'blocos' }, setLoading, addNotification);
+      const response = await ApiServiceRequest<BlocoModel[]>({ baseURL: 'http://localhost:3333', method: 'get', url: 'blocos' }, setLoading, addNotification);
       if (!('status' in response)) {
         setBlocos(response);
       };
