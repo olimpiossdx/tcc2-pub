@@ -17,11 +17,12 @@ export const newCancellationToken = () => {
   cancellationToken = axios.CancelToken.source();
 };
 
-const api: AxiosInstance = axios.create({ baseURL: 'http://localhost:3333' });
+const api: AxiosInstance = axios.create({ baseURL: 'http://localhost:3333', cancelToken: cancellationToken.token });
 
 //TODO: mudar para variáveis de ambiente
 export async function ApiServiceRequest<TViewModel = any>({ method = 'get', retry = 2, retryDelay = 3000, ...rest }: IApiServiceConfig,
   setLoad?: React.Dispatch<React.SetStateAction<boolean>>, setNotification?: (message: Omit<INotification, "id">) => void) {
+  newCancellationToken();
   let counter = 0;
 
   setLoad && setLoad(true);
@@ -78,24 +79,28 @@ export async function ApiServiceRequest<TViewModel = any>({ method = 'get', retr
       if (error.response && error.response.status !== 500 && error.response.status !== 404) {
         axiosResponse = {
           ...axiosResponse,
-          status: error.response.status as number,
+          status: error.response.status,
           data: error.response.data,
-          statusText: error.response.statusText as string,
-          headers: error.response.headers as AxiosRequestConfig,
-          config: error.response.config as AxiosRequestConfig,
+          statusText: error.response.statusText,
+          headers: error.response.headers,
+          config: error.response.config,
           request: error.response.request,
         }
       }
 
-      if (!axios.isCancel(error)) {
+      //TODO:alterar para um api de contexto
+      if (!axios.isCancel(error) && error.response?.status === 401) {
         setNotification && setNotification({ tipo: 'error', descricao: (axiosResponse.data as IResponseError).message });
+        setTimeout(() => {
+          localStorage.removeItem('@sisag:token');
+          localStorage.removeItem('@sisag:user');
+          window.location.replace('/');
+        }, 1800);
       }
     };
-    
-    setLoad && setLoad(false);
   };
 
-  newCancellationToken();
+  setLoad && setLoad(false);
   return axiosResponse.data;
 };
 
