@@ -20,6 +20,15 @@ class FakeUsuariosRepository implements IUsuariosRepository {
   public async create(data: ICreteUsuarioDTO): Promise<void> {
     this.usuarios.push(data);
   };
+
+  public async findByEamil(email: string): Promise<Usuario | undefined> {
+    return this.usuarios.find(usuario => usuario.email === email);
+  };
+
+  public async updateAccessKey(id: string, accessKey: string): Promise<void> {
+    const indexUsuario = this.usuarios.findIndex(usuario => usuario.id === id);
+    this.usuarios[indexUsuario].accessKey = accessKey;
+  };
 };
 
 export default FakeUsuariosRepository;

@@ -4,11 +4,10 @@ import AuthenticationUsuarioService from '../../../services/AuthenticationUsuari
 
 export default class AuthenticationController {
   async create(request: Request, response: Response): Promise<Response> {
-    const authHeader = request.headers.authorization as string;
-    const [, token] = authHeader.split(' ');
-
+    const { email } = request.usuario;
+    
     const authenticationUsuarioService = container.resolve(AuthenticationUsuarioService);
-    const accessKey = await authenticationUsuarioService.execute({ token });
+    const accessKey = await authenticationUsuarioService.execute({ email });
 
     return response.json({ accessKey });
   }
