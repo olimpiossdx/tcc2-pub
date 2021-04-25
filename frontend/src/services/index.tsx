@@ -95,7 +95,7 @@ export async function ApiServiceRequest<TViewModel = any>({ method = 'get', retr
           localStorage.removeItem('@sisag:token');
           localStorage.removeItem('@sisag:user');
           window.location.replace('/');
-        }, 1800);
+        }, 2100);
       } else {
         setNotification && setNotification({ tipo: 'error', descricao: (axiosResponse.data as IResponseError).message });
       }

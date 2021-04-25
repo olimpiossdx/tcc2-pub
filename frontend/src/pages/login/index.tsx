@@ -6,7 +6,6 @@ import LoginIMG from '../../assets/ufop2.png';
 import { useAuth } from '../../components/hooks/authentication';
 import { useNotifcation } from '../../components/hooks/notification';
 
-//TODO: adicionar notificação 
 const Login: React.FC = () => {
   const { addNotification } = useNotifcation();
   const { signIn } = useAuth();
