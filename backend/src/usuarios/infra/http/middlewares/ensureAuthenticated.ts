@@ -13,11 +13,12 @@ export default async function ensureAuthenticated(request: Request, response: Re
   const [, token] = authHeader.split(' ');
   try {
     const decodeToken = await admin.auth().verifyIdToken(token) as firebase.auth.DecodedIdToken;
-    request.user = { email: decodeToken?.email as string };
+    request.usuario = { email: decodeToken?.email as string };
     return next();
   } catch (error) {
+    //TODO: padronizar formatação de erros
     const { code, message } = error as FirebaseError;
-    console.error(`\n\n code: ${code}\n message: ${message}\n\n`);
-    throw new AppError('Token inválido', 401);
+    console.error(`\n error code: ${code}\n message: ${message}\ndata : ${new Date()}\n`);
+    throw new AppError('Token expirado, por logue novamente.', 401);
   }
 }
