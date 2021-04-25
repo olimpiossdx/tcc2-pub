@@ -26,8 +26,10 @@ const NovoAgendamento: React.FC = () => {
   useEffect(() => {
     const requestAsync = async () => {
       const response = await ApiServiceRequest<BlocoModel[]>({ baseURL: 'http://localhost:3333', method: 'get', url: 'blocos' }, setLoading, addNotification);
+
       if (!('status' in response)) {
-        setBlocos(response);
+        // TODO: alterar para model correta
+        // setBlocos(response);
       };
     };
 
@@ -35,7 +37,7 @@ const NovoAgendamento: React.FC = () => {
 
     return function cleanUpFunction() {
       cancellationRequest('cancelou');
-    }
+    };
   }, [addNotification]);
 
 
