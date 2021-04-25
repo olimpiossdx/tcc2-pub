@@ -87,7 +87,7 @@ export async function ApiServiceRequest<TViewModel = any>({ method = 'get', retr
           request: error.response.request,
         }
       }
-
+      
       //TODO:alterar para um api de contexto
       if (!axios.isCancel(error) && error.response?.status === 401) {
         setNotification && setNotification({ tipo: 'error', descricao: (axiosResponse.data as IResponseError).message });
@@ -96,6 +96,8 @@ export async function ApiServiceRequest<TViewModel = any>({ method = 'get', retr
           localStorage.removeItem('@sisag:user');
           window.location.replace('/');
         }, 1800);
+      } else {
+        setNotification && setNotification({ tipo: 'error', descricao: (axiosResponse.data as IResponseError).message });
       }
     };
   };
