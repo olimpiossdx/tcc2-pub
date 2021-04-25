@@ -4,6 +4,7 @@ import AuthenticationUsuarioService from '../../../services/AuthenticationUsuari
 
 export default class AuthenticationController {
   async create(request: Request, response: Response): Promise<Response> {
+    
     const { email } = request.usuario;
     
     const authenticationUsuarioService = container.resolve(AuthenticationUsuarioService);
