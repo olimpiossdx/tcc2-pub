@@ -14,4 +14,4 @@ usuariosRouter.post('/',
       urlImg: Joi.string(),
       acessKey: Joi.string().required()
     }
-  }), usuariosController.create);
+  }), usuariosController.CreateAsync);

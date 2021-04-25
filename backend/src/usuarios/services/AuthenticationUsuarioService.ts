@@ -11,8 +11,8 @@ class AuthenticationUsuarioService {
     @inject('UsuariosRepository')
     private usuariosRepository: IUsuariosRepository) { };
 
-  public async execute({ email }: IAuthenticationUsarioDTO): Promise<string> {
-    const usuario = await this.usuariosRepository.findByEamil(email);
+  public async ExecuteAsync({ email }: IAuthenticationUsarioDTO): Promise<string> {
+    const usuario = await this.usuariosRepository.FindByEmailAsync(email);
 
     if (!usuario) {
       throw new AppError('Usuário não cadastrado.');

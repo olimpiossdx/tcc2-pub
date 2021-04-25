@@ -23,4 +23,4 @@
  
 ## Testes de cobertura de funcionalidades.
 
- <img alt='GitHub language count' src='.github/teste-criar-usuario-2021-04-15 22-59-08.png'>
+ <img alt='GitHub language count' src='.github/teste-atualizar-usuario-2021-04-25 18-18-57.png'>

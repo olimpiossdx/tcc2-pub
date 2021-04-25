@@ -1,11 +1,11 @@
 import { Router } from 'express';
 import AuthenticationController from '../controllers/AuthenticationController';
-import ensureAuthenticated from '../middlewares/ensureAuthenticated';
+import ensureAuthenticatedAsync from '../middlewares/ensureAuthenticated';
 
 const authenticationController = new AuthenticationController();
 
 const authenticationRouter = Router();
 
-authenticationRouter.get('/', ensureAuthenticated, authenticationController.create)
+authenticationRouter.get('/', ensureAuthenticatedAsync, authenticationController.CreateAsync)
 
 export default authenticationRouter;

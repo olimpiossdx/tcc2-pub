@@ -1,10 +1,10 @@
-import ICreteUsuarioDTO from "../dtos/ICreteUsuarioDTO";
-import Usuario from "../infra/firebase/entities/Usuario";
+import ICreteUsuarioDTO from '../dtos/ICreteUsuarioDTO';
+import Usuario from '../infra/firebase/entities/Usuario';
 
 export default interface IUsuariosRepository {
-  findByAuthId(authId: string): Promise<Usuario | undefined>;
-  findByEamil(email: string): Promise<Usuario | undefined>;
-  isUnicKey(acessKey: string): Promise<boolean>;
-  create(data: ICreteUsuarioDTO): Promise<void>;
-  updateAccessKey(id: string, accessKey: string): Promise<void>;
+  FindByAuthIdAsync(authId: string): Promise<Usuario | undefined>;
+  FindByEmailAsync(email: string): Promise<Usuario | undefined>;
+  IsUnicKeyAsync(acessKey: string): Promise<boolean>;
+  CreateAsync(data: ICreteUsuarioDTO): Promise<void>;
+  UpdateAccessKeyAsync(id: string, accessKey: string): Promise<void>;
 };

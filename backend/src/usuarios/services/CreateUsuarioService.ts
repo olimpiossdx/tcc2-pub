@@ -1,8 +1,8 @@
-import "reflect-metadata";
-import { inject, injectable } from "tsyringe";
-import AppError from "../../shared/erros";
-import ICreteUsuarioDTO from "../dtos/ICreteUsuarioDTO";
-import IUsuariosRepository from "../repositories/IUsuariosRepository";
+import 'reflect-metadata';
+import { inject, injectable } from 'tsyringe';
+import AppError from '../../shared/erros';
+import ICreteUsuarioDTO from '../dtos/ICreteUsuarioDTO';
+import IUsuariosRepository from '../repositories/IUsuariosRepository';
 
 @injectable()
 class CreateUsuarioService {
@@ -10,20 +10,20 @@ class CreateUsuarioService {
     @inject('UsuariosRepository')
     private usuariosRepository: IUsuariosRepository) { }
 
-  public async execute({ id, nome, email, accessKey, urlImg }: ICreteUsuarioDTO): Promise<void> {
-    const existeUsuario = await this.usuariosRepository.findByAuthId(id);
+  public async ExecuteAsync({ id, nome, email, accessKey, urlImg }: ICreteUsuarioDTO): Promise<void> {
+    const existeUsuario = await this.usuariosRepository.FindByAuthIdAsync(id);
 
     if (existeUsuario) {
       throw new AppError('Usuário já cadastrado.');
     }
 
-    const isUnicKey = await this.usuariosRepository.isUnicKey(accessKey);
+    const isUnicKey = await this.usuariosRepository.IsUnicKeyAsync(accessKey);
 
     if (isUnicKey) {
       throw new AppError('Chave de acesso ja cadastrada.');
     }
 
-    await this.usuariosRepository.create({ id, nome, email, accessKey, urlImg });
+    await this.usuariosRepository.CreateAsync({ id, nome, email, accessKey, urlImg });
   }
 }
 

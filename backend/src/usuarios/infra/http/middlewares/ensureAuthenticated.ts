@@ -3,7 +3,7 @@ import firebase, { FirebaseError } from 'firebase-admin';
 import { admin } from '../../../../config/firebase.config';
 import AppError from '../../../../shared/erros';
 
-export default async function ensureAuthenticated(request: Request, response: Response, next: NextFunction): Promise<void> {
+export default async function ensureAuthenticatedAsync(request: Request, response: Response, next: NextFunction): Promise<void> {
   const authHeader = request.headers.authorization;
 
   if (!authHeader) {
