@@ -5,18 +5,19 @@ import ICreteUsuarioDTO from "../../../dtos/ICreteUsuarioDTO";
 import IUsuariosRepository from '../../../repositories/IUsuariosRepository';
 import Usuario from "../entities/Usuario";
 
-interface objecToArray {
+export interface objecToArray {
   [key: string]: any;
-}
+};
 
 class UsuariosRepository implements IUsuariosRepository {
   private usariosRepository: database.Reference;
   constructor() {
     this.usariosRepository = firebaseDatabase.ref('usuarios');
-  }
+  };
 
   async isUnicKey(acessKey: string): Promise<boolean> {
     const response = await this.usariosRepository.orderByChild('acessKey').equalTo(acessKey).get();
+    
     return response.exists();
   }
 
@@ -26,11 +27,24 @@ class UsuariosRepository implements IUsuariosRepository {
 
     if (response.exists()) {
       const usuarioJson = response.toJSON() as objecToArray;
+      
       const hashkey = Object.keys(usuarioJson)[0];
-      Object.assign(usuario, {}, usuarioJson[hashkey]);
+      Object.assign(usuario, usuarioJson[hashkey]);
+
     } else {
       usuario = undefined;
-    }
+    };
+
+    return usuario;
+  };
+
+  async findByEamil(email: string): Promise<Usuario> {
+    const response = await this.usariosRepository.orderByChild('email').equalTo(email).get();
+    let usuario: Usuario | null = new Usuario();
+
+    const usuarioJson = response.toJSON() as objecToArray;
+    const hashkey = Object.keys(usuarioJson)[0];
+    Object.assign(usuario, usuarioJson[hashkey]);
 
     return usuario;
   };
@@ -39,6 +53,12 @@ class UsuariosRepository implements IUsuariosRepository {
     await this.usariosRepository.child(data.id).update(data);
   };
 
+  async updateAccessKey(id: string, accessKey: string): Promise<void> {
+    const usuario = await this.findByAuthId(id) as Usuario;
+    usuario.accessKey = accessKey;
+
+    await this.usariosRepository.child(usuario.id).update(usuario);
+  };
 };
 
 export default UsuariosRepository;
