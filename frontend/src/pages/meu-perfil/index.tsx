@@ -3,7 +3,7 @@ import React from 'react';
 import { Grid, Paper, Typography, Button, TextField, Avatar, CircularProgress } from '@material-ui/core';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
-import { ApiServiceRequest } from '../../services';
+import { ApiServiceRequestAsync } from '../../services';
 
 import { useAuth } from '../../components/hooks/authentication';
 import Main from '../../components/main';
@@ -29,7 +29,7 @@ const MeuPefil: React.FC = () => {
   }, []);
 
   const handleSubmitAsync = async () => {
-    const response = await ApiServiceRequest({ method: 'patch', url: 'usuarios/chave-acesso', data: { id: user.uid, accessKey: accessKeyRef.current } }, setLoading, addNotification);
+    const response = await ApiServiceRequestAsync({ method: 'patch', url: 'usuarios/chave-acesso', data: { id: user.uid, accessKey: accessKeyRef.current } }, setLoading, addNotification);
 
     if (!('status' in response)) {
       updateAccesskey(accessKeyRef.current);

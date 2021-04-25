@@ -20,7 +20,7 @@ export const newCancellationToken = () => {
 const api: AxiosInstance = axios.create({ baseURL: 'http://localhost:3333', cancelToken: cancellationToken.token });
 
 //TODO: mudar para variáveis de ambiente
-export async function ApiServiceRequest<TViewModel = any>({ method = 'get', retry = 2, retryDelay = 3000, ...rest }: IApiServiceConfig,
+export async function ApiServiceRequestAsync<TViewModel = any>({ method = 'get', retry = 2, retryDelay = 3000, ...rest }: IApiServiceConfig,
   setLoad?: React.Dispatch<React.SetStateAction<boolean>>, setNotification?: (message: Omit<INotification, "id">) => void) {
   newCancellationToken();
   let counter = 0;

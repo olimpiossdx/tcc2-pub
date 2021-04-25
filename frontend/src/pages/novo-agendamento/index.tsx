@@ -7,7 +7,7 @@ import ptBRLocale from 'date-fns/locale/pt-BR'
 import DateFnsUtils from '@date-io/date-fns';
 
 import EventNoteIcon from '@material-ui/icons/EventNote';
-import { ApiServiceRequest, cancellationRequest } from '../../services';
+import { ApiServiceRequestAsync, cancellationRequest } from '../../services';
 import { useNotifcation } from '../../components/hooks/notification';
 import Main from '../../components/main';
 import BlocoModel from './models/bloco.model';
@@ -25,7 +25,7 @@ const NovoAgendamento: React.FC = () => {
 
   useEffect(() => {
     const requestAsync = async () => {
-      const response = await ApiServiceRequest<BlocoModel[]>({ baseURL: 'http://localhost:3333', method: 'get', url: 'blocos' }, setLoading, addNotification);
+      const response = await ApiServiceRequestAsync<BlocoModel[]>({ baseURL: 'http://localhost:3333', method: 'get', url: 'blocos' }, setLoading, addNotification);
 
       if (!('status' in response)) {
         // TODO: alterar para model correta

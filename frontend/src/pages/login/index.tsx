@@ -8,12 +8,13 @@ import { useNotifcation } from '../../components/hooks/notification';
 
 const Login: React.FC = () => {
   const { addNotification } = useNotifcation();
-  const { signIn } = useAuth();
+  const { signInAsync } = useAuth();
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async () => {
+  const handleSubmitAsync = async () => {
     setLoading(true);
-    await signIn(addNotification);
+    await signInAsync(addNotification);
+    setLoading(false);
   };
 
   return (<Grid container justifyContent='center' alignItems='center' style={{ height: 'calc(100vh - 13vh)' }}>
@@ -29,7 +30,7 @@ const Login: React.FC = () => {
           <Grid item xs={12}>
             <Grid container justifyContent='flex-end'>
               <Grid item>
-                <Button variant='contained' onClick={handleSubmit} disabled={loading}>iniciar com google</Button>
+                <Button variant='contained' onClick={handleSubmitAsync} disabled={loading}>iniciar com google</Button>
               </Grid>
             </Grid>
           </Grid>
