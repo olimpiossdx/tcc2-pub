@@ -1,4 +1,4 @@
-# tcc2-pub
+# Trabalho de conclusão de curso, atualizado.
 Refatoração do modelo apresentado no trabalho de conclusão de curso.
 
 ## Diagrama do sistema proposto.
