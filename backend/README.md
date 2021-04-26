@@ -4,7 +4,7 @@
  - O administrador deve poder cadastrar blocos na aplicação;
  - O administrador deve poder cadastrar laboratórios associado a um bloco, um bloco pode conter mais de um laboratório;
 
-# Cadastrar usuários
+# Cadastrar usuários ✅
  - O usuário deve poder cadastra-se ao sistema com uma conta associada a instituição de ensino;✅
  - O usuário deve poder adicionar código de acesso no momento do cadastro; ✅
 
