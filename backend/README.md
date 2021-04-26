@@ -6,7 +6,7 @@
 
 # Cadastrar usuários
  - O usuário deve poder cadastra-se ao sistema com uma conta associada a instituição de ensino;
- - O usuário deve poder adicionar código de acesso no momento do cadastro;
+ - O usuário deve poder adicionar código de acesso no momento do cadastro; ✅
 
 # Cadastrar agendamentos
  - O usuário deve poder cadastrar um agendamento, composto por bloco, laboratório e data com período de agendamento;
