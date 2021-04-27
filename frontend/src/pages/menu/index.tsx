@@ -86,6 +86,6 @@ const Menu: React.FC = () => {
       </Grid>
     </Grid>
   </Main>);
-}
+};
 
 export default Menu;

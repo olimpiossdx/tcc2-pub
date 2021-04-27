@@ -13,8 +13,9 @@ const Login: React.FC = () => {
 
   const handleSubmitAsync = async () => {
     setLoading(true);
-    await signInAsync(addNotification);
-    setLoading(false);
+    await signInAsync(addNotification).finally(() => {
+      setLoading(false);
+    });
   };
 
   return (<Grid container justifyContent='center' alignItems='center' style={{ height: 'calc(100vh - 13vh)' }}>
@@ -37,7 +38,7 @@ const Login: React.FC = () => {
         </Grid>
       </Grid>
     </Paper>
-  </Grid>)
-}
+  </Grid>);
+};
 
 export default Login;

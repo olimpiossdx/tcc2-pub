@@ -38,7 +38,7 @@ const MeuPefil: React.FC = () => {
 
   const handelChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     accessKeyRef.current = event.target.value;
-  }
+  };
 
   const hanldeCancel = () => setDisabled(!disabled);
 
@@ -105,10 +105,8 @@ const MeuPefil: React.FC = () => {
           </Grid>
         </Grid>
       </Grid>}
-
-
     </Grid>
-  </Main>)
-}
+  </Main>);
+};
 
 export default MeuPefil;
