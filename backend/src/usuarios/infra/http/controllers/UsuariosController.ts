@@ -21,6 +21,6 @@ export default class UsuariosController {
     const updateUsuarioAccessKeyService = container.resolve(UpdateUsuarioAccessKeyService);
     await updateUsuarioAccessKeyService.execute({ id, accessKey });
 
-    return response.status(200);
+    return response.status(200).json({ status: 'success', message: 'Chave atualizada' });
   };
 };

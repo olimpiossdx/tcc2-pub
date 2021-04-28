@@ -1,4 +1,3 @@
-// import { Query } from '@firebase/database-types';
 import { database } from 'firebase-admin/lib/database';
 import { firebaseDatabase } from '../../../../config/firebase.config';
 import ICreteUsuarioDTO from '../../../dtos/ICreteUsuarioDTO';
@@ -15,13 +14,13 @@ class UsuariosRepository implements IUsuariosRepository {
     this.usariosRepository = firebaseDatabase.ref('usuarios');
   };
 
-  async IsUnicKeyAsync(acessKey: string): Promise<boolean> {
+  public async IsUnicKeyAsync(acessKey: string): Promise<boolean> {
     const response = await this.usariosRepository.orderByChild('acessKey').equalTo(acessKey).get();
     
     return response.exists();
   }
 
-  async FindByAuthIdAsync(authId: string): Promise<Usuario | undefined> {
+  public async FindByAuthIdAsync(authId: string): Promise<Usuario | undefined> {
     const response = await this.usariosRepository.orderByChild('id').equalTo(authId).get();
     let usuario: Usuario | undefined = new Usuario();
 
@@ -38,7 +37,7 @@ class UsuariosRepository implements IUsuariosRepository {
     return usuario;
   };
 
-  async FindByEmailAsync(email: string): Promise<Usuario> {
+  public async FindByEmailAsync(email: string): Promise<Usuario> {
     const response = await this.usariosRepository.orderByChild('email').equalTo(email).get();
     let usuario: Usuario | null = new Usuario();
 
@@ -49,11 +48,11 @@ class UsuariosRepository implements IUsuariosRepository {
     return usuario;
   };
 
-  async CreateAsync(data: ICreteUsuarioDTO): Promise<void> {
+  public async CreateAsync(data: ICreteUsuarioDTO): Promise<void> {
     await this.usariosRepository.child(data.id).update(data);
   };
 
-  async UpdateAccessKeyAsync(id: string, accessKey: string): Promise<void> {
+  public async UpdateAccessKeyAsync(id: string, accessKey: string): Promise<void> {
     const usuario = await this.FindByAuthIdAsync(id) as Usuario;
     usuario.accessKey = accessKey;
 
