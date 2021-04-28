@@ -28,19 +28,23 @@ const MeuPefil: React.FC = () => {
     });
   }, []);
 
+  const hanldeCancel = () => setDisabled(!disabled);
+  
   const handleSubmitAsync = async () => {
     const response = await ApiServiceRequestAsync({ method: 'patch', url: 'usuarios/chave-acesso', data: { id: user.uid, accessKey: accessKeyRef.current } }, setLoading, addNotification);
 
     if (!('status' in response)) {
       updateAccesskey(accessKeyRef.current);
     };
+    
+    setLoading(false);
+    hanldeCancel();
   };
 
   const handelChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     accessKeyRef.current = event.target.value;
   };
 
-  const hanldeCancel = () => setDisabled(!disabled);
 
   return (<Main>
     <Grid container justifyContent='center' alignItems='center' style={{ height: 'calc(100vh - 13vh)' }}>
