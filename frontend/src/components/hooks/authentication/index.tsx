@@ -63,9 +63,9 @@ const AuthenticationProvider: React.FC = ({ children }) => {
     const response = await ApiServiceRequestAsync({ method: 'get', url: 'authentication' }, undefined, addNotification);
 
     if (!('status' in response)) {
-      localStorage.setItem('@sisag:user', JSON.stringify(user));
       user.accessKey = response.accessKey;
       setState({ user, token });
+      localStorage.setItem('@sisag:user', JSON.stringify(user));
     };
 
   }, [firebaseAuthAsync]);

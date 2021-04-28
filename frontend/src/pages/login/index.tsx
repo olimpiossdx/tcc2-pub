@@ -13,9 +13,8 @@ const Login: React.FC = () => {
 
   const handleSubmitAsync = async () => {
     setLoading(true);
-    await signInAsync(addNotification).finally(() => {
-      setLoading(false);
-    });
+    await signInAsync(addNotification);
+    setLoading(false);
   };
 
   return (<Grid container justifyContent='center' alignItems='center' style={{ height: 'calc(100vh - 13vh)' }}>
