@@ -28,8 +28,7 @@ const NovoAgendamento: React.FC = () => {
       const response = await ApiServiceRequestAsync<BlocoModel[]>({ baseURL: 'http://localhost:3333', method: 'get', url: 'blocos' }, setLoading, addNotification);
 
       if (!('status' in response)) {
-        // TODO: alterar para model correta
-        // setBlocos(response);
+         setBlocos(response);
       };
     };
 
