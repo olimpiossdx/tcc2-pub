@@ -1,4 +1,4 @@
-export default interface ICreteBlocoDTO {
+export default interface IUpdateBlocoDTO {
   blocos: [
     {
       id: string;
