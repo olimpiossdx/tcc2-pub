@@ -1,11 +1,13 @@
-//TODO: alterar paras regras de BLOCO
+class Laboratorio {
+  id: string;
+  nome: string;
+  numero: number;
+};
 
 class Bloco {
   id: string;
-  accessKey: string;
   nome: string;
-  email: string;
-  urlImg: undefined | string;
+  laboratorios: Laboratorio[];
 };
 
 export default Bloco;
