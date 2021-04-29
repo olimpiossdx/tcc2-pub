@@ -1,31 +1,18 @@
 import 'reflect-metadata';
 import { inject, injectable } from 'tsyringe';
-import AppError from '../../shared/erros';
-import ICreteBlocoDTO from '../dtos/ICreteBlocoDTO';
-import IUsuariosRepository from '../repositories/IBlocoRepository';
+import Bloco from '../infra/firebase/entities/Bloco';
+import IBlocoRepository from '../repositories/IBlocoRepository';
 
-//TODO: alterar paras regras de BLOCO
 
 @injectable()
 class CreateBlocoService {
   constructor(
-    @inject('UsuariosRepository')
-    private usuariosRepository: IUsuariosRepository) { };
+    @inject('BlocoRepository')
+    private blocosRepository: IBlocoRepository) { };
 
-  public async ExecuteAsync({ id, nome, email, accessKey, urlImg }: ICreteBlocoDTO): Promise<void> {
-    const existeUsuario = await this.usuariosRepository.FindByAuthIdAsync(id);
+  public async ExecuteAsync({ id, nome, laboratorios }: Bloco): Promise<void> {
 
-    if (existeUsuario) {
-      throw new AppError('Usuário já cadastrado.');
-    };
-
-    const isUnicKey = await this.usuariosRepository.IsUnicKeyAsync(accessKey);
-
-    if (isUnicKey) {
-      throw new AppError('Chave de acesso ja cadastrada.');
-    };
-
-    await this.usuariosRepository.CreateAsync({ id, nome, email, accessKey, urlImg });
+    //TODO: alterar paras regras de BLOCO
   };
 };
 
