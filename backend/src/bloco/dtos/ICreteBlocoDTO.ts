@@ -1,4 +1,3 @@
-//TODO: alterar paras regras de BLOCO
 export default interface ICreteBlocoDTO {
   blocos: [
     {
