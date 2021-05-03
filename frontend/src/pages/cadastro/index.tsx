@@ -21,7 +21,7 @@ const getSteps = () => {
 const getStepContent = (stepIndex: number) => {
   switch (stepIndex) {
     case 0:
-      return 'Selecione sua conta google';
+      return 'Selecione sua conta Google';
     case 1:
       return 'Adicione o código de cadastro';
     case 2:
