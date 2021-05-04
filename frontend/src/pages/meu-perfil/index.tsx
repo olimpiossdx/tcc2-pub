@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Grid, Paper, Typography, Button, TextField, Avatar, CircularProgress } from '@material-ui/core';
+import { Grid, Paper, Typography, Button, TextField, Avatar, CircularProgress, Divider } from '@material-ui/core';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
 import { ApiServiceRequestAsync } from '../../services';
@@ -29,14 +29,14 @@ const MeuPefil: React.FC = () => {
   }, []);
 
   const hanldeCancel = () => setDisabled(!disabled);
-  
+
   const handleSubmitAsync = async () => {
     const response = await ApiServiceRequestAsync({ method: 'patch', url: 'usuarios/chave-acesso', data: { id: user.uid, accessKey: accessKeyRef.current } }, setLoading, addNotification);
 
     if (!('status' in response)) {
       updateAccesskey(accessKeyRef.current);
     };
-    
+
     setLoading(false);
     hanldeCancel();
   };
@@ -48,8 +48,8 @@ const MeuPefil: React.FC = () => {
 
   return (<Main>
     <Grid container justifyContent='center' alignItems='center' style={{ height: 'calc(100vh - 13vh)' }}>
-      {loadingData ? <MeuPerfilAnimatedLoading /> : <Grid item xs={11} sm={10} md={6}>
-        <Grid component={Paper} container spacing={2} alignItems='center' style={{ height: '100%', padding: '2%' }} >
+      {loadingData ? <MeuPerfilAnimatedLoading /> : <Grid item xs={11} sm={10} md={6} component={Paper}>
+        <Grid container spacing={2} alignItems='center' style={{ height: '100%', padding: '2%' }} >
           <Grid item>
             {user.photoURL ? <Avatar alt={user.displayName} src={user.photoURL} /> : <AccountCircleIcon />}
           </Grid>
@@ -58,7 +58,13 @@ const MeuPefil: React.FC = () => {
               Meu perfil
            </Typography>
           </Grid>
-
+        </Grid>
+        <Grid container style={{ height: '100%', padding: '2% 0 2%' }} >
+          <Grid item xs={12}>
+            <Divider />
+          </Grid>
+        </Grid>
+        <Grid container spacing={2} alignItems='center' style={{ height: '100%', padding: '2%' }} >
           <Grid item xs={12}>
             <TextField
               id='filled-nome'
@@ -110,7 +116,7 @@ const MeuPefil: React.FC = () => {
         </Grid>
       </Grid>}
     </Grid>
-  </Main>);
+  </Main >);
 };
 
 export default MeuPefil;
