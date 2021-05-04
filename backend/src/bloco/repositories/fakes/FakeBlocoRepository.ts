@@ -1,35 +1,27 @@
 import ICreteBlocoDTO from '../../dtos/ICreteBlocoDTO';
-import Usuario from '../../infra/firebase/entities/Bloco';
-import IUsuariosRepository from '../IBlocoRepository';
+import Bloco from '../../infra/firebase/entities/Bloco';
+import IBlocoRepository from '../IBlocoRepository';
 
-//TODO: alterar paras regras de BLOCO
-class FakeBlocoRepository implements IUsuariosRepository {
-  private usuarios: Usuario[] = [];
+class FakeBlocoRepository implements IBlocoRepository {
+  private blocos: Bloco[] = [];
 
-  public async FindByAuthIdAsync(authId: string): Promise<Usuario | undefined> {
-    const isUsuario = this.usuarios.find(usuario => usuario.id === authId);
+  public async GetAsync(): Promise<Bloco[]> {
+    return this.blocos;
+  }
 
-    return isUsuario;
-  };
+  public async FindAsync(id: string): Promise<Bloco | undefined> {
+    const bloco = this.blocos.find(bloco => bloco.id === id);
+    return bloco;
+  }
 
-  public async IsUnicKeyAsync(acessKey: string): Promise<boolean> {
-    const isUsuario = this.usuarios.find(usuario => usuario.accessKey === acessKey);
+  public async CreateAsync(data: Bloco): Promise<void> {
+    this.blocos.push(data);
+  }
 
-    return !!isUsuario;
-  };
-
-  public async CreateAsync(data: ICreteBlocoDTO): Promise<void> {
-    this.usuarios.push(data);
-  };
-
-  public async FindByEmailAsync(email: string): Promise<Usuario | undefined> {
-    return this.usuarios.find(usuario => usuario.email === email);
-  };
-
-  public async UpdateAccessKeyAsync(id: string, accessKey: string): Promise<void> {
-    const indexUsuario = this.usuarios.findIndex(usuario => usuario.id === id);
-    this.usuarios[indexUsuario].accessKey = accessKey;
-  };
+  public async UpdateBlocoAsync(bloco: Bloco): Promise<void> {
+    const blocoIndex = this.blocos.findIndex(item => item.id === bloco.id);
+    this.blocos[blocoIndex] = bloco;
+  }
 };
 
 export default FakeBlocoRepository;
