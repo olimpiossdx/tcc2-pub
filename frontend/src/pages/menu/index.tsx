@@ -13,79 +13,63 @@ const Menu: React.FC = () => {
   return (<Main>
     <Grid container justifyContent='center' alignItems='center' style={{ height: 'calc(100vh - 13vh)' }}>
       <Grid item xs={11}>
-        <Grid container spacing={1} justifyContent='center' style={{ height: '100%' }}>
-          <Grid item xs={12} sm={6} md={5}>
-            <Link to='novo-agendamento'>
-              <Paper style={{ height: 60, padding: 10 }}>
-                <Grid container spacing={1} alignItems='center' style={{ height: '100%' }}>
-                  <Grid item>
-                    <EventNoteIcon />
-                  </Grid>
-                  <Grid item >
-                    <Typography align='left'>
-                      Novo agendamento
-                    </Typography>
-                  </Grid>
-                </Grid>
-              </Paper>
-            </Link>
+        <Grid container justifyContent='center' spacing={2}>
+          <Grid item xs={12} sm={6} md={5} component={Link} to='novo-agendamento'>
+            <Grid container spacing={1} alignItems='center' component={Paper} style={{ height: 80 }}>
+              <Grid item>
+                <EventNoteIcon />
+              </Grid>
+              <Grid item >
+                <Typography align='left'>
+                  Novo agendamento
+                </Typography>
+              </Grid>
+            </Grid>
           </Grid>
 
-          <Grid item xs={12} sm={6} md={5}>
-            <Link to='laboratorios-agendados'>
-              <Paper style={{ height: 60, padding: 10 }}>
-                <Grid container spacing={1} alignItems='center' style={{ height: '100%' }}>
-                  <Grid item>
-                    <InsertInvitationIcon />
-                  </Grid>
-                  <Grid item >
-                    <Typography align='left'>
-                      Laboratórios agendados
-                    </Typography>
-                  </Grid>
-                </Grid>
-              </Paper>
-            </Link>
+          <Grid item xs={12} sm={6} md={5} component={Link} to='laboratorios-agendados'>
+            <Grid container spacing={1} alignItems='center' component={Paper} style={{ height: 80 }}>
+              <Grid item>
+                <InsertInvitationIcon />
+              </Grid>
+              <Grid item >
+                <Typography align='left'>
+                  Laboratórios agendados
+                </Typography>
+              </Grid>
+            </Grid>
           </Grid>
 
-          <Grid item xs={12} sm={6} md={5}>
-            <Link to='laboratorios-disponiveis'>
-              <Paper style={{ height: 60, padding: 10 }}>
-                <Grid container spacing={1} alignItems='center' style={{ height: '100%' }}>
-                  <Grid item>
-                    <CalendarTodayIcon />
-                  </Grid>
-                  <Grid item >
-                    <Typography align='left'>
-                      Laboratórios disponíveis
-                    </Typography>
-                  </Grid>
-                </Grid>
-              </Paper>
-            </Link>
+          <Grid item xs={12} sm={6} md={5} component={Link} to='laboratorios-disponiveis'>
+            <Grid container spacing={1} alignItems='center' component={Paper} style={{ height: 80 }}>
+              <Grid item>
+                <CalendarTodayIcon />
+              </Grid>
+              <Grid item >
+                <Typography align='left'>
+                  Laboratórios disponíveis
+                </Typography>
+              </Grid>
+            </Grid>
           </Grid>
 
-          <Grid item xs={12} sm={6} md={5}>
-            <Link to='meu-perfil'>
-              <Paper style={{ height: 60, padding: 10 }}>
-                <Grid container spacing={1} alignItems='center' style={{ height: '100%' }}>
-                  <Grid item>
-                    <AccountCircleIcon />
-                  </Grid>
-                  <Grid item >
-                    <Typography align='left'>
-                      Meu perfil
-                  </Typography>
-                  </Grid>
-                </Grid>
-              </Paper>
-            </Link>
+          <Grid item xs={12} sm={6} md={5} component={Link} to='meu-perfil'>
+            <Grid container spacing={1} alignItems='center' component={Paper} style={{ height: 80 }} >
+              <Grid item>
+                <AccountCircleIcon />
+              </Grid>
+              <Grid item >
+                <Typography align='left'>
+                  Meu perfil
+                </Typography>
+              </Grid>
+            </Grid>
           </Grid>
 
         </Grid>
       </Grid>
-    </Grid>
-  </Main>);
+    </Grid >
+  </Main >);
 };
 
 export default Menu;
