@@ -9,6 +9,7 @@ import Menu from '../pages/menu';
 import MeuPerfil from '../pages/meu-perfil';
 import NovoAgendamento from '../pages/novo-agendamento';
 import PrivateRoute from './private-route';
+import NotFound from '../pages/404-not-found';
 
 const Routes: React.FC = () => {
   return (<Switch>
@@ -20,7 +21,7 @@ const Routes: React.FC = () => {
     <PrivateRoute isPrivate path='/laboratorios-agendados' component={LaboratoriosAgendados} />
     <PrivateRoute isPrivate path='/laboratorios-disponiveis' component={LaboratorioDisponiveis} />
     <PrivateRoute isPrivate path='/meu-perfil' component={MeuPerfil} />
-    <PrivateRoute component={() => (<h5>Pagina não encontrada</h5>)} />
+    <PrivateRoute component={NotFound} />
   </Switch>);
 }
 
