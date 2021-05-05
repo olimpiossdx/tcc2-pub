@@ -19,8 +19,8 @@ export default class AgendamentoController {
   async UpdateAsync(request: Request, response: Response): Promise<Response> {
     const { id, bloco, laboratorio, data, horarioInicio, horarioFim } = request.body as IUpdateAgendamentoDTO ;
 
-    const updateUsuarioAccessKeyService = container.resolve(UpdateBlocoService);
-    await updateUsuarioAccessKeyService.execute({ id, accessKey });
+    const updateAgendamentoService = container.resolve(UpdateAgendamentoService);
+    await updateAgendamentoService.execute({ id, bloco, laboratorio, data, horarioInicio, horarioFim});
 
     return response.status(200).json({ status: 'success', message: 'Agendamento atualizado' });
   };
