@@ -2,7 +2,6 @@ import { Router } from "express";
 import { celebrate, Segments, Joi } from 'celebrate';
 import AgendamentoController from "../http/controllers/AgendamentoController";
 
-//TODO: alterar paras regras de AGENDAMENTO
 const agendamentoRouter = Router();
 const agendamentoController = new AgendamentoController();
 agendamentoRouter.post('/',
