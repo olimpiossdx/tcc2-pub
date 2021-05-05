@@ -24,8 +24,7 @@ agendamentoRouter.put('/update', ensureAuthenticatedAsync, celebrate({
       id: Joi.string().required(),
       nome: Joi.string().required(),
       numero: Joi.number().required()
-  },
-    accessKey: Joi.string().required().min(8)
+    }
   }
 }), agendamentoController.UpdateAsync);
 
