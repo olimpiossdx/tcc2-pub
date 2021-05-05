@@ -29,8 +29,8 @@ describe('Atualizar bloco', () => {
     };
 
     await createBlocoService.ExecuteAsync(bloco);
-    
-    bloco.nome='atualizando-nome';
+
+    bloco.nome = 'atualizando-nome';
 
     bloco.laboratorios.push({ id: 'teste2-laboratorio', nome: 'teste2-laboratorio', numero: 101 });
 
@@ -50,6 +50,18 @@ describe('Atualizar bloco', () => {
           numero: 1
         }
       ]
+    };
+
+    bloco.laboratorios.push({ id: 'teste2-laboratorio', nome: 'teste2-laboratorio', numero: 101 });
+
+    await expect(updateBlocoService.execute(bloco)).rejects.toBeInstanceOf(AppError);
+  });
+
+  it('Não é possível atualizar bloco ao menos um laboratório', async () => {
+    var bloco: Bloco = {
+      id: 'teste-bloco1',
+      nome: 'teste-bloco',
+      laboratorios: []
     };
 
     bloco.laboratorios.push({ id: 'teste2-laboratorio', nome: 'teste2-laboratorio', numero: 101 });
