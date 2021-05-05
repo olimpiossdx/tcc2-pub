@@ -4,6 +4,7 @@ import AgendamentoController from "../http/controllers/AgendamentoController";
 
 const agendamentoRouter = Router();
 const agendamentoController = new AgendamentoController();
+
 agendamentoRouter.post('/',
   celebrate({
     [Segments.BODY]: {
@@ -26,3 +27,5 @@ agendamentoRouter.post('/',
       }
     }
   }), agendamentoController.CreateAsync);
+  
+export default agendamentoRouter;
