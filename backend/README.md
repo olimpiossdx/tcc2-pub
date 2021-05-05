@@ -1,8 +1,8 @@
 # Funcionalidades do backend
 
-# Cadastrar blocos e laboratórios para agendamento
- - O administrador deve poder cadastrar blocos na aplicação;
- - O administrador deve poder cadastrar laboratórios associado a um bloco, um bloco pode conter mais de um laboratório;
+# Cadastrar blocos e laboratórios para agendamento ✅
+ - O administrador deve poder cadastrar blocos na aplicação; ✅
+ - O administrador deve poder cadastrar laboratórios associado a um bloco, um bloco pode conter mais de um laboratório; ✅
 
 # Cadastrar usuários ✅
  - O usuário deve poder cadastra-se ao sistema com uma conta associada a instituição de ensino;✅
@@ -23,4 +23,4 @@
  
 ## Testes de cobertura de funcionalidades.
 
- <img alt='GitHub language count' src='.github/teste-atualizar-usuario-2021-04-25 18-18-57.png'>
+ <img alt='GitHub language count' src='.github/teste-criar-atualizar-bloco-laboratorio2021-05-04 22-46-33.png'>
