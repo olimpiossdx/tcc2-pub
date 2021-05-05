@@ -1,21 +1,25 @@
 import 'reflect-metadata';
 import { inject, injectable } from 'tsyringe';
 import AppError from '../../shared/erros';
+import Bloco from '../infra/firebase/entities/Bloco';
 import IBlocoRepository from '../repositories/IBlocoRepository';
 
-interface IRequest {
-  id: string;
-  accessKey: string;
-};
+
 
 @injectable()
 class UpdateBlocoService {
   constructor(
     @inject('BlocoRepository')
-    private usuariosRepository: IBlocoRepository) { };
+    private blocoRepository: IBlocoRepository) { };
 
-  public async execute({ id, accessKey }: IRequest): Promise<void> {
-    //TODO: alterar paras regras de BLOCO
+  public async execute({ id, nome, laboratorios }: Bloco): Promise<void> {
+    const bloco = await this.blocoRepository.FindAsync(id);
+    
+    if (!bloco) {
+      throw new AppError('Bloco não cadastrado.');
+    };
+
+    await this.blocoRepository.UpdateBlocoAsync({ id, nome, laboratorios });
   };
 };
 
