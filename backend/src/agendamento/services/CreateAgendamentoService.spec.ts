@@ -1,60 +1,99 @@
 import AppError from "../../shared/erros";
-import Bloco from "../infra/firebase/entities/Agendamento";
-import FakeBlocoRepository from "../repositories/fakes/FakeAgendamentoRepository";
+import Agendamento from "../infra/firebase/entities/Agendamento";
+import FakeAgendamentoRepository from "../repositories/fakes/FakeAgendamentoRepository";
 import CreateAgendamentoService from "./CreateAgendamentoService";
 
-let fakeBlocoRepository: FakeBlocoRepository;
-let createBlocoService: CreateAgendamentoService;
+let fakeAgendamentoRepository: FakeAgendamentoRepository;
+let createAgendamentoService: CreateAgendamentoService;
 
 describe('Criar agendamento', () => {
   beforeEach(() => {
-    fakeBlocoRepository = new FakeBlocoRepository();
-    createBlocoService = new CreateAgendamentoService(fakeBlocoRepository);
+    fakeAgendamentoRepository = new FakeAgendamentoRepository();
+    CreateAgendamentoService = new CreateAgendamentoService(fakeAgendamentoRepository);
   });
 
-  it('Bloco criado com sucesso.', async () => {
-    var bloco: Bloco = {
-      id: 'teste-bloco',
-      nome: 'teste-bloco',
-      laboratorios: [
-        {
-          id: 'teste-laboratorio',
-          nome: 'teste-laboratorio',
-          numero: 1
-        }
-      ]
-    };
+  it('Agendamento criado com sucesso.', async () => {
+    var agendamento: Agendamento = {
+      bloco: {
+        id: "teste-criar-agendamento-bloco",
+        nome: "teste-criar-agendamento-bloco-nome",
+        numero: 102;
+      },
+      
+      laboratorio: {
+        id: "teste-criar-agendamento-laboratorio",
+        nome: "teste-criar-agendamento-laboratorio-nome",
+        numero: 103;
+      },
+      
+    data: new Date().toString(),
+    horarioInicio: new Date().toString(),
+    horarioFim: new Date().toString(),
+   };
 
-    await createBlocoService.ExecuteAsync(bloco);
+    await createAgendamentoService.ExecuteAsync(agendamento);
 
-    expect(await fakeBlocoRepository.FindAsync(bloco.id)).toMatchObject(bloco);
+    expect(await fakeAgendamentoRepository.FindAsync(agendamento.id)).toMatchObject(agendamento);
   });
 
-  it('Não é possível criar o mesmo bloco mais de uma vez.', async () => {
-    var bloco: Bloco = {
-      id: 'teste-bloco',
-      nome: 'teste-bloco',
-      laboratorios: [
-        {
-          id: 'teste-laboratorio',
-          nome: 'teste-laboratorio',
-          numero: 1
-        }
-      ]
-    };
+  it('Não é possível criar o mesmo agendamento mais de uma vez.', async () => {
+      var agendamento: Agendamento = {
+      bloco: {
+        id: "teste-criar-agendamento-bloco",
+        nome: "teste-criar-agendamento-bloco-nome",
+        numero: 102;
+      },
+      
+      laboratorio: {
+        id: "teste-criar-agendamento-laboratorio",
+        nome: "teste-criar-agendamento-laboratorio-nome",
+        numero: 103;
+      },
+      
+    data: new Date().toString(),
+    horarioInicio: new Date().toString(),
+    horarioFim: new Date().toString(),
+   };
+    
+    await createAgendamentoService.ExecuteAsync(agendamento);
 
-    await createBlocoService.ExecuteAsync(bloco);
-
-    await expect(createBlocoService.ExecuteAsync(bloco)).rejects.toBeInstanceOf(AppError);
+    await expect(createAgendamentoService.ExecuteAsync(agendamento)).rejects.toBeInstanceOf(AppError);
   });
 
-  it('Não é possível criar bloco sem laboratório.', async () => {
-    var bloco: Bloco = {
-      id: 'teste-bloco',
-      nome: 'teste-bloco',
-      laboratorios: []
-    };
+  it('Não é possível criar Agendamento sem bloco.', async () => {
+    var agendamento: Agendamento = {
+      bloco: undefined,
+      
+      laboratorio: {
+        id: "teste-criar-agendamento-laboratorio",
+        nome: "teste-criar-agendamento-laboratorio-nome",
+        numero: 103;
+      },
+      
+    data: new Date().toString(),
+    horarioInicio: new Date().toString(),
+    horarioFim: new Date().toString(),
+   };
 
-    await expect(createBlocoService.ExecuteAsync(bloco)).rejects.toBeInstanceOf(AppError);
+    await expect(createAgendamentoService.ExecuteAsync(agendamento)).rejects.toBeInstanceOf(AppError);
+  });
+  
+  
+  it('Não é possível criar Agendamento sem laboratorio.', async () => {
+    var agendamento: Agendamento = {
+       bloco: {
+        id: "teste-criar-agendamento-bloco",
+        nome: "teste-criar-agendamento-bloco-nome",
+        numero: 102;
+      },
+      
+      laboratorio:undefined,
+      
+      data: new Date().toString(),
+      horarioInicio: new Date().toString(),
+      horarioFim: new Date().toString(),
+   };
+
+    await expect(createAgendamentoService.ExecuteAsync(agendamento)).rejects.toBeInstanceOf(AppError);
   });
 });
