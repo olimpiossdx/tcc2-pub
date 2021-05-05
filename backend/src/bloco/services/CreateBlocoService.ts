@@ -18,6 +18,10 @@ class CreateBlocoService {
       throw new AppError('Bloco já cadastrado.');
     };
 
+    if (!laboratorios.length) {
+      throw new AppError('Bloco deve conter ao menos um laboratório.');
+    }
+
     await this.blocoRepository.CreateAsync({ id, nome, laboratorios });
   };
 };

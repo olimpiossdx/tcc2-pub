@@ -47,4 +47,14 @@ describe('Criar bloco', () => {
 
     await expect(createBlocoService.ExecuteAsync(bloco)).rejects.toBeInstanceOf(AppError);
   });
+
+  it('Não é possível criar bloco sem laboratório.', async () => {
+    var bloco: Bloco = {
+      id: 'teste-bloco',
+      nome: 'teste-bloco',
+      laboratorios: []
+    };
+
+    await expect(createBlocoService.ExecuteAsync(bloco)).rejects.toBeInstanceOf(AppError);
+  });
 });
