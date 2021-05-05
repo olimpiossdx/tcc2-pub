@@ -8,7 +8,7 @@ const agendamentoController = new AgendamentoController();
 const agendamentoRouter = Router();
 
 //TODO: alterar paras regras de AGENDAMENTO
-agendamentoRouter.post('/', agendamentoController.CreateAsync);
+agendamentoRouter.post('/', ensureAuthenticatedAsync,agendamentoController.CreateAsync);
 agendamentoRouter.patch('/chave-acesso', ensureAuthenticatedAsync, celebrate({
   [Segments.BODY]: {
     id: Joi.string().required(),
