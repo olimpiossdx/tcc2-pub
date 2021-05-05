@@ -1,9 +1,8 @@
-import Bloco from '../infra/firebase/entities/Agendamento';
+import Agendamento from '../infra/firebase/entities/Agendamento';
 
-//TODO: alterar paras regras de AGENDAMENTO
-export default interface IBLocoRepository {
-  GetAsync(): Promise<Bloco[]>;
-  FindAsync(id: string): Promise<Bloco | undefined>;
-  CreateAsync(data: Bloco): Promise<void>;
-  UpdateBlocoAsync(bloco: Bloco): Promise<void>;
+export default interface IAgendamentoRepository {
+  GetAsync(): Promise<Agendamento[]>;
+  FindAsync(id: string): Promise<Agendamento | undefined>;
+  CreateAsync(data: Agendamento): Promise<void>;
+  UpdateAgendamentoAsync(agendamento: Agendamento): Promise<void>;
 };
