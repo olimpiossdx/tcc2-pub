@@ -5,6 +5,7 @@ export default interface ICreteAgendamentoDTO {
     numero: number;
   },
   laboratorio: {
+    id:string;
     nome: string;
     numero: string,
   },
