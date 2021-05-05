@@ -31,7 +31,7 @@ describe('Atualizar bloco', () => {
     await createBlocoService.ExecuteAsync(bloco);
     
     bloco.nome='atualizando-nome';
-    
+
     bloco.laboratorios.push({ id: 'teste2-laboratorio', nome: 'teste2-laboratorio', numero: 101 });
 
     await updateBlocoService.execute(bloco);
@@ -56,5 +56,4 @@ describe('Atualizar bloco', () => {
 
     await expect(updateBlocoService.execute(bloco)).rejects.toBeInstanceOf(AppError);
   });
-
 });

@@ -1,33 +1,50 @@
 import AppError from "../../shared/erros";
+import Bloco from "../infra/firebase/entities/Bloco";
 import FakeBlocoRepository from "../repositories/fakes/FakeBlocoRepository";
 import CreateBlocoService from "./CreateBlocoService";
 
-let fakeUsuariosRepository: FakeBlocoRepository;
-let createUsuarioService: CreateBlocoService;
+let fakeBlocoRepository: FakeBlocoRepository;
+let createBlocoService: CreateBlocoService;
 
-//TODO: alterar paras regras de BLOCO
-
-describe('Criar usuário', () => {
+describe('Criar bloco', () => {
   beforeEach(() => {
-    fakeUsuariosRepository = new FakeBlocoRepository();
-    createUsuarioService = new CreateBlocoService(fakeUsuariosRepository);
+    fakeBlocoRepository = new FakeBlocoRepository();
+    createBlocoService = new CreateBlocoService(fakeBlocoRepository);
   });
 
-  it('Usuário criado com sucesso.', async () => {
-    const user = await createUsuarioService.ExecuteAsync({ id: '1425368188', nome: 'teste', email: 'teste@email.com', accessKey: 'teste-key', urlImg: 'http://teste.com' });
+  it('Bloco criado com sucesso.', async () => {
+    var bloco: Bloco = {
+      id: 'teste-bloco',
+      nome: 'teste-bloco',
+      laboratorios: [
+        {
+          id: 'teste-laboratorio',
+          nome: 'teste-laboratorio',
+          numero: 1
+        }
+      ]
+    };
 
-    expect(user).toBe(undefined);
+    await createBlocoService.ExecuteAsync(bloco);
+
+    expect(await fakeBlocoRepository.FindAsync(bloco.id)).toMatchObject(bloco);
   });
 
-  it('Não é possível criar o mesmo ususário mais de uma vez.', async () => {
-    await createUsuarioService.ExecuteAsync({ id: '1425368188', nome: 'teste', email: 'teste@email.com', accessKey: 'teste-key', urlImg: 'http://teste.com' });
+  it('Não é possível criar o mesmo bloco mais de uma vez.', async () => {
+    var bloco: Bloco = {
+      id: 'teste-bloco',
+      nome: 'teste-bloco',
+      laboratorios: [
+        {
+          id: 'teste-laboratorio',
+          nome: 'teste-laboratorio',
+          numero: 1
+        }
+      ]
+    };
 
-    await expect(createUsuarioService.ExecuteAsync({ id: '1425368188', nome: 'teste', email: 'teste@email.com', accessKey: 'teste-key', urlImg: 'http://teste.com' })).rejects.toBeInstanceOf(AppError);
-  });
+    await createBlocoService.ExecuteAsync(bloco);
 
-  it('Não é possível criar ususário com mesmo cartão de acesso.', async () => {
-    await createUsuarioService.ExecuteAsync({ id: '1425368188', nome: 'teste', email: 'teste1@email.com', accessKey: 'teste-key', urlImg: 'http://teste.com' });
-
-    await expect(createUsuarioService.ExecuteAsync({ id: '1425368189', nome: 'teste', email: 'teste@email.com', accessKey: 'teste-key', urlImg: 'http://teste.com' })).rejects.toBeInstanceOf(AppError);
+    await expect(createBlocoService.ExecuteAsync(bloco)).rejects.toBeInstanceOf(AppError);
   });
 });
