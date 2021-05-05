@@ -1,19 +1,19 @@
 import { Router } from 'express';
 import { celebrate, Segments, Joi } from 'celebrate';
-import BlocosController from '../controllers/AgendamentoController';
+import AgendamentoController from '../controllers/AgendamentoController';
 import ensureAuthenticatedAsync from '../../../../usuarios/infra/http/middlewares/ensureAuthenticated';
 
-const blocosController = new BlocosController();
+const agendamentoController = new AgendamentoController();
 
-const blocosRouter = Router();
+const agendamentoRouter = Router();
 
 //TODO: alterar paras regras de AGENDAMENTO
-blocosRouter.post('/', blocosController.CreateAsync);
-blocosRouter.patch('/chave-acesso', ensureAuthenticatedAsync, celebrate({
+agendamentoRouter.post('/', agendamentoController.CreateAsync);
+agendamentoRouter.patch('/chave-acesso', ensureAuthenticatedAsync, celebrate({
   [Segments.BODY]: {
     id: Joi.string().required(),
     accessKey: Joi.string().required().min(8)
   }
-}), blocosController.UpdateAsync);
+}), agendamentoController.UpdateAsync);
 
-export default blocosRouter;
+export default agendamentoRouter;
