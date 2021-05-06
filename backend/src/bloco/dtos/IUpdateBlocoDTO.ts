@@ -1,15 +1,7 @@
+import { Laboratorio } from "../infra/firebase/entities/Bloco";
+
 export default interface IUpdateBlocoDTO {
-  blocos: [
-    {
-      id: string;
-      nome: string,
-      laboratorios: [
-        {
-          id?: string,
-          nome: string,
-          numero: number
-        }
-      ]
-    }
-  ]
+  id: string;
+  nome: string,
+  laboratorios: Laboratorio[]
 };

@@ -7,7 +7,6 @@ const blocosController = new BlocosController();
 
 const blocosRouter = Router();
 
-//TODO: alterar paras regras de BLOCO
 blocosRouter.post('/', blocosController.CreateAsync);
 blocosRouter.patch('/chave-acesso', ensureAuthenticatedAsync, celebrate({
   [Segments.BODY]: {

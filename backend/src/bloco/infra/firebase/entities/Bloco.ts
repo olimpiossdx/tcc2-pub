@@ -1,4 +1,4 @@
-class Laboratorio {
+export class Laboratorio {
   id: string;
   nome: string;
   numero: number;

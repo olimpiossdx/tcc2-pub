@@ -1,4 +1,5 @@
 import AppError from "../../shared/erros";
+import ICreteBlocoDTO from "../dtos/ICreteBlocoDTO";
 import Bloco from "../infra/firebase/entities/Bloco";
 import FakeBlocoRepository from "../repositories/fakes/FakeBlocoRepository";
 import CreateBlocoService from "./CreateBlocoService";
@@ -13,34 +14,27 @@ describe('Criar bloco', () => {
   });
 
   it('Bloco criado com sucesso.', async () => {
-    var bloco: Bloco = {
-      id: 'teste-bloco',
+    var bloco: ICreteBlocoDTO = {
       nome: 'teste-bloco',
-      laboratorios: [
-        {
-          id: 'teste-laboratorio',
-          nome: 'teste-laboratorio',
-          numero: 1
-        }
-      ]
+      laboratorios: [{
+        nome: 'teste-laboratorio',
+        numero: 1
+      }]
     };
 
     await createBlocoService.ExecuteAsync(bloco);
+    const novoBloco = await fakeBlocoRepository.FindByNomeAsync(bloco.nome) as Bloco;
 
-    expect(await fakeBlocoRepository.FindAsync(bloco.id)).toMatchObject(bloco);
+    expect(await fakeBlocoRepository.FindByIdAsync(novoBloco.id)).toMatchObject(bloco);
   });
 
   it('Não é possível criar o mesmo bloco mais de uma vez.', async () => {
-    var bloco: Bloco = {
-      id: 'teste-bloco',
+    var bloco: ICreteBlocoDTO = {
       nome: 'teste-bloco',
-      laboratorios: [
-        {
-          id: 'teste-laboratorio',
-          nome: 'teste-laboratorio',
-          numero: 1
-        }
-      ]
+      laboratorios: [{
+        nome: 'teste-laboratorio',
+        numero: 1
+      }]
     };
 
     await createBlocoService.ExecuteAsync(bloco);
@@ -49,8 +43,7 @@ describe('Criar bloco', () => {
   });
 
   it('Não é possível criar bloco sem laboratório.', async () => {
-    var bloco: Bloco = {
-      id: 'teste-bloco',
+    var bloco: ICreteBlocoDTO = {
       nome: 'teste-bloco',
       laboratorios: []
     };

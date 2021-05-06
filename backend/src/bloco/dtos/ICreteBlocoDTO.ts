@@ -1,13 +1,9 @@
+interface ILaboratorio {
+  nome: string,
+  numero: number
+};
+
 export default interface ICreteBlocoDTO {
-  blocos: [
-    {
-      nome: string,
-      laboratorios: [
-        {
-          nome: string,
-          numero: number
-        }
-      ]
-    }
-  ]
+  nome: string,
+  laboratorios: ILaboratorio[]
 };

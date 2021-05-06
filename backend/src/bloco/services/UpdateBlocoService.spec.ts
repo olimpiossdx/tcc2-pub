@@ -1,4 +1,6 @@
+import { uuid } from 'uuidv4';
 import AppError from '../../shared/erros';
+import ICreteBlocoDTO from '../dtos/ICreteBlocoDTO';
 import Bloco from '../infra/firebase/entities/Bloco';
 import FakeBlocoRepository from '../repositories/fakes/FakeBlocoRepository';
 import CreateBlocoService from './CreateBlocoService';
@@ -16,27 +18,28 @@ describe('Atualizar bloco', () => {
   });
 
   it('Bloco atualizado com sucesso.', async () => {
-    var bloco: Bloco = {
-      id: 'teste-bloco',
+    var bloco: ICreteBlocoDTO = {
       nome: 'teste-bloco',
-      laboratorios: [
-        {
-          id: 'teste-laboratorio',
-          nome: 'teste-laboratorio',
-          numero: 1
-        }
-      ]
+      laboratorios: [{
+        nome: 'teste-laboratorio',
+        numero: 1
+      }]
     };
 
     await createBlocoService.ExecuteAsync(bloco);
+    const blocoCriado = await fakeBlocoRepository.FindByNomeAsync(bloco.nome) as Bloco;
 
-    bloco.nome = 'atualizando-nome';
+    blocoCriado.nome = 'atualizando-nome';
 
-    bloco.laboratorios.push({ id: 'teste2-laboratorio', nome: 'teste2-laboratorio', numero: 101 });
+    blocoCriado.laboratorios.push({ id: 'teste', nome: 'teste2-laboratorio', numero: 101 });
 
-    await updateBlocoService.execute(bloco);
+    await updateBlocoService.execute({
+      id: blocoCriado.id,
+      nome: blocoCriado.nome,
+      laboratorios: blocoCriado.laboratorios
+    });
 
-    expect(await fakeBlocoRepository.FindAsync(bloco.id)).toMatchObject(bloco);
+    expect(await fakeBlocoRepository.FindByIdAsync(blocoCriado.id)).toMatchObject(bloco);
   });
 
   it('Não é possível atualizar laboratório sem bloco', async () => {

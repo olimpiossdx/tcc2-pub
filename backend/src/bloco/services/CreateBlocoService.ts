@@ -1,9 +1,10 @@
 import 'reflect-metadata';
 import { inject, injectable } from 'tsyringe';
 import AppError from '../../shared/erros';
+import ICreteBlocoDTO from '../dtos/ICreteBlocoDTO';
 import Bloco from '../infra/firebase/entities/Bloco';
 import IBlocoRepository from '../repositories/IBlocoRepository';
-
+import { uuid } from 'uuidv4';
 
 @injectable()
 class CreateBlocoService {
@@ -11,8 +12,8 @@ class CreateBlocoService {
     @inject('BlocoRepository')
     private blocoRepository: IBlocoRepository) { };
 
-  public async ExecuteAsync({ id, nome, laboratorios }: Bloco): Promise<void> {
-    const bloco = await this.blocoRepository.FindAsync(id);
+  public async ExecuteAsync({ nome, laboratorios }: ICreteBlocoDTO): Promise<void> {
+    const bloco = await this.blocoRepository.FindByNomeAsync(nome);
 
     if (bloco) {
       throw new AppError('Bloco já cadastrado.');
@@ -20,9 +21,12 @@ class CreateBlocoService {
 
     if (!laboratorios.length) {
       throw new AppError('Bloco deve conter ao menos um laboratório.');
-    }
+    };
 
-    await this.blocoRepository.CreateAsync({ id, nome, laboratorios });
+    const novoLaboratorios = laboratorios.map(laboratorio => ({ id: uuid(), nome: laboratorio.nome, numero: laboratorio.numero }));
+    const novoBLoco = { id: uuid(), nome, laboratorios: novoLaboratorios } as Bloco;
+
+    await this.blocoRepository.CreateAsync(novoBLoco);
   };
 };
 

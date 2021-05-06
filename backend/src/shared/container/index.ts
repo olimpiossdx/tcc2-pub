@@ -1,4 +1,3 @@
-// Todo: Adicionar importão de repostory e instalar lib
 import { container } from 'tsyringe';
 
 import UsuariosRepository from '../../usuarios/infra/firebase/repositories/UsuariosRepository';

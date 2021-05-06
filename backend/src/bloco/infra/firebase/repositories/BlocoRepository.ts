@@ -14,36 +14,47 @@ class BlocosRepository implements IBlocoRepository {
     this.blocosRepository = firebaseDatabase.ref('blocos');
   };
 
-  public async GetAsync(id: string): Promise<Bloco[]> {
-    // TODO: ajustar retorno para lista
+  public async GetAsync(): Promise<Bloco[]> {
     const response = await this.blocosRepository.orderByChild('id').get();
-    let bloco: Bloco | undefined = new Bloco();
+    const blocos = new Array<Bloco>();
 
     if (response.exists()) {
       const blocoJson = response.toJSON() as objecToArray;
 
       const hashkey = Object.keys(blocoJson)[0];
-      Object.assign(bloco, blocoJson[hashkey]);
-
-    } else {
-      bloco = undefined;
+      Object.assign(blocos, blocoJson[hashkey]);
     };
 
-    return new Array<Bloco>();
+    return blocos;
   };
 
-  public async FindAsync(id: string): Promise<Bloco | undefined> {
-    const response = await this.blocosRepository.orderByChild('id').equalTo(id).get();
-    let bloco: Bloco | undefined = new Bloco();
+  public async FindByNomeAsync(nome: string): Promise<Bloco | undefined> {
+    const response = await this.blocosRepository.orderByChild('nome').equalTo(nome).get();
+    let bloco: Bloco | undefined = undefined;
 
     if (response.exists()) {
+      bloco = new Bloco();
+      const blocoJson = response.toJSON() as objecToArray;
+
+      const hashkey = Object.keys(blocoJson)[0];
+      Object.assign(bloco, blocoJson[hashkey]);
+    };
+
+    return bloco;
+  };
+
+
+  public async FindByIdAsync(id: string): Promise<Bloco | undefined> {
+    const response = await this.blocosRepository.orderByChild('id').equalTo(id).get();
+    let bloco: Bloco | undefined = undefined;;
+
+    if (response.exists()) {
+      bloco = new Bloco();
       const blocoJson = response.toJSON() as objecToArray;
 
       const hashkey = Object.keys(blocoJson)[0];
       Object.assign(bloco, blocoJson[hashkey]);
 
-    } else {
-      bloco = undefined;
     };
 
     return bloco;
