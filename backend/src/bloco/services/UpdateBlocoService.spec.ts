@@ -39,7 +39,7 @@ describe('Atualizar bloco', () => {
       laboratorios: blocoCriado.laboratorios
     });
 
-    expect(await fakeBlocoRepository.FindByIdAsync(blocoCriado.id)).toMatchObject(bloco);
+    expect(await fakeBlocoRepository.FindByIdAsync(blocoCriado.id)).toMatchObject(blocoCriado);
   });
 
   it('Não é possível atualizar laboratório sem bloco', async () => {
