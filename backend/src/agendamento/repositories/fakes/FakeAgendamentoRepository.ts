@@ -1,28 +1,27 @@
-import ICreteBlocoDTO from '../../dtos/ICreteAgendamentoDTO';
-import Bloco from '../../infra/firebase/entities/Agendamento';
-import IBlocoRepository from '../IAgendmanetoRepository';
+import ICreteAgendamentoDTO from '../../dtos/ICreteAgendamentoDTO';
+import Agendamento from '../../infra/firebase/entities/Agendamento';
+import IAgendamentoRepository from '../IAgendmanetoRepository';
 
-//TODO: alterar paras regras de AGENDAMENTO
-class FakeBlocoRepository implements IBlocoRepository {
-  private blocos: Bloco[] = [];
+class FakeAgendamentoRepository implements IAgendamentoRepository {
+  private agendamentos: Agendamento[] = [];
 
-  public async GetAsync(): Promise<Bloco[]> {
-    return this.blocos;
+  public async GetAsync(): Promise<Agendamento[]> {
+    return this.agendamentos;
   }
 
-  public async FindAsync(id: string): Promise<Bloco | undefined> {
-    const bloco = this.blocos.find(bloco => bloco.id === id);
-    return bloco;
-  }
+  public async FindAsync(id: string): Promise<Agendamento | undefined> {
+    return this.agendamentos.find(bloco => bloco.id === id);
+  };
 
-  public async CreateAsync(data: Bloco): Promise<void> {
-    this.blocos.push(data);
-  }
+  public async CreateAsync(data: Agendamento): Promise<Agendamento> {
+    this.agendamentos.push(data);
+    return data;
+  };
 
-  public async UpdateBlocoAsync(bloco: Bloco): Promise<void> {
-    const blocoIndex = this.blocos.findIndex(item => item.id === bloco.id);
-    this.blocos[blocoIndex] = bloco;
-  }
+  public async UpdateAgendamentoAsync(agendamento: Agendamento): Promise<void> {
+    const agendamentoIndex = this.agendamentos.findIndex(item => item.id === agendamento.id);
+    this.agendamentos[agendamentoIndex] = agendamento;
+  };
 };
 
-export default FakeBlocoRepository;
+export default FakeAgendamentoRepository;

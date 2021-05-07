@@ -1,14 +1,8 @@
+import { Laboratorio, Bloco } from "../infra/firebase/entities/Agendamento";
+
 export default interface ICreteAgendamentoDTO {
-  bloco: {
-    id: string,
-    nome: string
-    numero: number;
-  },
-  laboratorio: {
-    id:string;
-    nome: string;
-    numero: string,
-  },
+  bloco: Bloco,
+  laboratorio: Laboratorio,
   data: string,
   horarioInicio: string,
   horarioFim: string,

@@ -1,13 +1,12 @@
-class Bloco {
+export class Bloco {
   id: string;
   nome: string;
-  numero: string;
 };
 
-class Laboratorio {
+export class Laboratorio {
   id: string;
   nome: string;
-  numero: string;
+  numero: number;
 };
 
 class Agendamento {
