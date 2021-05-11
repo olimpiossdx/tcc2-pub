@@ -23,9 +23,10 @@ class FakeAgendamentoRepository implements IAgendamentoRepository {
     return data;
   };
 
-  public async UpdateAgendamentoAsync(agendamento: Agendamento): Promise<void> {
+  public async UpdateAgendamentoAsync(agendamento: Agendamento): Promise<Agendamento> {
     const agendamentoIndex = this.agendamentos.findIndex(item => item.id === agendamento.id);
     this.agendamentos[agendamentoIndex] = agendamento;
+    return agendamento;
   };
 };
 
