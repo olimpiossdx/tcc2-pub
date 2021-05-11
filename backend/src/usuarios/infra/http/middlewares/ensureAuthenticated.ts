@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import firebase, { FirebaseError } from 'firebase-admin';
-import { admin } from '../../../../config/firebase.config';
+import { firebaseAdminInstance } from '../../../../config/firebase.config';
 import AppError from '../../../../shared/erros';
 
 export default async function ensureAuthenticatedAsync(request: Request, response: Response, next: NextFunction): Promise<void> {
@@ -12,7 +12,7 @@ export default async function ensureAuthenticatedAsync(request: Request, respons
 
   const [, token] = authHeader.split(' ');
   try {
-    const decodeToken = await admin.auth().verifyIdToken(token) as firebase.auth.DecodedIdToken;
+    const decodeToken = await firebaseAdminInstance.auth().verifyIdToken(token) as firebase.auth.DecodedIdToken;
     request.usuario = { email: decodeToken?.email as string };
     return next();
   } catch (error) {

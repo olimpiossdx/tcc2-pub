@@ -11,9 +11,9 @@ export class Laboratorio {
 
 class Agendamento {
   id: string;
-  horarioInicio: string;
-  horarioFim: string;
-  data: string;
+  horarioInicio: number;
+  horarioFim: number;
+  data: number;
   
   bloco: Bloco;
   laboratorio: Laboratorio;

@@ -1,10 +1,10 @@
+import { differenceInMinutes } from 'date-fns';
 import 'reflect-metadata';
 import { inject, injectable } from 'tsyringe';
 import { uuid } from 'uuidv4';
 import AppError from '../../shared/erros';
 import ICreteAgendamentoDTO from '../dtos/ICreteAgendamentoDTO';
 import Agendamento from '../infra/firebase/entities/Agendamento';
-import Bloco from '../infra/firebase/entities/Agendamento';
 import IBlocoRepository from '../repositories/IAgendmanetoRepository';
 
 
@@ -15,14 +15,19 @@ class CreateAgendamentoService {
     private agendamentoRepository: IBlocoRepository) { };
 
   public async ExecuteAsync({ bloco, laboratorio, data, horarioInicio, horarioFim }: ICreteAgendamentoDTO): Promise<Agendamento> {
-    // TODO: alterar regra para agendamento
-    const agendamento = await this.agendamentoRepository.GetAsync();
+    // TODO: alterar para parâmetro de período mínimo de agendamento
+    const agendamento = await this.agendamentoRepository.FindSpecificAsync(new Date(data), bloco.id, laboratorio.id, new Date(horarioInicio), new Date(horarioFim));
+    const periodoMinimoAgendamento = 30;
 
-    if (!agendamento) {
-      throw new AppError("Não possível");
-    }
+    if (agendamento) {
+      throw new AppError(`Não possível agendar, existe um agendamento em ${agendamento.data} no período ${agendamento.horarioInicio} - ${agendamento.horarioFim}.`);
+    };
 
-    return await this.agendamentoRepository.CreateAsync({ id: uuid(), bloco, laboratorio, data, horarioFim, horarioInicio });
+    if (differenceInMinutes(horarioFim, horarioInicio) < periodoMinimoAgendamento) {
+      throw new AppError(`O período mínimo para agendamento é ${periodoMinimoAgendamento} minutos.`);
+    };
+
+    return await this.agendamentoRepository.CreateAsync({ id: uuid(), bloco, laboratorio, data: data, horarioInicio: horarioInicio, horarioFim: horarioFim });
   };
 };
 
