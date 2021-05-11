@@ -16,8 +16,9 @@ class FakeBlocoRepository implements IBlocoRepository {
     return this.blocos.find(bloco => bloco.id === id);
   };
 
-  public async CreateAsync(data: Bloco): Promise<void> {
+  public async CreateAsync(data: Bloco): Promise<Bloco> {
     this.blocos.push(data);
+    return data;
   };
 
   public async UpdateBlocoAsync(bloco: Bloco): Promise<void> {

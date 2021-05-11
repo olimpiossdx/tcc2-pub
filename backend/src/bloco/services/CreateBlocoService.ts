@@ -12,7 +12,7 @@ class CreateBlocoService {
     @inject('BlocoRepository')
     private blocoRepository: IBlocoRepository) { };
 
-  public async ExecuteAsync({ nome, laboratorios }: ICreteBlocoDTO): Promise<void> {
+  public async ExecuteAsync({ nome, laboratorios }: ICreteBlocoDTO): Promise<Bloco> {
     const bloco = await this.blocoRepository.FindByNomeAsync(nome);
 
     if (bloco) {
@@ -26,7 +26,7 @@ class CreateBlocoService {
     const novoLaboratorios = laboratorios.map(laboratorio => ({ id: uuid(), nome: laboratorio.nome, numero: laboratorio.numero }));
     const novoBLoco = { id: uuid(), nome, laboratorios: novoLaboratorios } as Bloco;
 
-    await this.blocoRepository.CreateAsync(novoBLoco);
+    return await this.blocoRepository.CreateAsync(novoBLoco);
   };
 };
 

@@ -78,8 +78,6 @@ describe('Criar agendamento', () => {
       horarioFim: new Date(2021, 6, 2, 12, 22, 0).getTime(),
     };
 
-    await createAgendamentoService.ExecuteAsync(agendamento);
-
     await expect(createAgendamentoService.ExecuteAsync(agendamento)).rejects.toBeInstanceOf(AppError);
   });
 });

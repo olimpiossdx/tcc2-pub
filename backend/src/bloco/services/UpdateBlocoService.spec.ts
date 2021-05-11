@@ -1,4 +1,3 @@
-import { uuid } from 'uuidv4';
 import AppError from '../../shared/erros';
 import ICreteBlocoDTO from '../dtos/ICreteBlocoDTO';
 import Bloco from '../infra/firebase/entities/Bloco';
@@ -18,7 +17,7 @@ describe('Atualizar bloco', () => {
   });
 
   it('Bloco atualizado com sucesso.', async () => {
-    var bloco: ICreteBlocoDTO = {
+    let bloco: ICreteBlocoDTO = {
       nome: 'teste-bloco',
       laboratorios: [{
         nome: 'teste-laboratorio',
@@ -26,24 +25,19 @@ describe('Atualizar bloco', () => {
       }]
     };
 
-    await createBlocoService.ExecuteAsync(bloco);
-    const blocoCriado = await fakeBlocoRepository.FindByNomeAsync(bloco.nome) as Bloco;
+    const blocoCriado = await createBlocoService.ExecuteAsync(bloco);
 
     blocoCriado.nome = 'atualizando-nome';
 
     blocoCriado.laboratorios.push({ id: 'teste', nome: 'teste2-laboratorio', numero: 101 });
 
-    await updateBlocoService.execute({
-      id: blocoCriado.id,
-      nome: blocoCriado.nome,
-      laboratorios: blocoCriado.laboratorios
-    });
+    await updateBlocoService.execute(blocoCriado);
 
     expect(await fakeBlocoRepository.FindByIdAsync(blocoCriado.id)).toMatchObject(blocoCriado);
   });
 
   it('Não é possível atualizar laboratório sem bloco', async () => {
-    var bloco: Bloco = {
+    const bloco: Bloco = {
       id: 'teste-bloco1',
       nome: 'teste-bloco',
       laboratorios: [
@@ -61,13 +55,18 @@ describe('Atualizar bloco', () => {
   });
 
   it('Não é possível atualizar bloco ao menos um laboratório', async () => {
-    var bloco: Bloco = {
+    let bloco: Bloco = {
       id: 'teste-bloco1',
       nome: 'teste-bloco',
-      laboratorios: []
+      laboratorios: [{ id: 'teste', nome: 'teste', numero: 100 }]
     };
 
-    bloco.laboratorios.push({ id: 'teste2-laboratorio', nome: 'teste2-laboratorio', numero: 101 });
+    bloco = await createBlocoService.ExecuteAsync(bloco);
+
+    bloco = {
+      ...bloco,
+      laboratorios: []
+    };
 
     await expect(updateBlocoService.execute(bloco)).rejects.toBeInstanceOf(AppError);
   });

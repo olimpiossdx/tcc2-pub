@@ -4,6 +4,6 @@ export default interface IBLocoRepository {
   GetAsync(): Promise<Bloco[]>;
   FindByIdAsync(id: string): Promise<Bloco | undefined>;
   FindByNomeAsync(nome: string): Promise<Bloco | undefined>;
-  CreateAsync(data: Bloco): Promise<void>;
+  CreateAsync(data: Bloco): Promise<Bloco>;
   UpdateBlocoAsync(bloco: Bloco): Promise<void>;
 };

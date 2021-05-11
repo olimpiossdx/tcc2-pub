@@ -14,9 +14,9 @@ class UpdateBlocoService {
     private blocoRepository: IBlocoRepository) { };
 
   public async execute({ id, bloco, laboratorio, data, horarioInicio, horarioFim }: Agendamento): Promise<void> {
-    const agendamento = await this.blocoRepository.FindAsync(id);
+    // const agendamento = await this.blocoRepository.FindAsync(id);
 
-    await this.blocoRepository.UpdateBlocoAsync({ id, nome, laboratorios });
+    // await this.blocoRepository.UpdateBlocoAsync({ id, nome, laboratorios });
   };
 };
 

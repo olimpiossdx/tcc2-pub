@@ -19,12 +19,12 @@ class UpdateBlocoService {
       throw new AppError('Bloco não cadastrado.');
     };
 
-    if (!bloco.laboratorios.length) {
+    if (!laboratorios.length) {
       throw new AppError('Não é possível atualizar bloco sem ao menos ter um laboratório.');
     };
 
     const updateBloco = {
-      id: uuid(),
+      id: id,
       nome,
       laboratorios: laboratorios
     } as Bloco;
