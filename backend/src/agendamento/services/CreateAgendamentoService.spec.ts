@@ -15,7 +15,7 @@ describe('Criar agendamento', () => {
   });
 
   it('Agendamento criado com sucesso.', async () => {
-    var agendamento: ICreteAgendamentoDTO = {
+    const agendamento: ICreteAgendamentoDTO = {
       bloco: {
         id: 'teste-criar-agendamento-bloco',
         nome: 'teste-criar-agendamento-bloco-nome'
@@ -61,7 +61,7 @@ describe('Criar agendamento', () => {
 
 
   it('Não é possível criar o mesmo menor que período mínimo.', async () => {
-    var agendamento: ICreteAgendamentoDTO = {
+    const agendamento: ICreteAgendamentoDTO = {
       bloco: {
         id: 'teste-criar-agendamento-bloco',
         nome: 'teste-criar-agendamento-bloco-nome'
