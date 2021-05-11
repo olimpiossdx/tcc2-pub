@@ -35,7 +35,7 @@ describe('Atualizar agendamento', () => {
     
     const novoAgendamento = await createAgendamentoService.ExecuteAsync(agendamento);
     novoAgendamento.horarioFim =new Date(2021, 6, 2, 12, 51, 0).getTime();  
-    await expect(updateAgendamentoService.execute(novoAgendamento)).toMatchObject(agendamento);
+    await expect(updateAgendamentoService.ExecuteAsync(novoAgendamento)).toMatchObject(agendamento);
   });
   
   it('Bloco atualizado com sucesso.', async () => {
@@ -57,7 +57,6 @@ describe('Atualizar agendamento', () => {
     };
     
     const novoAgendamento = await createAgendamentoService.ExecuteAsync(agendamento);
-    novoAgendamento.horarioFim =new Date(2021, 6, 2, 12, 51, 0).getTime();  
-    expect(await fakeAgendamentoRepository.FindAsync(novoAgendamento.id)).toMatchObject(agendamento);
+    await expect(updateAgendamentoService.ExecuteAsync(novoAgendamento)).rejects.toBeInstanceOf(AppError);
   });
 });
