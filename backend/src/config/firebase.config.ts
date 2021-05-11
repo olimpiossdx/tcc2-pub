@@ -6,6 +6,6 @@ firebaseAdmin.initializeApp({
   databaseURL: process.env.APP_DATABASE_URL
 });
 
-export const admin = firebaseAdmin;
+export const firebaseAdminInstance = firebaseAdmin;
 export const firebaseDatabase = firebaseAdmin.database();
 
