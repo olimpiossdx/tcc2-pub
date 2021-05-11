@@ -12,7 +12,7 @@ class UpdateAgendamentoService {
     @inject('AgendamentoRepository')
     private agendamentoRepository: IAgendamentoRepository) { };
 
-  public async execute({ id, bloco, laboratorio, data, horarioInicio, horarioFim }: Agendamento): Promise<Agendamento> {
+  public async ExecuteAsync({ id, bloco, laboratorio, data, horarioInicio, horarioFim }: Agendamento): Promise<Agendamento> {
     const agendamento = await this.agendamentoRepository.FindSpecificAsync(data, bloco.id, laboratorio.Id, horarioInicio, horarioFim);
     
     if(agendamento){
