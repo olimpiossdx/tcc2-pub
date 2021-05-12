@@ -5,7 +5,7 @@ No trabalho de conclusão de curso, foi proposto um sistema de agendamentos para
 <img alt='GitHub language count' src='./backend/.github/diagrama_sistema.png'>
 
 ## Configurando esses aplicativos de exemplo: 
-```bash
+```tsx
 var firebaseConfig = {
   apiKey: "API_KEY",
   authDomain: "PROJECT_ID.firebaseapp.com",
