@@ -1,4 +1,6 @@
 # Trabalho de conclusão de curso, atualizado.
+No trabalho de conclusão de curso, foi proposto um sistema de agendamentos para laboratórios na Universidade Federal Do Ouro Preto, integrado com um arduino e sensor RFID. Nesse sistema é possível criar agendamentos para laboratórios, com isso obter acesso aos laboratórios de acordo com data e período marcado previamente, sendo o acesso ao laboratório feito pelo cartão ou tag.
+
 Refatoração do modelo apresentado no trabalho de conclusão de curso.
 
 ## Diagrama do sistema proposto.
