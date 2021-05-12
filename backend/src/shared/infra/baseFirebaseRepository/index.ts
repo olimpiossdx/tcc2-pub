@@ -30,14 +30,16 @@ class BaseFirebaseRepository implements IBaseFirebaseRepository {
 
   public async GetByIdAsync<T>(id: string, orderBy: string = 'id'): Promise<T | undefined> {
     const response = await this.contextDatabaseRef.orderByChild(orderBy).get();
-    let modelT: T | undefined = undefined;
 
-    if (response.exists()) {
-      const modelTJson = response.toJSON() as objecToArray;
-
-      const hashkey = Object.keys(modelTJson)[0];
-      Object.assign(modelT, modelTJson[hashkey]);
+    if (!response.exists()) {
+      return undefined;
     }
+
+    let modelT: T = {} as T;
+    const modelTJson = response.toJSON() as objecToArray;
+    
+    const hashkey = Object.keys(modelTJson)[0];
+    Object.assign(modelT, modelTJson[hashkey]);
 
     return modelT;
   };
