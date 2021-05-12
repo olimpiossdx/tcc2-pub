@@ -6,7 +6,6 @@ export interface objecToArray {
   [key: string]: any;
 };
 
-
 class BaseFirebaseRepository implements IBaseFirebaseRepository {
   protected contextDatabaseRef: database.Reference;
 
@@ -18,22 +17,23 @@ class BaseFirebaseRepository implements IBaseFirebaseRepository {
     const response = await this.contextDatabaseRef.orderByChild(orderBy).get();
     let modelTs = new Array<T>();
 
-    if (response.exists()) {
-      const modelTsJson = response.toJSON() as objecToArray;
+    if (!response.exists()) {
+      return modelTs;
+    };
 
-      const hashkey = Object.keys(modelTsJson)[0];
-      Object.assign(modelTs, modelTsJson[hashkey]);
-    }
-
+    const modelTsJson = response.toJSON() as objecToArray;
+    const hashkey = Object.keys(modelTsJson)[0];
+    Object.assign(modelTs, modelTsJson[hashkey]);
+    
     return modelTs;
   };
 
   public async GetByIdAsync<T>(id: string, orderBy: string = 'id'): Promise<T | undefined> {
-    const response = await this.contextDatabaseRef.orderByChild(orderBy).get();
+    const response = await this.contextDatabaseRef.orderByChild(orderBy).equalTo(id).get();
 
     if (!response.exists()) {
       return undefined;
-    }
+    };
 
     let modelT: T = {} as T;
     const modelTJson = response.toJSON() as objecToArray;
