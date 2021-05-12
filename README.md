@@ -6,7 +6,8 @@ Refatoração do modelo apresentado no trabalho de conclusão de curso.
 
 ## Configurando esses aplicativos de exemplo: 
 ```bash
-apiKey: "API_KEY",
+var firebaseConfig = {
+  apiKey: "API_KEY",
   authDomain: "PROJECT_ID.firebaseapp.com",
   databaseURL: "https://PROJECT_ID.firebaseio.com",
   projectId: "PROJECT_ID",
@@ -14,6 +15,7 @@ apiKey: "API_KEY",
   messagingSenderId: "SENDER_ID",
   appId: "APP_ID",
   measurementId: "G-MEASUREMENT_ID",
+};
 ```
 [Link](https://firebase.google.com/docs/web/setup#default-hosting-site) oficial do firebase contendo os passos a serem seguidos para configura seu projeto.
 
