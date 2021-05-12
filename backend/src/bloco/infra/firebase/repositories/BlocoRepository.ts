@@ -64,8 +64,9 @@ class BlocosRepository implements IBlocoRepository {
     await this.blocosRepository.child(bloco.id).update(bloco);
   };
 
-  public async CreateAsync(data: Bloco): Promise<void> {
+  public async CreateAsync(data: Bloco): Promise<Bloco> {
     await this.blocosRepository.child(data.id).update(data);
+    return data;
   };
 };
 
