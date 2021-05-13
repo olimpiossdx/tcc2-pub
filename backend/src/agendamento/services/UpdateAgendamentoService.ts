@@ -13,14 +13,14 @@ class UpdateAgendamentoService {
     private agendamentoRepository: IAgendamentoRepository) { };
 
   public async ExecuteAsync({ id, bloco, laboratorio, data, horarioInicio, horarioFim }: Agendamento): Promise<Agendamento> {
-    const agendamento = await this.agendamentoRepository.FindSpecificAsync(data, bloco.id, laboratorio.Id, horarioInicio, horarioFim);
-    
-    if(agendamento){
-      new throw AppError("Não é possível ataualizar, já existe um agendamento.");
+    const agendamento = await this.agendamentoRepository.FindSpecificAsync(data, bloco.id, laboratorio.id, horarioInicio, horarioFim);
+
+    if (agendamento) {
+      throw new AppError("Não é possível ataualizar, já existe um agendamento.");
     };
-    
-    return await this.blocoRepository.UpdateAgendamentoAsync({ id, bloco, laboratorio, data, horarioInicio, horarioFim });
+
+    return await this.agendamentoRepository.CreateOrUpdateAsync({ id, bloco, laboratorio, data, horarioInicio, horarioFim });
   };
 };
 
-export default UpdateBlocoService;
+export default UpdateAgendamentoService;

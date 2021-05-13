@@ -1,9 +1,8 @@
+import IBaseRepository from '../../shared/service/IBaseRepository';
 import Agendamento from '../infra/firebase/entities/Agendamento';
 
-export default interface IAgendamentoRepository {
-  GetAsync(): Promise<Agendamento[]>;
-  FindAsync(id: string): Promise<Agendamento | undefined>;
-  FindSpecificAsync(data: Date, blocoId: string, laboratorioId: string, horarioInicio: Date, horarioFim: Date): Promise<Agendamento | undefined>;
-  CreateAsync(data: Agendamento): Promise<Agendamento>;
-  UpdateAgendamentoAsync(agendamento: Agendamento): Promise<Agendamento>;
+interface IAgendamentoRepository extends IBaseRepository {
+  FindSpecificAsync(data: number, blocoId: string, laboratorioId: string, horarioInicio: number, horarioFim: number): Promise<Agendamento | undefined>;
 };
+
+export default IAgendamentoRepository;

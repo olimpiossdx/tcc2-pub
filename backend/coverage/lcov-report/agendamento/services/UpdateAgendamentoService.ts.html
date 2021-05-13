@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">82.61% </span>
+                <span class="strong">92.31% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>19/23</span>
+                <span class='fraction'>24/26</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">66.67% </span>
+                <span class="quiet">Branches</span>
+                <span class='fraction'>4/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
-                <span class="quiet">Branches</span>
+                <span class="quiet">Functions</span>
                 <span class='fraction'>2/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
-                <span class="quiet">Functions</span>
-                <span class='fraction'>1/2</span>
-            </div>
-        
-            
-            <div class='fl pad1y space-right2'>
-                <span class="strong">82.61% </span>
+                <span class="strong">92.31% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>19/23</span>
+                <span class='fraction'>24/26</span>
             </div>
         
             
@@ -79,7 +79,11 @@
 <a name='L20'></a><a href='#L20'>20</a>
 <a name='L21'></a><a href='#L21'>21</a>
 <a name='L22'></a><a href='#L22'>22</a>
-<a name='L23'></a><a href='#L23'>23</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L23'></a><a href='#L23'>23</a>
+<a name='L24'></a><a href='#L24'>24</a>
+<a name='L25'></a><a href='#L25'>25</a>
+<a name='L26'></a><a href='#L26'>26</a>
+<a name='L27'></a><a href='#L27'>27</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -90,47 +94,55 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span></td><td class="text"><pre class="prettyprint lang-js">import 'reflect-metadata';
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import 'reflect-metadata';
 import { inject, injectable } from 'tsyringe';
 import AppError from '../../shared/erros';
 import Agendamento from '../infra/firebase/entities/Agendamento';
-import Bloco from '../infra/firebase/entities/Agendamento';
-import IBlocoRepository from '../repositories/IAgendmanetoRepository';
+import IAgendamentoRepository from '../repositories/IAgendmanetoRepository';
 &nbsp;
 &nbsp;
 &nbsp;
 @injectable()
-class UpdateBlocoService {
+class UpdateAgendamentoService {
   constructor(
-    @inject('BlocoRepository')
-    private blocoRepository: IBlocoRepository) { };
+    @inject('AgendamentoRepository')
+    private agendamentoRepository: IAgendamentoRepository) { };
 &nbsp;
-<span class="fstat-no" title="function not covered" >  public async execute({ id, bloco, laboratorio, data, horarioInicio, horarioFim }: Agendamento): Promise&lt;void&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    // const agendamento = await this.blocoRepository.FindAsync(id);</span>
+  public async ExecuteAsync({ id, bloco, laboratorio, data, horarioInicio, horarioFim }: Agendamento): Promise&lt;Agendamento&gt; {
+    const agendamento = await this.agendamentoRepository.FindSpecificAsync(data, bloco.id, laboratorio.id, horarioInicio, horarioFim);
+&nbsp;
+    if (agendamento) {
+      throw new AppError("Não é possível ataualizar, já existe um agendamento.");
+    }<span class="branch-0 cbranch-no" title="branch not covered" >;</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >    // await this.blocoRepository.UpdateBlocoAsync({ id, nome, laboratorios });</span>
-<span class="cstat-no" title="statement not covered" >  };</span>
+<span class="cstat-no" title="statement not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >    return await this.agendamentoRepository.CreateOrUpdateAsync({ id, bloco, laboratorio, data, horarioInicio, horarioFim });</span></span>
+  };
 };
 &nbsp;
-export default UpdateBlocoService;</pre></td></tr></table></pre>
+export default UpdateAgendamentoService;
+&nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Mon May 10 2021 23:14:52 GMT-0300 (Horário Padrão de Brasília)
+                at Wed May 12 2021 22:15:23 GMT-0300 (Horário Padrão de Brasília)
             </div>
         </div>
         <script src="../../prettify.js"></script>

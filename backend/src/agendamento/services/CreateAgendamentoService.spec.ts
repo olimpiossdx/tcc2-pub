@@ -33,7 +33,7 @@ describe('Criar agendamento', () => {
     };
 
     const novoAgendamento = await createAgendamentoService.ExecuteAsync(agendamento);
-    expect(await fakeAgendamentoRepository.FindAsync(novoAgendamento.id)).toMatchObject(agendamento);
+    expect(await fakeAgendamentoRepository.GetByIdAsync<Agendamento>(novoAgendamento.id)).toMatchObject(agendamento);
   });
 
   it('Não é possível criar o mesmo agendamento mais de uma vez.', async () => {

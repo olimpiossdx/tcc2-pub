@@ -48,14 +48,15 @@ class BlocosRepository implements IBlocoRepository {
     const response = await this.blocosRepository.orderByChild('id').equalTo(id).get();
     let bloco: Bloco | undefined = undefined;;
 
-    if (response.exists()) {
-      bloco = new Bloco();
-      const blocoJson = response.toJSON() as objecToArray;
-
-      const hashkey = Object.keys(blocoJson)[0];
-      Object.assign(bloco, blocoJson[hashkey]);
-
+    if (!response.exists()) {
+      return bloco;
     };
+
+    bloco = new Bloco();
+    const blocoJson = response.toJSON() as objecToArray;
+
+    const hashkey = Object.keys(blocoJson)[0];
+    Object.assign(bloco, blocoJson[hashkey]);
 
     return bloco;
   };
