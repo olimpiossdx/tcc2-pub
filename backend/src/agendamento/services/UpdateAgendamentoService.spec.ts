@@ -1,6 +1,7 @@
 import { isEqual } from 'date-fns';
 import AppError from '../../shared/erros';
 import ICreteAgendamentoDTO from '../dtos/ICreteAgendamentoDTO';
+import Agendamento from '../infra/firebase/entities/Agendamento';
 import FakeBlocoRepository from '../repositories/fakes/FakeAgendamentoRepository';
 import CreateAgendamentoService from './CreateAgendamentoService';
 import UpdateAgendamentoService from './UpdateAgendamentoService';
@@ -17,7 +18,7 @@ describe('Atualizar agendamento', () => {
   });
 
   it('Agendamento atualizado com sucesso.', async () => {
-    let agendamento: ICreteAgendamentoDTO = {
+    const agendamento: ICreteAgendamentoDTO = {
       bloco: {
         id: 'teste-criar-agendamento-bloco',
         nome: 'teste-criar-agendamento-bloco-nome'
@@ -36,14 +37,13 @@ describe('Atualizar agendamento', () => {
 
     const novoAgendamento = await createAgendamentoService.ExecuteAsync(agendamento);
 
-    console.log('novoAgendamento', novoAgendamento)
+    const agendamentoUpdate = {
+      ...novoAgendamento,
+      horarioFim: new Date(2021, 6, 3, 12, 51, 0).getTime()
+    } as Agendamento;
 
-    novoAgendamento.horarioFim = new Date(2021, 6, 3, 12, 51, 0).getTime();
 
-    console.log('novoAgendamentoUPDATE', novoAgendamento)
-
-
-    expect(await updateAgendamentoService.ExecuteAsync(novoAgendamento)).toHaveProperty('horarioFim', new Date(2021, 6, 3, 12, 51, 0).getTime());
+    expect(await updateAgendamentoService.ExecuteAsync(agendamentoUpdate)).toHaveProperty('horarioFim', new Date(2021, 6, 3, 12, 51, 0).getTime());
   });
 
   it('Agendamento não atualizado.', async () => {
@@ -59,9 +59,9 @@ describe('Atualizar agendamento', () => {
         numero: 103
       },
 
-      data: new Date(2021, 6, 2, 12, 20, 0).getTime(),
-      horarioInicio: new Date(2021, 6, 2, 12, 20, 0).getTime(),
-      horarioFim: new Date(2021, 6, 2, 12, 50, 0).getTime()
+      data: new Date(2021, 6, 5, 12, 20, 0).getTime(),
+      horarioInicio: new Date(2021, 6, 5, 12, 20, 0).getTime(),
+      horarioFim: new Date(2021, 6, 5, 12, 50, 0).getTime()
     };
 
     const novoAgendamento = await createAgendamentoService.ExecuteAsync(agendamento);

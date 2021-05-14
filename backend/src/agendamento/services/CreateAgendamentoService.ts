@@ -1,5 +1,5 @@
-import { differenceInMinutes } from 'date-fns';
 import 'reflect-metadata';
+import { differenceInMinutes } from 'date-fns';
 import { inject, injectable } from 'tsyringe';
 import { uuid } from 'uuidv4';
 import AppError from '../../shared/erros';
@@ -16,7 +16,7 @@ class CreateAgendamentoService {
 
   public async ExecuteAsync({ bloco, laboratorio, data, horarioInicio, horarioFim }: ICreteAgendamentoDTO): Promise<Agendamento> {
     // TODO: alterar para parâmetro de período mínimo de agendamento
-    const agendamento = await this.agendamentoRepository.FindSpecificAsync(new Date(data), bloco.id, laboratorio.id, new Date(horarioInicio), new Date(horarioFim));
+    const agendamento = await this.agendamentoRepository.FindSpecificAsync(data, bloco.id, laboratorio.id, horarioInicio, horarioFim);
     const periodoMinimoAgendamento = 30;
 
     if (agendamento) {
