@@ -1,5 +1,5 @@
 # Trabalho de conclusão de curso.
-No trabalho de conclusão de curso, foi proposto um sistema de agendamentos para laboratórios na Universidade Federal Do Ouro Preto, integrado com um arduino e sensor RFID. Nesse sistema é possível criar agendamentos para laboratórios, com isso obter acesso aos laboratórios de acordo com data e período marcado previamente, sendo o acesso ao laboratório feito pelo cartão ou tag.
+No trabalho de conclusão de curso, foi proposto um sistema de agendamentos para laboratórios na Universidade Federal Do Ouro Preto, integrado com um arduino e sensor RFID. Nesse sistema é possível criar agendamentos para laboratórios, com isso obter acesso aos laboratórios de acordo com data e período marcado previamente, sendo o acesso ao laboratório feito pelo cartão ou tag rfid.
 
 ## Diagrama do sistema proposto.
 <img alt='GitHub language count' src='./backend/.github/diagrama_sistema.png'>
@@ -19,17 +19,4 @@ var firebaseConfig = {
 ```
 [Link](https://firebase.google.com/docs/web/setup#default-hosting-site) oficial do firebase contendo os passos a serem seguidos para configura seu projeto.
 
-Detro da pasta tanto front-end e back-end, possui um arquivo chamado .env.example, modelo contendo variáveis utilizadas no projeto.
-
-
-
-## Você pode executar esses aplicativos de exemplo: 
- Na pasta front-end ou back-end
-```bash
-npm install && npm start
-# or
-yarn && yarn start
-```
-
-## Layout base da aplicação web
-Link do [figma](https://www.figma.com/file/dXeV9pfWaGDbJZrJC4ctyw/TCC-2?node-id=0%3A1).
+Detro da pasta tanto front-end e back-end, possui um arquivo chamado .env.example, modelo contendo variáveis utili
