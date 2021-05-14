@@ -10,9 +10,9 @@
  - O usuário deve poder cadastra-se ao sistema com uma conta associada a instituição de ensino;✅
  - O usuário deve poder adicionar código de acesso no momento do cadastro; ✅
 
-# Cadastrar agendamentos
- - O usuário deve poder cadastrar um agendamento, composto por bloco, laboratório e data com período de agendamento;
- - O usuário deve editar um agendamento desde que seja possível, de acordo com as disponíbilidades de período, bloco e laboratório;
+# Cadastrar agendamentos ✅
+ - O usuário deve poder cadastrar um agendamento, composto por bloco, laboratório e data com período de agendamento;✅
+ - O usuário deve editar um agendamento desde que seja possível, de acordo com as disponíbilidades de período, bloco e laboratório;✅
 
 # Apresentar horários disponíveis para agendamento
  - O usuário deve poder visualizar e selecionar períodos disponíveis para agendamento de acordo com bloco e laboratório;
