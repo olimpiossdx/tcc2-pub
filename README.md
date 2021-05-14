@@ -19,7 +19,7 @@ var firebaseConfig = {
 ```
 [Link](https://firebase.google.com/docs/web/setup#default-hosting-site) oficial do firebase contendo os passos a serem seguidos para configura seu projeto.
 
-Detro da pasta tanto front-end e back-end, possui um arquivo chamado .env.example, modelo variáveis utilizadas no projeto.
+Detro da pasta tanto front-end e back-end, possui um arquivo chamado .env.example, modelo contendo variáveis utilizadas no projeto.
 
 
 
