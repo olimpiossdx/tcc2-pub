@@ -25,4 +25,4 @@
  
 ## Testes de cobertura de funcionalidades.
 
- <img alt='GitHub language count' src='.github/teste-criar-atualizar-bloco-laboratorio-2021-05-04 22-56-26.png'>
+ <img alt='GitHub language count' src='.github/teste-agendamento-2021-05-15 00-33-50.png'>
