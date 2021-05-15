@@ -13,17 +13,17 @@ class BlocosRepository extends BaseRepository implements IAgendamentoRepository 
     super('agendamentos');
   };
 
-  public async FindSpecificAsync(data: Date, blocoId: string, laboratorioId: string, horarioInicio: Date, horarioFim: Date): Promise<Agendamento | undefined> {
+  public async FindSpecificAsync(data: number, blocoId: string, laboratorioId: string, horarioInicio: number, horarioFim: number): Promise<Agendamento | undefined> {
     // TODO: finalizar implementação de acordo com as regra do firebaase
-    const dataTimestamp = firebaseAdminInstance.firestore.Timestamp.fromDate(data);
-    const response = await this.contextDatabaseRef.orderByChild('data').endAt(dataTimestamp.seconds).get();
+    // const dataTimestamp = firebaseAdminInstance.firestore.Timestamp.fromDate(data);
+    const response = await this.contextDatabaseRef.orderByChild('data').endAt(data).get();
 
     if (!response.exists()) {
       return undefined;
     };
 
-    const horarioInicioTimestamp = firebaseAdminInstance.firestore.Timestamp.fromDate(horarioInicio);
-    const horarioFimTimestamp = firebaseAdminInstance.firestore.Timestamp.fromDate(horarioFim);
+    // const horarioInicioTimestamp = firebaseAdminInstance.firestore.Timestamp.fromDate(horarioInicio);
+    // const horarioFimTimestamp = firebaseAdminInstance.firestore.Timestamp.fromDate(horarioFim);
 
     const agendamento = new Agendamento();
     const agendamentoJson = response.toJSON() as objecToArray;
