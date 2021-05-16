@@ -12,6 +12,9 @@ Esse projeto foi desenvolvido com as seguintes tecnologias:
 ## Diagrama do sistema proposto.
 <img alt='GitHub language count' src='./backend/.github/diagrama_sistema.png'>
 
+## Layout base da aplicação web
+Link do [figma](https://www.figma.com/file/dXeV9pfWaGDbJZrJC4ctyw/TCC-2?node-id=0%3A1).
+
 ## Configurando esses aplicativos de exemplo: 
 ```tsx
 var firebaseConfig = {
