@@ -1,15 +1,15 @@
-export class Bloco {
+export class Bloco extends BaseModel{
   id: string;
   nome: string;
 };
 
-export class Laboratorio {
+export class Laboratorio extends BaseModel {
   id: string;
   nome: string;
   numero: number;
 };
 
-class Agendamento {
+class Agendamento extends BaseModel {
   id: string;
   horarioInicio: number;
   horarioFim: number;
