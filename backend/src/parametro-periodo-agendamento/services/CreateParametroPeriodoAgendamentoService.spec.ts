@@ -13,7 +13,7 @@ describe('Criar parametro de periodo para agendamento', () => {
     createParametroPeriodoAgendamentoService = new CreateParametroPeriodoAgendamentoService(fakeParametroPeriodoAgendamentoRepository);
   });
 
-  it('Parametro de periodo para agendamento criado com sucesso.', async () => {
+  it('Parâmetro de periodo para agendamento criado com sucesso.', async () => {
      const parametroPeriodoAgendamento: ICreteParametroPeriodoAgendamentoDTO = {
        id:'teste-parametro-periodo-agendamento',
        periodo:50
@@ -21,5 +21,15 @@ describe('Criar parametro de periodo para agendamento', () => {
 
      const novoParametroPeriodoAgendamento = await createAgendamentoService.ExecuteAsync(parametroPeriodoAgendamento);
      expect(await fakeParametroPeriodoAgendamentoRepository.GetByIdAsync<ParametroPeriodoAgendamento>(novoParametroPeriodoAgendamento.id)).toMatchObject(parametroPeriodoAgendamento);
+  });
+  
+   it('Não é possível criar o mesmo parâmetro mais de uma vez.', async () => {
+     const parametroPeriodoAgendamento: ICreteParametroPeriodoAgendamentoDTO = {
+       id:'teste-parametro-periodo-agendamento',
+       periodo:50
+     };
+
+     const novoParametroPeriodoAgendamento = await createAgendamentoService.ExecuteAsync(parametroPeriodoAgendamento);
+     await expect(await createAgendamentoService.ExecuteAsync(parametroPeriodoAgendamento)).rejects.toBeInstanceOf(AppError);
   });
 });
