@@ -17,33 +17,27 @@ describe('Atualizar parametro de Periodo para Agendamento', () => {
     updateParametroPeriodoAgendamentoService = new UpdateParametroPeriodoAgendamentoService(fakeParametroPeriodoAgendamentoRepository);
   });
 
-  it('Parametro de periodo para Agendamento  atualizado com sucesso.', async () => {
-    // TODO: ajustar teste
-    // const agendamento: ICreteParametroPeriodoAgendamentoDTO = {
-    //   bloco: {
-    //     id: 'teste-criar-agendamento-bloco',
-    //     nome: 'teste-criar-agendamento-bloco-nome'
-    //   },
+  it('Parâmetro de periodo para Agendamento atualizado com sucesso.', async () => {
+     const parametroPeriodoAgendamento: ICreteParametroPeriodoAgendamentoDTO = {
+       id:'teste-parametro-periodo-agendamento',
+       periodo:50
+     };
 
-    //   laboratorio: {
-    //     id: 'teste-criar-agendamento-laboratorio',
-    //     nome: 'teste-criar-agendamento-laboratorio-nome',
-    //     numero: 103
-    //   },
+     const novoParametroPeriodoAgendamento = await createAgendamentoService.ExecuteAsync(parametroPeriodoAgendamento);
+    
+    const updateParametroPeriodoAgendamento= new {
+      ...novoParametroPeriodoAgendamento,
+      periodo:55
+    } as ParametroPeriodoAgendamento;
 
-    //   data: new Date(2021, 6, 3, 12, 20, 0).getTime(),
-    //   horarioInicio: new Date(2021, 6, 3, 12, 20, 0).getTime(),
-    //   horarioFim: new Date(2021, 6, 3, 12, 50, 0).getTime()
-    // };
-
-    // const novoAgendamento = await createParametroPeriodoAgendamentoService.ExecuteAsync(agendamento);
-
-    // const agendamentoUpdate = {
-    //   ...novoAgendamento,
-    //   horarioFim: new Date(2021, 6, 3, 12, 51, 0).getTime()
-    // } as ParametroPeriodoAgendamento;
-
-
-    // expect(await updateParametroPeriodoAgendamentoService.ExecuteAsync(agendamentoUpdate)).toHaveProperty('horarioFim', new Date(2021, 6, 3, 12, 51, 0).getTime());
+     expect(await updateParametroPeriodoAgendamentoService.ExecuteAsync(updateParametroPeriodoAgendamento)).toHaveProperty('periodo', 55);
+  });
+  
+    it('Não é possível ataulizar parâmetro de periodo para Agendamento não cadastrado.', async () => {
+     const parametroPeriodoAgendamento: ICreteParametroPeriodoAgendamentoDTO = {
+       id:'teste-parametro-periodo-agendamento',
+       periodo:50
+     };
+     expect(await updateParametroPeriodoAgendamentoService.ExecuteAsync(parametroPeriodoAgendamento)).toHaveProperty('periodo', 55);
   });
 });
