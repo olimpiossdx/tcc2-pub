@@ -17,9 +17,8 @@ export const newCancellationToken = () => {
   cancellationToken = axios.CancelToken.source();
 };
 
-const api: AxiosInstance = axios.create({ baseURL: 'http://localhost:3333', cancelToken: cancellationToken.token });
+const api: AxiosInstance = axios.create({ baseURL: process.env.REACT_APP_APP_BASE_URL, cancelToken: cancellationToken.token });
 
-//TODO: mudar para variáveis de ambiente
 export async function ApiServiceRequestAsync<TViewModel = any>({ method = 'get', retry = 2, retryDelay = 3000, ...rest }: IApiServiceConfig,
   setLoad?: React.Dispatch<React.SetStateAction<boolean>>, setNotification?: (message: Omit<INotification, "id">) => void) {
   newCancellationToken();
@@ -36,21 +35,11 @@ export async function ApiServiceRequestAsync<TViewModel = any>({ method = 'get',
       config.headers.authorization = `Bearer ${token}`;
     };
 
-    // Do something before request is sent
     return config;
-  }, function (error) {
-    // Do something with request error
-    return Promise.reject(error);
-  });
+  }, (error) => Promise.reject(error));
 
-  // Add a response interceptor
-  api.interceptors.response.use(function (response) {
-    // Any status code that lie within the range of 2xx cause this function to trigger
-    // Do something with response data
-    return response;
-  }, function (error: AxiosError) {
-    // Any status codes that falls outside the range of 2xx cause this function to trigger
-    // Do something with response error
+
+  api.interceptors.response.use((response) => response, function (error: AxiosError) {
     if (counter < retry) {
       counter += 1;
       return new Promise((resolve) => setTimeout(() => resolve(api.request<TViewModel>({ ...rest, method })), retryDelay));
@@ -87,7 +76,7 @@ export async function ApiServiceRequestAsync<TViewModel = any>({ method = 'get',
           request: error.response.request,
         }
       }
-      
+
       //TODO:alterar para um api de contexto
       if (!axios.isCancel(error) && error.response?.status === 401) {
         setNotification && setNotification({ tipo: 'error', descricao: (axiosResponse.data as IResponseError).message });
@@ -105,7 +94,4 @@ export async function ApiServiceRequestAsync<TViewModel = any>({ method = 'get',
   setLoad && setLoad(false);
   return axiosResponse.data;
 };
-
-//TODO: remover api antiga e padronizar as requisições
-export default api;
 

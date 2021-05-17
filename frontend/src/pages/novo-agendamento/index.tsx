@@ -25,7 +25,7 @@ const NovoAgendamento: React.FC = () => {
 
   useEffect(() => {
     const requestAsync = async () => {
-      const response = await ApiServiceRequestAsync<BlocoModel[]>({ baseURL: 'http://localhost:3333', method: 'get', url: 'blocos' }, setLoading, addNotification);
+      const response = await ApiServiceRequestAsync<BlocoModel[]>({ method: 'get', url: 'blocos' }, setLoading, addNotification);
 
       if (!('status' in response)) {
         setBlocos(response);
@@ -63,7 +63,7 @@ const NovoAgendamento: React.FC = () => {
     <form onSubmit={handleSubmit}>
       <Grid container justifyContent='center' alignItems='center' style={{ height: 'calc(100vh - 13vh)', minHeight: 400 }}>
         <Grid item xs={11} sm={10} md={7} lg={4} component={Paper}>
-          <Grid container spacing={2} alignItems='center' style={{ padding: 10}}>
+          <Grid container spacing={2} alignItems='center' style={{ padding: 10 }}>
             <Grid item>
               <EventNoteIcon />
             </Grid>
@@ -163,9 +163,6 @@ const NovoAgendamento: React.FC = () => {
               </Grid>
             </Grid>
           </Grid>
-
-
-
         </Grid>
       </Grid>
     </form>

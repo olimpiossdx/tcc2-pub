@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { AxiosError } from 'axios';
 import { Grid, Paper, Button, Step, StepLabel, Stepper, Typography, TextField, Avatar } from '@material-ui/core';
 
 import AccountCircle from '@material-ui/icons/AccountCircle';
@@ -10,9 +9,8 @@ import VpnKeyIcon from '@material-ui/icons/VpnKey';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 import { useAuth } from '../../components/hooks/authentication';
-import api from '../../services';
 import { useNotifcation } from '../../components/hooks/notification';
-import IResponseError from '../../services/IResponseError';
+import { ApiServiceRequestAsync } from '../../services';
 
 const getSteps = () => {
   return ['Selecionar conta', 'Adicionar código', 'Concluir'];
@@ -290,18 +288,11 @@ const Cadastro: React.FC = () => {
 
   const isNext = () => !(Object.keys(user).length > 1);
 
-  const handleSubmitAsync = () => {
-    api.post('usuarios', user)
-      .then(response => {
-        setActiveStep((prevActiveStep) => ({ ...activeStep, active: prevActiveStep.active + 1 }));
-      }).catch((error: AxiosError<IResponseError>) => {
-
-        if (error.response?.status === 400) {
-          addNotification({ tipo: 'error', descricao: error.response?.data.message as string });
-        } else {
-          addNotification({ tipo: 'error', descricao: 'Caso erro persista contacte o suporte' });
-        }
-      });
+  const handleSubmitAsync = async () => {
+    const response = await ApiServiceRequestAsync({ method: 'post', url: 'usuarios', data: user }, () => { }, addNotification);
+    if (!('status' in response)) {
+      setActiveStep((prevActiveStep) => ({ ...activeStep, active: prevActiveStep.active + 1 }));
+    };
   };
 
   return (<Grid container justifyContent='center' alignItems='center' style={{ height: '100vh' }}>
