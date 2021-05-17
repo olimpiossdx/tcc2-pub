@@ -2,12 +2,12 @@ import { database } from 'firebase-admin/lib/database';
 import { firebaseDatabase } from '../../../config/firebase.config';
 import AppError from '../../erros';
 import IBaseRepository from '../../service/IBaseRepository';
+import BaseModel from '../baseModel';
 
 export interface objecToArray {
   [key: string]: any;
 };
 
-// TODO: criar um base model
 class BaseRepository implements IBaseRepository {
   protected contextDatabaseRef: database.Reference;
 
@@ -47,7 +47,7 @@ class BaseRepository implements IBaseRepository {
     return entity;
   };
 
-  public async CreateOrUpdateAsync<T>(data: T | any): Promise<T> {
+  public async CreateOrUpdateAsync<T>(data: BaseModel<T>): Promise<BaseModel<T>> {
     try {
       await this.contextDatabaseRef.child(data.id).update(data);
     } catch (error) {
