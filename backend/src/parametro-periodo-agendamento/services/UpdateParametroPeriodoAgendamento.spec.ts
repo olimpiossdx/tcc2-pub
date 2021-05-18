@@ -1,8 +1,9 @@
 import { isEqual } from 'date-fns';
 import AppError from '../../shared/erros';
 import ICreteParametroPeriodoAgendamentoDTO from '../dtos/ICreteParametroPeriodoAgendamentoDTO';
+import IUpdateParametroPeriodoAgendamentoDTO from '../dtos/IUpdateParametroPeriodoAgendamentoDTO';
 import ParametroPeriodoAgendamento from '../infra/firebase/entities/parametroPeriodoAgendamento';
-import FakeParametroPeriodoAgendamentoRepository from '../repositories/fakes/FakeAgendamentoRepository';
+import FakeParametroPeriodoAgendamentoRepository from '../repositories/fakes/FakeParametroPeriodoAgendamentoRepository';
 import CreateParametroPeriodoAgendamentoService from './CreateParametroPeriodoAgendamentoService';
 import UpdateParametroPeriodoAgendamentoService from './UpdateParametroPeriodoAgendamentoService';
 
@@ -18,26 +19,24 @@ describe('Atualizar parametro de Periodo para Agendamento', () => {
   });
 
   it('Parâmetro de periodo para Agendamento atualizado com sucesso.', async () => {
-     const parametroPeriodoAgendamento: ICreteParametroPeriodoAgendamentoDTO = {
-       id:'teste-parametro-periodo-agendamento',
-       periodo:50
-     };
+    const parametroPeriodoAgendamento: ICreteParametroPeriodoAgendamentoDTO = { periodo: 50 };
 
-     const novoParametroPeriodoAgendamento = await createAgendamentoService.ExecuteAsync(parametroPeriodoAgendamento);
-    
-    const updateParametroPeriodoAgendamento= new {
+    const novoParametroPeriodoAgendamento = await createParametroPeriodoAgendamentoService.ExecuteAsync(parametroPeriodoAgendamento);
+
+    const updateParametroPeriodoAgendamento = {
       ...novoParametroPeriodoAgendamento,
-      periodo:55
+      periodo: 55
     } as ParametroPeriodoAgendamento;
 
-     expect(await updateParametroPeriodoAgendamentoService.ExecuteAsync(updateParametroPeriodoAgendamento)).toHaveProperty('periodo', 55);
+    expect(await updateParametroPeriodoAgendamentoService.ExecuteAsync(updateParametroPeriodoAgendamento)).toHaveProperty('periodo', 55);
   });
-  
-    it('Não é possível ataulizar parâmetro de periodo para Agendamento não cadastrado.', async () => {
-     const parametroPeriodoAgendamento: ICreteParametroPeriodoAgendamentoDTO = {
-       id:'teste-parametro-periodo-agendamento',
-       periodo:50
-     };
-     expect(await updateParametroPeriodoAgendamentoService.ExecuteAsync(parametroPeriodoAgendamento)).toHaveProperty('periodo', 55);
+
+  it('Não é possível ataulizar parâmetro de periodo para Agendamento não cadastrado.', async () => {
+    const parametroPeriodoAgendamento: IUpdateParametroPeriodoAgendamentoDTO = {
+      id: 'teste-parametro-periodo-agendamento',
+      periodo: 50
+    };
+
+    await expect(updateParametroPeriodoAgendamentoService.ExecuteAsync(parametroPeriodoAgendamento)).rejects.toBeInstanceOf(AppError)
   });
 });

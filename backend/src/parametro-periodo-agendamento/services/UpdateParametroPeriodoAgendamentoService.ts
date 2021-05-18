@@ -11,10 +11,10 @@ class UpdateParametroPeriodoAgendamentoService {
     private parametroPeriodoAgendamentoRepository: IParametroPeriodoAgendamentoRepository) { };
 
   public async ExecuteAsync({ id, periodo }: ParametroPeriodoAgendamento): Promise<ParametroPeriodoAgendamento> {
-    const parametroPeriodoAgendamento = await this.parametroPeriodoAgendamentoRepository.GetByIdAsync(id);
+    const parametroPeriodoAgendamento = await this.parametroPeriodoAgendamentoRepository.GetByIdAsync<ParametroPeriodoAgendamento>(id);
 
     if (!parametroPeriodoAgendamento) {
-      throw new AppError("Não é possível atualizar, já existe um agendamento.");
+      throw new AppError("Não é possível atualizar");
     };
 
     return await this.parametroPeriodoAgendamentoRepository.CreateOrUpdateAsync({ id, periodo });

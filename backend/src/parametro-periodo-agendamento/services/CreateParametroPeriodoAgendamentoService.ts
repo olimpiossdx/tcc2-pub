@@ -14,9 +14,9 @@ class CreateParametroPeriodoAgendamentoService {
     private parametroPeriodoAgendamentoRepository: IParametroPeriodoAgendamentoRepository) { };
 
   public async ExecuteAsync({ periodo }: ICreteParametroPeriodoAgendamentoDTO): Promise<ParametroPeriodoAgendamento> {
-    const parametroPeriodoAgendamento = await this.parametroPeriodoAgendamentoRepository.GetAsync<ParametroPeriodoAgendamento>('nome');
+    const parametroPeriodoAgendamentos = await this.parametroPeriodoAgendamentoRepository.GetAsync<ParametroPeriodoAgendamento>('nome');
 
-    if (parametroPeriodoAgendamento) {
+    if (parametroPeriodoAgendamentos.length) {
       throw new AppError(`Não possível criar parâmetros iguais.`);
     };
 
