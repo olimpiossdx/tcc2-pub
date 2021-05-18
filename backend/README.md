@@ -10,7 +10,7 @@
  - O usuário deve poder cadastra-se ao sistema com uma conta associada a instituição de ensino;✅
  - O usuário deve poder adicionar código de acesso no momento do cadastro; ✅
 
-# Cadastrar perído mínimo de agendamentos ✅
+# Cadastrar perído mínimo para agendamento ✅
  - O usuário deve poder cadastrar ;✅
  - O usuário deve editar um período;✅
 
