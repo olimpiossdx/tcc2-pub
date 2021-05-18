@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for usuarios/services/AuthenticationUsuarioService.ts</title>
+    <title>Code coverage report for parametro-periodo-agendamento/services/UpdateParametroPeriodoAgendamentoService.ts</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../prettify.css" />
     <link rel="stylesheet" href="../../base.css" />
@@ -19,20 +19,20 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../index.html">All files</a> / <a href="index.html">usuarios/services</a> AuthenticationUsuarioService.ts</h1>
+        <h1><a href="../../index.html">All files</a> / <a href="index.html">parametro-periodo-agendamento/services</a> UpdateParametroPeriodoAgendamentoService.ts</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>25/25</span>
+                <span class='fraction'>24/24</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>5/5</span>
+                <span class='fraction'>6/6</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>25/25</span>
+                <span class='fraction'>24/24</span>
             </div>
         
             
@@ -90,7 +90,6 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -105,31 +104,32 @@
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span></td><td class="text"><pre class="prettyprint lang-js">import 'reflect-metadata';
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import 'reflect-metadata';
 import { inject, injectable } from 'tsyringe';
-&nbsp;
 import AppError from '../../shared/erros';
-import IAuthenticationUsarioDTO from '../dtos/IAuthenticationUsarioDTO';
-import IUsuariosRepository from '../repositories/IUsuariosRepository';
+import ParametroPeriodoAgendamento from '../infra/firebase/entities/parametroPeriodoAgendamento';
+import IParametroPeriodoAgendamentoRepository from '../repositories/IParametroPeriodoAgendamentoRepository';
 &nbsp;
 @injectable()
-class AuthenticationUsuarioService {
+class UpdateParametroPeriodoAgendamentoService {
   constructor(
-    @inject('UsuariosRepository')
-    private usuariosRepository: IUsuariosRepository) { };
+    @inject('ParametroPeriodoAgendamentoRepository')
+    private parametroPeriodoAgendamentoRepository: IParametroPeriodoAgendamentoRepository) { };
 &nbsp;
-  public async ExecuteAsync({ email }: IAuthenticationUsarioDTO): Promise&lt;string&gt; {
-    const usuario = await this.usuariosRepository.FindByEmailAsync(email);
+  public async ExecuteAsync({ id, periodo }: ParametroPeriodoAgendamento): Promise&lt;ParametroPeriodoAgendamento&gt; {
+    const parametroPeriodoAgendamento = await this.parametroPeriodoAgendamentoRepository.GetByIdAsync&lt;ParametroPeriodoAgendamento&gt;(id);
 &nbsp;
-    if (!usuario) {
-      throw new AppError('Usuário não cadastrado.');
+    if (!parametroPeriodoAgendamento) {
+      throw new AppError("Não é possível atualizar");
     };
 &nbsp;
-    return usuario.accessKey;
+    return await this.parametroPeriodoAgendamentoRepository.CreateOrUpdateAsync({ id, periodo });
   };
 };
 &nbsp;
-export default AuthenticationUsuarioService;</pre></td></tr></table></pre>
+export default UpdateParametroPeriodoAgendamentoService;
+&nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->

@@ -10,6 +10,10 @@
  - O usuário deve poder cadastra-se ao sistema com uma conta associada a instituição de ensino;✅
  - O usuário deve poder adicionar código de acesso no momento do cadastro; ✅
 
+# Cadastrar perído mínimo de agendamentos ✅
+ - O usuário deve poder cadastrar ;✅
+ - O usuário deve editar um período;✅
+
 # Cadastrar agendamentos ✅
  - O usuário deve poder cadastrar um agendamento, composto por bloco, laboratório e data com período de agendamento;✅
  - O usuário deve editar um agendamento desde que seja possível, de acordo com as disponíbilidades de período, bloco e laboratório;✅
@@ -25,4 +29,4 @@
  
 ## Testes de cobertura de funcionalidades.
 
- <img alt='GitHub language count' src='.github/teste-agendamento-2021-05-15 00-33-50.png'>
+ <img alt='GitHub language count' src='.github/teste-parametro-periodo-agendamento-2021-05-17 21-02-10.png'>

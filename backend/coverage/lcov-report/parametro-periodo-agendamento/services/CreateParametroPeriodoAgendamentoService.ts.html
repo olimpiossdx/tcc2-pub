@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for usuarios/services/AuthenticationUsuarioService.ts</title>
+    <title>Code coverage report for parametro-periodo-agendamento/services/CreateParametroPeriodoAgendamentoService.ts</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../prettify.css" />
     <link rel="stylesheet" href="../../base.css" />
@@ -19,20 +19,20 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../index.html">All files</a> / <a href="index.html">usuarios/services</a> AuthenticationUsuarioService.ts</h1>
+        <h1><a href="../../index.html">All files</a> / <a href="index.html">parametro-periodo-agendamento/services</a> CreateParametroPeriodoAgendamentoService.ts</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>25/25</span>
+                <span class='fraction'>27/27</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>5/5</span>
+                <span class='fraction'>7/7</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>25/25</span>
+                <span class='fraction'>27/27</span>
             </div>
         
             
@@ -81,7 +81,9 @@
 <a name='L22'></a><a href='#L22'>22</a>
 <a name='L23'></a><a href='#L23'>23</a>
 <a name='L24'></a><a href='#L24'>24</a>
-<a name='L25'></a><a href='#L25'>25</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L25'></a><a href='#L25'>25</a>
+<a name='L26'></a><a href='#L26'>26</a>
+<a name='L27'></a><a href='#L27'>27</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -92,44 +94,48 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span></td><td class="text"><pre class="prettyprint lang-js">import 'reflect-metadata';
 import { inject, injectable } from 'tsyringe';
-&nbsp;
+import { uuid } from 'uuidv4';
 import AppError from '../../shared/erros';
-import IAuthenticationUsarioDTO from '../dtos/IAuthenticationUsarioDTO';
-import IUsuariosRepository from '../repositories/IUsuariosRepository';
+import ICreteParametroPeriodoAgendamentoDTO from '../dtos/ICreteParametroPeriodoAgendamentoDTO';
+import ParametroPeriodoAgendamento from '../infra/firebase/entities/parametroPeriodoAgendamento';
+import IParametroPeriodoAgendamentoRepository from '../repositories/IParametroPeriodoAgendamentoRepository';
+&nbsp;
 &nbsp;
 @injectable()
-class AuthenticationUsuarioService {
+class CreateParametroPeriodoAgendamentoService {
   constructor(
-    @inject('UsuariosRepository')
-    private usuariosRepository: IUsuariosRepository) { };
+    @inject('AgendamentoRepository')
+    private parametroPeriodoAgendamentoRepository: IParametroPeriodoAgendamentoRepository) { };
 &nbsp;
-  public async ExecuteAsync({ email }: IAuthenticationUsarioDTO): Promise&lt;string&gt; {
-    const usuario = await this.usuariosRepository.FindByEmailAsync(email);
+  public async ExecuteAsync({ periodo }: ICreteParametroPeriodoAgendamentoDTO): Promise&lt;ParametroPeriodoAgendamento&gt; {
+    const parametroPeriodoAgendamentos = await this.parametroPeriodoAgendamentoRepository.GetAsync&lt;ParametroPeriodoAgendamento&gt;('nome');
 &nbsp;
-    if (!usuario) {
-      throw new AppError('Usuário não cadastrado.');
+    if (parametroPeriodoAgendamentos.length) {
+      throw new AppError(`Não possível criar parâmetros iguais.`);
     };
 &nbsp;
-    return usuario.accessKey;
+    return await this.parametroPeriodoAgendamentoRepository.CreateOrUpdateAsync({ id: uuid(), periodo });
   };
 };
 &nbsp;
-export default AuthenticationUsuarioService;</pre></td></tr></table></pre>
+export default CreateParametroPeriodoAgendamentoService;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->
