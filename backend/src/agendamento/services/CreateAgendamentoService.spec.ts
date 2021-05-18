@@ -18,13 +18,17 @@ describe('Criar agendamento', () => {
     const agendamento: ICreteAgendamentoDTO = {
       bloco: {
         id: 'teste-criar-agendamento-bloco',
-        nome: 'teste-criar-agendamento-bloco-nome'
+        nome: 'teste-criar-agendamento-bloco-nome',
+        created: new Date().getTime(),
+        updated: new Date().getTime(),
       },
 
       laboratorio: {
         id: 'teste-criar-agendamento-laboratorio',
         nome: 'teste-criar-agendamento-laboratorio-nome',
-        numero: 103
+        numero: 103,
+        created: new Date().getTime(),
+        updated: new Date().getTime(),
       },
 
       data: new Date(2021, 6, 2, 12, 20, 0).getTime(),
@@ -40,13 +44,17 @@ describe('Criar agendamento', () => {
     var agendamento: ICreteAgendamentoDTO = {
       bloco: {
         id: 'teste-criar-agendamento-bloco',
-        nome: 'teste-criar-agendamento-bloco-nome'
+        nome: 'teste-criar-agendamento-bloco-nome',
+        created: new Date().getTime(),
+        updated: new Date().getTime(),
       },
 
       laboratorio: {
         id: 'teste-criar-agendamento-laboratorio',
         nome: 'teste-criar-agendamento-laboratorio-nome',
-        numero: 103
+        numero: 103,
+        created: new Date().getTime(),
+        updated: new Date().getTime(),
       },
 
       data: new Date(2021, 6, 2, 12, 20, 0).getTime(),
@@ -64,13 +72,17 @@ describe('Criar agendamento', () => {
     const agendamento: ICreteAgendamentoDTO = {
       bloco: {
         id: 'teste-criar-agendamento-bloco',
-        nome: 'teste-criar-agendamento-bloco-nome'
+        nome: 'teste-criar-agendamento-bloco-nome',
+        created: new Date().getTime(),
+        updated: new Date().getTime(),
       },
 
       laboratorio: {
         id: 'teste-criar-agendamento-laboratorio',
         nome: 'teste-criar-agendamento-laboratorio-nome',
-        numero: 103
+        numero: 103,
+        created: new Date().getTime(),
+        updated: new Date().getTime(),
       },
 
       data: new Date(2021, 6, 2, 12, 20, 0).getTime(),
