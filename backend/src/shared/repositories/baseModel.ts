@@ -1,7 +1,7 @@
-class BaseModel<T> {
+class BaseModel {
   id: string;
-  created: Date;
-  updated: Date;
+  created: number;
+  updated: number;
 };
 
 export default BaseModel;

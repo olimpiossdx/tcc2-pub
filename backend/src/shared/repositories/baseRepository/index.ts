@@ -47,7 +47,7 @@ class BaseRepository implements IBaseRepository {
     return entity;
   };
 
-  public async CreateOrUpdateAsync<T>(data: BaseModel<T>): Promise<BaseModel<T>> {
+  public async CreateOrUpdateAsync<T>(data: T | any): Promise<T> {
     try {
       await this.contextDatabaseRef.child(data.id).update(data);
     } catch (error) {
