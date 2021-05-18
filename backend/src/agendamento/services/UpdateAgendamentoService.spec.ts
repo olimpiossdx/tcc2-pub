@@ -1,4 +1,5 @@
 import { isEqual } from 'date-fns';
+import FakeParametroPeriodoAgendamentoRepository from '../../parametro-periodo-agendamento/repositories/fakes/FakeParametroPeriodoAgendamentoRepository';
 import AppError from '../../shared/erros';
 import ICreteAgendamentoDTO from '../dtos/ICreteAgendamentoDTO';
 import Agendamento from '../infra/firebase/entities/Agendamento';
@@ -7,14 +8,16 @@ import CreateAgendamentoService from './CreateAgendamentoService';
 import UpdateAgendamentoService from './UpdateAgendamentoService';
 
 let fakeAgendamentoRepository: FakeBlocoRepository;
+let fakeParametroPeriodoAgendamentoRepository: FakeParametroPeriodoAgendamentoRepository;
 let createAgendamentoService: CreateAgendamentoService;
 let updateAgendamentoService: UpdateAgendamentoService;
 
 describe('Atualizar agendamento', () => {
   beforeEach(() => {
     fakeAgendamentoRepository = new FakeBlocoRepository();
-    createAgendamentoService = new CreateAgendamentoService(fakeAgendamentoRepository);
-    updateAgendamentoService = new UpdateAgendamentoService(fakeAgendamentoRepository);
+    fakeParametroPeriodoAgendamentoRepository = new FakeParametroPeriodoAgendamentoRepository();
+    createAgendamentoService = new CreateAgendamentoService(fakeAgendamentoRepository, fakeParametroPeriodoAgendamentoRepository);
+    updateAgendamentoService = new UpdateAgendamentoService(fakeAgendamentoRepository, fakeParametroPeriodoAgendamentoRepository);
   });
 
   it('Agendamento atualizado com sucesso.', async () => {
@@ -39,6 +42,7 @@ describe('Atualizar agendamento', () => {
       horarioFim: new Date(2021, 6, 3, 12, 50, 0).getTime()
     };
 
+    await fakeParametroPeriodoAgendamentoRepository.CreateOrUpdateAsync({ periodo: 30 });
     const novoAgendamento = await createAgendamentoService.ExecuteAsync(agendamento);
 
     const agendamentoUpdate = {
@@ -72,7 +76,42 @@ describe('Atualizar agendamento', () => {
       horarioFim: new Date(2021, 6, 5, 12, 50, 0).getTime()
     };
 
+    await fakeParametroPeriodoAgendamentoRepository.CreateOrUpdateAsync({ periodo: 30 });
     const novoAgendamento = await createAgendamentoService.ExecuteAsync(agendamento);
+
     await expect(updateAgendamentoService.ExecuteAsync(novoAgendamento)).rejects.toBeInstanceOf(AppError);
+  });
+
+  it('Não é possível atualizar o mesmo menor que período mínimo.', async () => {
+    const agendamento: ICreteAgendamentoDTO = {
+      bloco: {
+        id: 'teste-criar-agendamento-bloco',
+        nome: 'teste-criar-agendamento-bloco-nome',
+        created: new Date().getTime(),
+        updated: new Date().getTime(),
+      },
+
+      laboratorio: {
+        id: 'teste-criar-agendamento-laboratorio',
+        nome: 'teste-criar-agendamento-laboratorio-nome',
+        numero: 103,
+        created: new Date().getTime(),
+        updated: new Date().getTime(),
+      },
+
+      data: new Date(2021, 6, 2, 12, 20, 0).getTime(),
+      horarioInicio: new Date(2021, 6, 2, 12, 20, 0).getTime(),
+      horarioFim: new Date(2021, 6, 2, 12, 58, 0).getTime(),
+    };
+    
+    await fakeParametroPeriodoAgendamentoRepository.CreateOrUpdateAsync({ periodo: 35 });
+    const entity = await createAgendamentoService.ExecuteAsync(agendamento);
+
+    const entityUpdate = {
+      ...entity,
+      horarioFim: new Date(2021, 6, 2, 12, 21, 0).getTime()
+    } as Agendamento;
+
+    await expect(updateAgendamentoService.ExecuteAsync(entityUpdate)).rejects.toBeInstanceOf(AppError);
   });
 });
