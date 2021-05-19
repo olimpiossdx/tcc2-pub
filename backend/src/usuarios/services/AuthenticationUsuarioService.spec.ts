@@ -13,14 +13,14 @@ describe('Autenticação de usuário', () => {
   });
 
   it('Usuário não cadastrado.', async () => {
-    const usuario: Usuario = { id: 'teste', nome: 'teste', email: 'teste@teste.com', accessKey: '41526378', urlImg: 'teste' };
+    const usuario: Usuario = { id: 'teste', nome: 'teste', email: 'teste@teste.com', accessKey: '41526378', urlImg: 'teste', agendamentos: [] };
     await fakeUsuariosRepository.CreateAsync(usuario);
 
     await expect(auhenticateUsuarioService.ExecuteAsync({ email: 'errado@errado.com' })).rejects.toBeInstanceOf(AppError);
   });
 
   it('Usuário autenticado com sucesso.', async () => {
-    const usuario: Usuario = { id: 'teste', nome: 'teste', email: 'teste@teste.com', accessKey: '41526378', urlImg: 'teste' };
+    const usuario: Usuario = { id: 'teste', nome: 'teste', email: 'teste@teste.com', accessKey: '41526378', urlImg: 'teste', agendamentos: [] };
 
     fakeUsuariosRepository.CreateAsync(usuario);
     const accessKey = await auhenticateUsuarioService.ExecuteAsync({ email: usuario.email });

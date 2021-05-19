@@ -16,7 +16,7 @@ describe('Atualizar usuário', () => {
   });
 
   it('Usuário atualizado com sucesso.', async () => {
-    const { id, email, ...rest }: Usuario = { id: '1425368188', nome: 'teste', email: 'teste@email.com', accessKey: 'teste-key', urlImg: 'http://teste.com' };
+    const { id, email, ...rest }: Usuario = { id: '1425368188', nome: 'teste', email: 'teste@email.com', accessKey: 'teste-key', urlImg: 'http://teste.com', agendamentos: [] };
 
     await createUsuarioService.ExecuteAsync({ ...rest, id, email });
     const updateUsuario = await updateUsuarioAccessKeyService.execute({ id, accessKey: 'atulizacao-key' });
@@ -25,7 +25,7 @@ describe('Atualizar usuário', () => {
   });
 
   it('Erro ao atualizar chave de acesso do usuário.', async () => {
-    const { id, email, ...rest }: Usuario = { id: '1425368188', nome: 'teste', email: 'teste@email.com', accessKey: 'teste-key', urlImg: 'http://teste.com' };
+    const { id, email, ...rest }: Usuario = { id: '1425368188', nome: 'teste', email: 'teste@email.com', accessKey: 'teste-key', urlImg: 'http://teste.com', agendamentos: [] };
 
     await createUsuarioService.ExecuteAsync({ ...rest, id, email });
 
