@@ -33,9 +33,9 @@ class CreateAgendamentoService {
     if (differenceInMinutes(horarioFim, horarioInicio) < periodoMinimoAgendamentos[0].periodo) {
       throw new AppError(`O período mínimo para agendamento é ${periodoMinimoAgendamentos[0].periodo} minutos.`);
     };
-
+    // TODO: ajustar para usar chave do usuário
     return await this.agendamentoRepository.CreateOrUpdateAsync({
-      id: uuid(), bloco, laboratorio, data: data, horarioInicio: horarioInicio, horarioFim: horarioFim,
+      id: uuid(), userId: uuid(), bloco, laboratorio, data: data, horarioInicio: horarioInicio, horarioFim: horarioFim,
       created: new Date().getTime(), updated: new Date().getTime()
     });
   };
