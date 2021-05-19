@@ -34,7 +34,7 @@ class FakeBaseRepository<T = any> implements IBaseRepository {
   };
 
   public async DeleteAsync<T>(id: string, model: T | any): Promise<void> {
-    const entityIndex = this.contextDatabase.findIndex(contextEntity => contextEntity.id === model.id);
+    const entityIndex = this.contextDatabase.findIndex(contextEntity => contextEntity.id === id);
     this.contextDatabase.splice(entityIndex, 1);
   };
 };

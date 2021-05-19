@@ -23,7 +23,7 @@ class CreateAgendamentoService {
     const periodoMinimoAgendamentos = await this.parametroPeriodoAgendamentoRepository.GetAsync<ParametroPeriodoAgendamento>('periodo');
 
     if (!periodoMinimoAgendamentos.length) {
-      throw new AppError(`Não possível agendar sem parâmetro de perído.`);
+      throw new AppError(`Não possível criar agendamento sem parâmetro de período.`);
     };
 
     if (agendamento) {

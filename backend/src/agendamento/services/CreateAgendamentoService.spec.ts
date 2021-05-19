@@ -101,4 +101,29 @@ describe('Criar agendamento', () => {
 
     await expect(createAgendamentoService.ExecuteAsync(agendamento)).rejects.toBeInstanceOf(AppError);
   });
+
+  it('Não é possível criar agendamento sem período.', async () => {
+    const agendamento: ICreteAgendamentoDTO = {
+      bloco: {
+        id: 'teste-criar-agendamento-bloco',
+        nome: 'teste-criar-agendamento-bloco-nome',
+        created: new Date().getTime(),
+        updated: new Date().getTime(),
+      },
+
+      laboratorio: {
+        id: 'teste-criar-agendamento-laboratorio',
+        nome: 'teste-criar-agendamento-laboratorio-nome',
+        numero: 103,
+        created: new Date().getTime(),
+        updated: new Date().getTime(),
+      },
+
+      data: new Date(2021, 6, 2, 12, 20, 0).getTime(),
+      horarioInicio: new Date(2021, 6, 2, 12, 20, 0).getTime(),
+      horarioFim: new Date(2021, 6, 2, 12, 22, 0).getTime(),
+    };
+
+    await expect(createAgendamentoService.ExecuteAsync(agendamento)).rejects.toBeInstanceOf(AppError);
+  });
 });
