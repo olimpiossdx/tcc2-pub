@@ -10,7 +10,7 @@ export class Laboratorio extends BaseModel {
 };
 
 class Agendamento extends BaseModel {
-  userId: string;
+  usuarioId: string;
   horarioInicio: number;
   horarioFim: number;
   data: number;

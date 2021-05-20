@@ -8,6 +8,8 @@ import Agendamento from '../infra/firebase/entities/Agendamento';
 import IAgendamentoRepository from '../repositories/IAgendmanetoRepository';
 import IParametroPeriodoAgendamentoRepository from '../../parametro-periodo-agendamento/repositories/IParametroPeriodoAgendamentoRepository';
 import ParametroPeriodoAgendamento from '../../parametro-periodo-agendamento/infra/firebase/entities/parametroPeriodoAgendamento';
+import { request } from 'express';
+import IUsuariosRepository from '../../usuarios/repositories/IUsuariosRepository';
 
 
 @injectable()
@@ -16,9 +18,11 @@ class CreateAgendamentoService {
     @inject('AgendamentoRepository')
     private agendamentoRepository: IAgendamentoRepository,
     @inject('ParametroPeriodoAgendamentoRepository')
-    private parametroPeriodoAgendamentoRepository: IParametroPeriodoAgendamentoRepository) { };
+    private parametroPeriodoAgendamentoRepository: IParametroPeriodoAgendamentoRepository,
+    @inject('UsuariosRepository')
+    private usuariosRepository: IUsuariosRepository) { };
 
-  public async ExecuteAsync({ bloco, laboratorio, data, horarioInicio, horarioFim }: ICreteAgendamentoDTO): Promise<Agendamento> {
+  public async ExecuteAsync({ usuarioId, bloco, laboratorio, data, horarioInicio, horarioFim }: ICreteAgendamentoDTO): Promise<Agendamento> {
     const agendamento = await this.agendamentoRepository.FindSpecificAsync(data, bloco.id, laboratorio.id, horarioInicio, horarioFim);
     const periodoMinimoAgendamentos = await this.parametroPeriodoAgendamentoRepository.GetAsync<ParametroPeriodoAgendamento>('periodo');
 
@@ -33,9 +37,9 @@ class CreateAgendamentoService {
     if (differenceInMinutes(horarioFim, horarioInicio) < periodoMinimoAgendamentos[0].periodo) {
       throw new AppError(`O período mínimo para agendamento é ${periodoMinimoAgendamentos[0].periodo} minutos.`);
     };
-    // TODO: ajustar para usar chave do usuário
+  
     return await this.agendamentoRepository.CreateOrUpdateAsync({
-      id: uuid(), userId: uuid(), bloco, laboratorio, data: data, horarioInicio: horarioInicio, horarioFim: horarioFim,
+      id: uuid(), usuarioId, bloco, laboratorio, data: data, horarioInicio: horarioInicio, horarioFim: horarioFim,
       created: new Date().getTime(), updated: new Date().getTime()
     });
   };
