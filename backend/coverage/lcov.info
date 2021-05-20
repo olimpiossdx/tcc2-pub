@@ -66,8 +66,9 @@ BRDA:33,6,0,1
 BRDA:35,7,0,6
 BRDA:37,8,0,1
 BRDA:39,9,0,5
-BRF:10
-BRH:10
+BRDA:41,10,0,5
+BRF:11
+BRH:11
 end_of_record
 TN:
 SF:src/agendamento/services/UpdateAgendamentoService.ts
