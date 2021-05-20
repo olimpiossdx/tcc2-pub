@@ -12,9 +12,11 @@ export default async function ensureAuthenticatedAsync(request: Request, respons
 
   const [, token] = authHeader.split(' ');
   try {
+
     const decodeToken = await firebaseAdminInstance.auth().verifyIdToken(token) as firebase.auth.DecodedIdToken;
-    request.usuario = { email: decodeToken?.email as string };
+    request.usuario = { id: decodeToken.uid, email: decodeToken?.email as string };
     return next();
+    
   } catch (error) {
     //TODO: padronizar formatação de erros
     const { code, message } = error as FirebaseError;
