@@ -47,10 +47,9 @@ const AuthenticationProvider: React.FC = ({ children }) => {
   const signInAsync = React.useCallback(async (addNotification?: ((message: Omit<INotification, "id">) => void)) => {
     const firebaseAuthResponse = await firebaseAuthAsync();
     const token = await firebaseAuthResponse.user?.getIdToken() as string;
-    const providerUserData = firebaseAuthResponse.user?.providerData[0];
 
     const user = {
-      uid: providerUserData?.uid,
+      uid: firebaseAuthResponse.user?.uid,
       displayName: firebaseAuthResponse.user?.displayName,
       email: firebaseAuthResponse.user?.email,
       photoURL: firebaseAuthResponse.user?.photoURL,
@@ -59,7 +58,7 @@ const AuthenticationProvider: React.FC = ({ children }) => {
 
 
     localStorage.setItem('@sisag:token', JSON.stringify(token));
-    
+
     const response = await ApiServiceRequestAsync({ method: 'get', url: 'authentication' }, undefined, addNotification);
 
     if (!('status' in response)) {
