@@ -12,7 +12,7 @@ export default class UsuariosController {
     const createUsarioService = container.resolve(CreateUsuarioService);
     await createUsarioService.ExecuteAsync({ id, nome, email, urlImg, accessKey });
 
-    return response.json({ status: 'sucess', message: 'Usuário criado com sucesso!' });
+    return response.json({ status: 'success', message: 'Usuário criado com sucesso!' });
   };
 
   async UpdateAsync(request: Request, response: Response): Promise<Response> {

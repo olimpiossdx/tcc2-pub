@@ -11,6 +11,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { useAuth } from '../../components/hooks/authentication';
 import { useNotifcation } from '../../components/hooks/notification';
 import { ApiServiceRequestAsync } from '../../services';
+import { Status } from '../../components/hooks/notification/model';
 
 const getSteps = () => {
   return ['Selecionar conta', 'Adicionar código', 'Concluir'];
@@ -88,12 +89,12 @@ const MainContent: React.FC<MainContentProps> = ({ activeStep, steps, user, hand
   const handleFirebaseAuthAasync = async () => {
     setLoading(true)
     const response = await firebaseAuthAsync();
-    console.log('user', response.user);
     if (response.user) {
       const providerUserData = response.user?.providerData[0];
+      console.log(response.user.uid);
       setUser({
         ...user,
-        id: providerUserData?.uid as string,
+        id: response.user.uid as string,
         nome: providerUserData?.displayName as string,
         email: providerUserData?.email as string,
         urlImg: providerUserData?.photoURL as string
@@ -102,6 +103,7 @@ const MainContent: React.FC<MainContentProps> = ({ activeStep, steps, user, hand
     } else {
       addNotification({ tipo: 'error', descricao: 'Não foi possível carregar os dados, tente novamente' });
     }
+
     setLoading(false);
   }
 
@@ -289,10 +291,12 @@ const Cadastro: React.FC = () => {
   const isNext = () => !(Object.keys(user).length > 1);
 
   const handleSubmitAsync = async () => {
-    const response = await ApiServiceRequestAsync({ method: 'post', url: 'usuarios', data: user }, () => { }, addNotification);
-    if (!('status' in response)) {
+    const response = await ApiServiceRequestAsync<{ status: Status, message: string }>({ method: 'post', url: 'usuarios', data: user }, () => { }, addNotification);
+    if (response.status === 'success') {
       setActiveStep((prevActiveStep) => ({ ...activeStep, active: prevActiveStep.active + 1 }));
     };
+    
+    addNotification({ tipo: response.status, descricao: response.message });
   };
 
   return (<Grid container justifyContent='center' alignItems='center' style={{ height: '100vh' }}>
