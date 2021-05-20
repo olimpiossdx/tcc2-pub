@@ -294,9 +294,8 @@ const Cadastro: React.FC = () => {
     const response = await ApiServiceRequestAsync<{ status: Status, message: string }>({ method: 'post', url: 'usuarios', data: user }, () => { }, addNotification);
     if (response.status === 'success') {
       setActiveStep((prevActiveStep) => ({ ...activeStep, active: prevActiveStep.active + 1 }));
+      addNotification({ tipo: response.status, descricao: response.message });
     };
-    
-    addNotification({ tipo: response.status, descricao: response.message });
   };
 
   return (<Grid container justifyContent='center' alignItems='center' style={{ height: '100vh' }}>
