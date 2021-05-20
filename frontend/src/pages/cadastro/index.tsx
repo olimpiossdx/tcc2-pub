@@ -145,7 +145,7 @@ const MainContent: React.FC<MainContentProps> = ({ activeStep, steps, user, hand
                 <EmailIcon fontSize='small' />
               </Grid>
               <Grid item>
-                <TextField id='input-email' label='E-maili' value={user.email} size='small' disabled />
+                <TextField id='input-email' label='E-mail' value={user.email} size='small' disabled />
               </Grid>
             </Grid>
           </Grid>
