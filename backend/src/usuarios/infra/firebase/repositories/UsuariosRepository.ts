@@ -9,12 +9,13 @@ export interface objecToArray {
   [key: string]: any;
 };
 
-class UsuariosRepository implements IUsuariosRepository {
+class UsuariosRepository   extends FakeBaseRepository<Usuario> implements IUsuariosRepository {
+//   TODO: corrigir e terminar de padronizar
   private usariosRepository: database.Reference;
   constructor() {
-    this.usariosRepository = firebaseDatabase.ref('usuarios');
+    super('usuario');
+      this.usariosRepository = firebaseDatabase.ref('usuarios');
   };
-
   public async AddOrUpdateAgendamentoAsync(id: string, agendamento: Agendamento): Promise<void> {
     const response = await this.usariosRepository.equalTo(id).get();
     let entity: Usuario | undefined = new Usuario();
