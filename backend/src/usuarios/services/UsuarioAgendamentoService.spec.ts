@@ -5,7 +5,7 @@ import AuhenticateUsuarioService from "./AuthenticationUsuarioService";
 
 let fakeUsuariosRepository: FakeUsuariosRepository;
 let auhenticateUsuarioService: AuhenticateUsuarioService;
-
+// TODO: alterar para teste de listar agendamentos do usuário
 describe('Autenticação de usuário', () => {
   beforeEach(() => {
     fakeUsuariosRepository = new FakeUsuariosRepository();
