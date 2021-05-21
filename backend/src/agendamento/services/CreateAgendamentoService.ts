@@ -23,25 +23,29 @@ class CreateAgendamentoService {
     private usuariosRepository: IUsuariosRepository) { };
 
   public async ExecuteAsync({ usuarioId, bloco, laboratorio, data, horarioInicio, horarioFim }: ICreteAgendamentoDTO): Promise<Agendamento> {
-    const agendamento = await this.agendamentoRepository.FindSpecificAsync(data, bloco.id, laboratorio.id, horarioInicio, horarioFim);
+    let entity = await this.agendamentoRepository.FindSpecificAsync(data, bloco.id, laboratorio.id, horarioInicio, horarioFim);
     const periodoMinimoAgendamentos = await this.parametroPeriodoAgendamentoRepository.GetAsync<ParametroPeriodoAgendamento>('periodo');
 
     if (!periodoMinimoAgendamentos.length) {
       throw new AppError(`Não possível criar agendamento sem parâmetro de período.`);
     };
 
-    if (agendamento) {
-      throw new AppError(`Não possível agendar, existe um agendamento em ${agendamento.data} no período ${agendamento.horarioInicio} - ${agendamento.horarioFim}.`);
+    if (entity) {
+      throw new AppError(`Não possível agendar, existe um agendamento em ${entity.data} no período ${entity.horarioInicio} - ${entity.horarioFim}.`);
     };
 
     if (differenceInMinutes(horarioFim, horarioInicio) < periodoMinimoAgendamentos[0].periodo) {
       throw new AppError(`O período mínimo para agendamento é ${periodoMinimoAgendamentos[0].periodo} minutos.`);
     };
-  
-    return await this.agendamentoRepository.CreateOrUpdateAsync({
+
+    entity = await this.agendamentoRepository.CreateOrUpdateAsync({
       id: uuid(), usuarioId, bloco, laboratorio, data: data, horarioInicio: horarioInicio, horarioFim: horarioFim,
       created: new Date().getTime(), updated: new Date().getTime()
     });
+
+    this.usuariosRepository.AddOrUpdateAgendamentoAsync(usuarioId, entity);
+
+    return entity;
   };
 };
 
