@@ -1,11 +1,16 @@
 import Agendamento from '../../../agendamento/infra/firebase/entities/Agendamento';
+import FakeBaseRepository from '../../../shared/repositories/fakeBaseRepository';
 import ICreteUsuarioDTO from '../../dtos/ICreteUsuarioDTO';
 import Usuario from '../../infra/firebase/entities/Usuario';
 import IUsuariosRepository from '../IUsuariosRepository';
 
-class FakeUsuariosRepository implements IUsuariosRepository {
-  private usuarios: Usuario[] = [];
 
+class FakeUsuariosRepository  extends FakeBaseRepository<Usuarui> implements IUsuariosRepository  {
+  private usuarios: Usuario[] = [];  
+  constructor() {
+    super('usuario');
+  };
+  
   public async AddOrUpdateAgendamentoAsync(id: string, agendamento: Agendamento): Promise<void> {
     const entity = this.usuarios.find(usuario => usuario.id === id) as Usuario;
     const agendamentoIndex = entity.agendamentos.findIndex(item => item.id == agendamento.id);
