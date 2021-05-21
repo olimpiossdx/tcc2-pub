@@ -15,7 +15,7 @@ Esse projeto foi desenvolvido com as seguintes tecnologias:
 ## Layout base da aplicação web
 Link do [figma](https://www.figma.com/file/dXeV9pfWaGDbJZrJC4ctyw/TCC-2?node-id=0%3A1).
 
-## Configurando esses aplicativos de exemplo: 
+## Configurando esse aplicativo de exemplo: 
 ```tsx
 var firebaseConfig = {
   apiKey: "API_KEY",
