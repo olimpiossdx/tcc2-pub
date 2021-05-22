@@ -5,7 +5,7 @@ import Usuario from '../../infra/firebase/entities/Usuario';
 import IUsuariosRepository from '../IUsuariosRepository';
 
 
-class FakeUsuariosRepository  extends FakeBaseRepository<Usuarui> implements IUsuariosRepository  {
+class FakeUsuariosRepository  extends FakeBaseRepository<Usuario> implements IUsuariosRepository  {
   private usuarios: Usuario[] = [];  
   constructor() {
     super('usuario');
