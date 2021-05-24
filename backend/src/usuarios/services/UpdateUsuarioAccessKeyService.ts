@@ -15,13 +15,14 @@ class UpdateUsuarioAccessKeyService {
     private usuariosRepository: IUsuariosRepository) { };
 
   public async execute({ id, accessKey }: IRequest): Promise<void> {
-    const existeUsuario = await this.usuariosRepository.FindByAuthIdAsync(id);
+    const entity = await this.usuariosRepository.FindByAuthIdAsync(id);
 
-    if (!existeUsuario) {
+    if (!entity) {
       throw new AppError('Usuário não cadastrado.');
     };
-
-    await this.usuariosRepository.UpdateAccessKeyAsync( id, accessKey );
+    
+    entity.acessKey = accessKey;
+    await this.usuariosRepository.CreateOrUpdateAsync(id,entity);
   };
 };
 
