@@ -7,7 +7,5 @@ export default interface IUsuariosRepository extends IBaseRepository {
   FindByAuthIdAsync(authId: string): Promise<Usuario | undefined>;
   FindByEmailAsync(email: string): Promise<Usuario | undefined>;
   IsUnicKeyAsync(acessKey: string): Promise<boolean>;
-  CreateAsync(data: ICreteUsuarioDTO): Promise<void>;
-  UpdateAccessKeyAsync(id: string, accessKey: string): Promise<void>;
   AddOrUpdateAgendamentoAsync(id: string, agendamento: Agendamento): Promise<void>;
 };
