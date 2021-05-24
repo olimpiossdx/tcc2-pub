@@ -34,17 +34,8 @@ class FakeUsuariosRepository  extends FakeBaseRepository<Usuarui> implements IUs
     return !!isUsuario;
   };
 
-  public async CreateAsync(data: ICreteUsuarioDTO): Promise<void> {
-    this.usuarios.push(data as any);
-  };
-
   public async FindByEmailAsync(email: string): Promise<Usuario | undefined> {
     return this.usuarios.find(usuario => usuario.email === email);
-  };
-
-  public async UpdateAccessKeyAsync(id: string, accessKey: string): Promise<void> {
-    const indexUsuario = this.usuarios.findIndex(usuario => usuario.id === id);
-    this.usuarios[indexUsuario].accessKey = accessKey;
   };
 };
 
