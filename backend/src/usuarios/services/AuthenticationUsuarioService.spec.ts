@@ -14,7 +14,7 @@ describe('Autenticação de usuário', () => {
 
   it('Usuário não cadastrado.', async () => {
     const usuario: Usuario = { id: 'teste', nome: 'teste', email: 'teste@teste.com', accessKey: '41526378', urlImg: 'teste', agendamentos: [] };
-    await fakeUsuariosRepository.CreateAsync(usuario);
+    await fakeUsuariosRepository.CreateOrUpdateAsync(usuario);
 
     await expect(auhenticateUsuarioService.ExecuteAsync({ email: 'errado@errado.com' })).rejects.toBeInstanceOf(AppError);
   });
@@ -22,7 +22,7 @@ describe('Autenticação de usuário', () => {
   it('Usuário autenticado com sucesso.', async () => {
     const usuario: Usuario = { id: 'teste', nome: 'teste', email: 'teste@teste.com', accessKey: '41526378', urlImg: 'teste', agendamentos: [] };
 
-    fakeUsuariosRepository.CreateAsync(usuario);
+    fakeUsuariosRepository.CreateOrUpdateAsync(usuario);
     const accessKey = await auhenticateUsuarioService.ExecuteAsync({ email: usuario.email });
 
     expect(accessKey).toEqual(usuario.accessKey);

@@ -23,7 +23,7 @@ class CreateUsuarioService {
       throw new AppError('Chave de acesso ja cadastrada.');
     };
 
-    await this.usuariosRepository.CreateAsync({ id, nome, email, accessKey, urlImg });
+    await this.usuariosRepository.CreateOrUpdateAsync({ id, nome, email, accessKey, urlImg });
   };
 };
 
