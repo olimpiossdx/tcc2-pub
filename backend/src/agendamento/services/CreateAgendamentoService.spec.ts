@@ -42,7 +42,7 @@ describe('Criar agendamento', () => {
       horarioFim: new Date(2021, 6, 2, 12, 55, 0).getTime(),
     };
 
-    await fakeUsuarioRepository.CreateAsync({ id: 'teste-usuario-id', email: 'teste@teste.com.br', accessKey: '14253678', nome: 'Teste usuario', urlImg: 'https://usuarioTeste.png' });
+    await fakeUsuarioRepository.CreateOrUpdateAsync({ id: 'teste-usuario-id', email: 'teste@teste.com.br', accessKey: '14253678', nome: 'Teste usuario', urlImg: 'https://usuarioTeste.png' });
 
     await fakeParametroPeriodoAgendamentoRepository.CreateOrUpdateAsync({ periodo: 30 });
 
@@ -73,7 +73,7 @@ describe('Criar agendamento', () => {
       horarioFim: new Date(2021, 6, 2, 12, 55, 0).getTime(),
     };
 
-    await fakeUsuarioRepository.CreateAsync({ id: 'teste-usuario-id', email: 'teste@teste.com.br', accessKey: '14253678', nome: 'Teste usuario', urlImg: 'https://usuarioTeste.png' });
+    await fakeUsuarioRepository.CreateOrUpdateAsync({ id: 'teste-usuario-id', email: 'teste@teste.com.br', accessKey: '14253678', nome: 'Teste usuario', urlImg: 'https://usuarioTeste.png' });
     await fakeParametroPeriodoAgendamentoRepository.CreateOrUpdateAsync({ periodo: 30 });
 
     await createAgendamentoService.ExecuteAsync(agendamento);
@@ -104,7 +104,7 @@ describe('Criar agendamento', () => {
       horarioFim: new Date(2021, 6, 2, 12, 22, 0).getTime(),
     };
 
-    await fakeUsuarioRepository.CreateAsync({ id: 'teste-usuario-id', email: 'teste@teste.com.br', accessKey: '14253678', nome: 'Teste usuario', urlImg: 'https://usuarioTeste.png' });
+    await fakeUsuarioRepository.CreateOrUpdateAsync({ id: 'teste-usuario-id', email: 'teste@teste.com.br', accessKey: '14253678', nome: 'Teste usuario', urlImg: 'https://usuarioTeste.png' });
     await fakeParametroPeriodoAgendamentoRepository.CreateOrUpdateAsync({ periodo: 30 });
 
     await expect(createAgendamentoService.ExecuteAsync(agendamento)).rejects.toBeInstanceOf(AppError);
@@ -133,7 +133,7 @@ describe('Criar agendamento', () => {
       horarioFim: new Date(2021, 6, 2, 12, 22, 0).getTime(),
     };
     
-    await fakeUsuarioRepository.CreateAsync({ id: 'teste-usuario-id', email: 'teste@teste.com.br', accessKey: '14253678', nome: 'Teste usuario', urlImg: 'https://usuarioTeste.png' });
+    await fakeUsuarioRepository.CreateOrUpdateAsync({ id: 'teste-usuario-id', email: 'teste@teste.com.br', accessKey: '14253678', nome: 'Teste usuario', urlImg: 'https://usuarioTeste.png' });
 
     await expect(createAgendamentoService.ExecuteAsync(agendamento)).rejects.toBeInstanceOf(AppError);
   });

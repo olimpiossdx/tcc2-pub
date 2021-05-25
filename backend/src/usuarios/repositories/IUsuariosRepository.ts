@@ -1,5 +1,5 @@
 import Agendamento from '../../agendamento/infra/firebase/entities/Agendamento';
-import ICreteUsuarioDTO from '../dtos/ICreteUsuarioDTO';
+import ICreateUsuarioDTO from '../dtos/ICreateUsuarioDTO';
 import Usuario from '../infra/firebase/entities/Usuario';
 import IBaseRepository from '../../shared/service/IBaseRepository';
 

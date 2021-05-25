@@ -1,5 +1,4 @@
-export default interface ICreteUsuarioDTO {
-  id: string;
+export default interface ICreateUsuarioDTO {
   accessKey: string;
   nome: string;
   email: string;

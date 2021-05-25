@@ -1,12 +1,9 @@
 import 'reflect-metadata';
 import { inject, injectable } from 'tsyringe';
 import AppError from '../../shared/erros';
+import IUpdateUsuarioDTO from '../dtos/IUpdateUsuarioDTO';
+import Usuario from '../infra/firebase/entities/Usuario';
 import IUsuariosRepository from '../repositories/IUsuariosRepository';
-
-interface IRequest {
-  id: string;
-  accessKey: string;
-};
 
 @injectable()
 class UpdateUsuarioAccessKeyService {
@@ -14,15 +11,15 @@ class UpdateUsuarioAccessKeyService {
     @inject('UsuariosRepository')
     private usuariosRepository: IUsuariosRepository) { };
 
-  public async execute({ id, accessKey }: IRequest): Promise<void> {
+  public async execute({ id, accessKey }: IUpdateUsuarioDTO): Promise<Usuario> {
     const entity = await this.usuariosRepository.FindByAuthIdAsync(id);
 
     if (!entity) {
       throw new AppError('Usuário não cadastrado.');
     };
     
-    entity.acessKey = accessKey;
-    await this.usuariosRepository.CreateOrUpdateAsync(id,entity);
+    entity.accessKey = accessKey;
+    return await this.usuariosRepository.CreateOrUpdateAsync(entity);
   };
 };
 

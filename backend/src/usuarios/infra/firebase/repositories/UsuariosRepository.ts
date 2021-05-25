@@ -1,7 +1,6 @@
-import { database } from 'firebase-admin/lib/database';
 import Agendamento from '../../../../agendamento/infra/firebase/entities/Agendamento';
-import { firebaseDatabase } from '../../../../config/firebase.config';
-import ICreteUsuarioDTO from '../../../dtos/ICreteUsuarioDTO';
+import BaseRepository from '../../../../shared/repositories/baseRepository';
+import ICreateUsuarioDTO from '../../../dtos/ICreateUsuarioDTO';
 import IUsuariosRepository from '../../../repositories/IUsuariosRepository';
 import Usuario from '../entities/Usuario';
 
@@ -9,15 +8,13 @@ export interface objecToArray {
   [key: string]: any;
 };
 
-class UsuariosRepository   extends FakeBaseRepository<Usuario> implements IUsuariosRepository {
-//   TODO: corrigir e terminar de padronizar
-  private usariosRepository: database.Reference;
+class UsuariosRepository extends BaseRepository implements IUsuariosRepository {
   constructor() {
     super('usuario');
-      this.usariosRepository = firebaseDatabase.ref('usuarios');
   };
+
   public async AddOrUpdateAgendamentoAsync(id: string, agendamento: Agendamento): Promise<void> {
-    const response = await this.usariosRepository.equalTo(id).get();
+    const response = await this.contextDatabaseRef.equalTo(id).get();
     let entity: Usuario | undefined = new Usuario();
 
     const usuarioJson = response.toJSON() as objecToArray;
@@ -30,18 +27,18 @@ class UsuariosRepository   extends FakeBaseRepository<Usuario> implements IUsuar
     } else {
       entity.agendamentos[entityAgendamentoIndex] = agendamento;
     };
-    
-    await this.usariosRepository.child(entity.id).update(entity);
+
+    await this.contextDatabaseRef.child(entity.id).update(entity);
   };
 
   public async IsUnicKeyAsync(acessKey: string): Promise<boolean> {
-    const response = await this.usariosRepository.orderByChild('acessKey').equalTo(acessKey).get();
+    const response = await this.contextDatabaseRef.orderByChild('acessKey').equalTo(acessKey).get();
 
     return response.exists();
   }
 
   public async FindByAuthIdAsync(authId: string): Promise<Usuario | undefined> {
-    const response = await this.usariosRepository.orderByChild('id').equalTo(authId).get();
+    const response = await this.contextDatabaseRef.orderByChild('id').equalTo(authId).get();
     let usuario: Usuario | undefined = new Usuario();
 
     if (response.exists()) {
@@ -58,7 +55,7 @@ class UsuariosRepository   extends FakeBaseRepository<Usuario> implements IUsuar
   };
 
   public async FindByEmailAsync(email: string): Promise<Usuario> {
-    const response = await this.usariosRepository.orderByChild('email').equalTo(email).get();
+    const response = await this.contextDatabaseRef.orderByChild('email').equalTo(email).get();
     let usuario: Usuario | null = new Usuario();
 
     const usuarioJson = response.toJSON() as objecToArray;
@@ -68,15 +65,15 @@ class UsuariosRepository   extends FakeBaseRepository<Usuario> implements IUsuar
     return usuario;
   };
 
-  public async CreateAsync(data: ICreteUsuarioDTO): Promise<void> {
-    await this.usariosRepository.child(data.id).update(data);
+  public async CreateAsync(data: Usuario): Promise<void> {
+    await this.contextDatabaseRef.child(data.id).update(data);
   };
 
   public async UpdateAccessKeyAsync(id: string, accessKey: string): Promise<void> {
     const usuario = await this.FindByAuthIdAsync(id) as Usuario;
     usuario.accessKey = accessKey;
 
-    await this.usariosRepository.child(usuario.id).update(usuario);
+    await this.contextDatabaseRef.child(usuario.id).update(usuario);
   };
 };
 

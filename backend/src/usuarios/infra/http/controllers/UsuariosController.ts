@@ -1,13 +1,13 @@
 import { Request, Response } from 'express';
 import { container } from "tsyringe";
 
-import ICreteUsuarioDTO from "../../../dtos/ICreteUsuarioDTO";
+import ICreateUsuarioDTO from "../../../dtos/ICreateUsuarioDTO";
 import CreateUsuarioService from "../../../services/CreateUsuarioService";
 import UpdateUsuarioAccessKeyService from '../../../services/UpdateUsuarioAccessKeyService';
 
 export default class UsuariosController {
   async CreateAsync(request: Request, response: Response): Promise<Response> {
-    const { id, nome, email, urlImg, accessKey } = request.body as ICreteUsuarioDTO;
+    const { id, nome, email, urlImg, accessKey } = request.body as ICreateUsuarioDTO;
 
     const createUsarioService = container.resolve(CreateUsuarioService);
     await createUsarioService.ExecuteAsync({ id, nome, email, urlImg, accessKey });
