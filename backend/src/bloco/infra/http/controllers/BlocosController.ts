@@ -7,6 +7,12 @@ import CreateBlocoService from "../../../services/CreateBlocoService";
 import UpdateBlocoService from '../../../services/UpdateBlocoService';
 
 export default class BlocosController {
+  async GetAsync(request: Request, response: Response): Promise<Response> {
+    // TODO: ajuste para get de blocos 
+
+    return response.json({ status: 'sucess', message: 'Usuário criado com sucesso!' });
+  };
+
   async CreateAsync(request: Request, response: Response): Promise<Response> {
     const { nome, laboratorios } = request.body as ICreteBlocoDTO;
 
