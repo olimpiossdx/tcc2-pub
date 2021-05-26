@@ -12,7 +12,7 @@ class CreateUsuarioService {
     @inject('UsuariosRepository')
     private usuariosRepository: IUsuariosRepository) { };
 
-  public async ExecuteAsync({nome, email, accessKey, urlImg }: ICreateUsuarioDTO): Promise<Usuario> {
+  public async ExecuteAsync({ id, nome, email, accessKey, urlImg }: ICreateUsuarioDTO): Promise<Usuario> {
     const existeUsuario = await this.usuariosRepository.FindByEmailAsync(email);
 
     if (existeUsuario) {
@@ -25,7 +25,7 @@ class CreateUsuarioService {
       throw new AppError('Chave de acesso ja cadastrada.');
     };
 
-    return await this.usuariosRepository.CreateOrUpdateAsync({ id: uuid(), nome, email, accessKey, urlImg, agendamentos: [] });
+    return await this.usuariosRepository.CreateOrUpdateAsync<Usuario>({ id, nome, email, accessKey, urlImg, agendamentos: [] });
   };
 };
 

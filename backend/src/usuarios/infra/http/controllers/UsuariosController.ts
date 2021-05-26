@@ -7,10 +7,10 @@ import UpdateUsuarioAccessKeyService from '../../../services/UpdateUsuarioAccess
 
 export default class UsuariosController {
   async CreateAsync(request: Request, response: Response): Promise<Response> {
-    const { id, nome, email, urlImg, accessKey } = request.body as ICreateUsuarioDTO;
+    const { nome, email, urlImg, accessKey } = request.body as ICreateUsuarioDTO;
 
     const createUsarioService = container.resolve(CreateUsuarioService);
-    await createUsarioService.ExecuteAsync({ id, nome, email, urlImg, accessKey });
+    await createUsarioService.ExecuteAsync({ id: request.usuario.id, nome, email, urlImg, accessKey });
 
     return response.json({ status: 'success', message: 'Usuário criado com sucesso!' });
   };
