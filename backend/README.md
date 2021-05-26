@@ -21,8 +21,8 @@
 ## Apresentar horários disponíveis para agendamento
  - O usuário deve poder visualizar e selecionar períodos disponíveis para agendamento de acordo com bloco e laboratório;
 
-## Apresentar laboratórios previamente agendamentos por usuário
- - O usuário deve poder visualizar agendamentos realizados de acordo com bloco e laboratório;
+## Apresentar laboratórios previamente agendamentos por usuário  ✅
+ - O usuário deve poder visualizar agendamentos realizados de acordo com bloco e laboratório;  ✅
 
 ## Cadastrar periódo disponível para agendamentos   ✅
 - O administrador deve cadastrar período disponível para listagem de horários disponíveis para agendamento;  ✅
