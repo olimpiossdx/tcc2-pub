@@ -8,7 +8,7 @@ const usuariosController = new UsuariosController();
 const usuarioAgendmentoController = new UsuarioAgendmentoController();
 const usuariosRouter = Router();
 
-usuariosRouter.get('/agendamentos', usuarioAgendmentoController.GetAsync);
+usuariosRouter.get('/agendamentos', ensureAuthenticatedAsync, usuarioAgendmentoController.GetAsync);
 usuariosRouter.post('/', usuariosController.CreateAsync);
 usuariosRouter.patch('/chave-acesso', ensureAuthenticatedAsync, celebrate({
   [Segments.BODY]: {

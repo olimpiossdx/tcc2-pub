@@ -32,7 +32,7 @@ class BaseRepository implements IBaseRepository {
   };
 
   public async GetByIdAsync<T>(id: string): Promise<T | undefined> {
-    const response = await this.contextDatabaseRef.equalTo(id).get();
+    const response = await this.contextDatabaseRef.orderByChild('id').equalTo(id).get();
 
     if (!response.exists()) {
       return undefined;

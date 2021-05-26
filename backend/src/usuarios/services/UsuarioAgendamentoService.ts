@@ -17,7 +17,7 @@ class UsuarioAgendamentoService {
     if (!entity) {
       throw new AppError('Usuário não cadastrado.');
     };
-
+    
     return entity.agendamentos;
   };
 };
