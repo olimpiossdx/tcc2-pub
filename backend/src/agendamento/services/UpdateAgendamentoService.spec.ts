@@ -47,7 +47,7 @@ describe('Atualizar agendamento', () => {
       horarioFim: new Date(2021, 6, 3, 12, 50, 0).getTime()
     };
 
-    await fakeUsuarioRepository.CreateOrUpdateAsync({ id: 'teste-usuario-id', email: 'teste@teste.com.br', accessKey: '14253678', nome: 'Teste usuario', urlImg: 'https://usuarioTeste.png' });
+    await fakeUsuarioRepository.CreateOrUpdateAsync({ id: 'teste-usuario-id', email: 'teste@teste.com.br', accessKey: '14253678', nome: 'Teste usuario', urlImg: 'https://usuarioTeste.png', agendamentos: [] });
     await fakeParametroPeriodoAgendamentoRepository.CreateOrUpdateAsync({ periodo: 30 });
     const novoAgendamento = await createAgendamentoService.ExecuteAsync(agendamento);
 
@@ -83,7 +83,7 @@ describe('Atualizar agendamento', () => {
       horarioFim: new Date(2021, 6, 5, 12, 50, 0).getTime()
     };
 
-    await fakeUsuarioRepository.CreateOrUpdateAsync({ id: 'teste-usuario-id', email: 'teste@teste.com.br', accessKey: '14253678', nome: 'Teste usuario', urlImg: 'https://usuarioTeste.png' });
+    await fakeUsuarioRepository.CreateOrUpdateAsync({ id: 'teste-usuario-id', email: 'teste@teste.com.br', accessKey: '14253678', nome: 'Teste usuario', urlImg: 'https://usuarioTeste.png', agendamentos: [] });
     await fakeParametroPeriodoAgendamentoRepository.CreateOrUpdateAsync({ periodo: 30 });
     const novoAgendamento = await createAgendamentoService.ExecuteAsync(agendamento);
 
@@ -113,7 +113,7 @@ describe('Atualizar agendamento', () => {
       horarioFim: new Date(2021, 6, 2, 12, 58, 0).getTime(),
     };
 
-    await fakeUsuarioRepository.CreateOrUpdateAsync({ id: 'teste-usuario-id', email: 'teste@teste.com.br', accessKey: '14253678', nome: 'Teste usuario', urlImg: 'https://usuarioTeste.png' });
+    await fakeUsuarioRepository.CreateOrUpdateAsync({ id: 'teste-usuario-id', email: 'teste@teste.com.br', accessKey: '14253678', nome: 'Teste usuario', urlImg: 'https://usuarioTeste.png', agendamentos: [] });
     await fakeParametroPeriodoAgendamentoRepository.CreateOrUpdateAsync({ periodo: 35 });
     const entity = await createAgendamentoService.ExecuteAsync(agendamento);
 
@@ -147,8 +147,8 @@ describe('Atualizar agendamento', () => {
       horarioInicio: new Date(2021, 6, 2, 12, 20, 0).getTime(),
       horarioFim: new Date(2021, 6, 2, 12, 58, 0).getTime(),
     };
-    
-    await fakeUsuarioRepository.CreateOrUpdateAsync({ id: 'teste-usuario-id', email: 'teste@teste.com.br', accessKey: '14253678', nome: 'Teste usuario', urlImg: 'https://usuarioTeste.png' });
+
+    await fakeUsuarioRepository.CreateOrUpdateAsync({ id: 'teste-usuario-id', email: 'teste@teste.com.br', accessKey: '14253678', nome: 'Teste usuario', urlImg: 'https://usuarioTeste.png', agendamentos: [] });
     const entityPeriodo = await fakeParametroPeriodoAgendamentoRepository.CreateOrUpdateAsync<ParametroPeriodoAgendamento>({ id: uuid(), periodo: 35 });
     const entity = await fakeAgendamentoRepository.CreateOrUpdateAsync<Agendamento>(agendamento);
 

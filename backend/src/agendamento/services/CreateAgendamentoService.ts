@@ -43,7 +43,7 @@ class CreateAgendamentoService {
       created: new Date().getTime(), updated: new Date().getTime()
     });
 
-    this.usuariosRepository.AddOrUpdateAgendamentoAsync(usuarioId, entity);
+    await this.usuariosRepository.AddOrUpdateAgendamentoAsync(usuarioId, entity);
 
     return entity;
   };
