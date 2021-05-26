@@ -7,8 +7,12 @@ import Main from '../../components/main';
 import TableDataAnimatedLoading from '../../components/skeleton/table-data';
 import TableDataRow from '../../components/table-data-row';
 import { IAgendamentoModel } from './model';
+import { ApiServiceRequestAsync, cancellationRequest } from '../../services';
+import { useNotifcation } from '../../components/hooks/notification';
+import { ContactSupportOutlined } from '@material-ui/icons';
 
 const LaboratoriosAgendados: React.FC = () => {
+  const { addNotification } = useNotifcation();
   const [agendamentos, setAgendamentos] = useState<IAgendamentoModel[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -26,6 +30,22 @@ const LaboratoriosAgendados: React.FC = () => {
       }, 300);
     }).then(() => setLoading(false));
   }, []);
+
+  useEffect(() => {
+    const requestAsync = async () => {
+      // const response = await ApiServiceRequestAsync<IAgendamentoModel[]>({ method: 'get', url: 'usuarios/agendamentos' }, setLoading, addNotification);
+      
+      // if (!('status' in response)) {
+      //    setAgendamentos(response);
+      // };
+    };
+
+    // requestAsync();
+
+    return function cleanUpFunction() {
+      cancellationRequest('cancelou');
+    };
+  }, [addNotification]);
 
   return (<Main>
     <Grid container justifyContent='center' alignItems='center' style={{ height: 'calc(100vh - 13vh)' }}>
