@@ -1,6 +1,5 @@
 import Agendamento from '../../../../agendamento/infra/firebase/entities/Agendamento';
 import BaseRepository from '../../../../shared/repositories/baseRepository';
-import ICreateUsuarioDTO from '../../../dtos/ICreateUsuarioDTO';
 import IUsuariosRepository from '../../../repositories/IUsuariosRepository';
 import Usuario from '../entities/Usuario';
 
@@ -10,7 +9,7 @@ export interface objecToArray {
 
 class UsuariosRepository extends BaseRepository implements IUsuariosRepository {
   constructor() {
-    super('usuario');
+    super('usuarios');
   };
 
   public async AddOrUpdateAgendamentoAsync(id: string, agendamento: Agendamento): Promise<void> {

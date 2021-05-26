@@ -12,13 +12,13 @@ class AuthenticationUsuarioService {
     private usuariosRepository: IUsuariosRepository) { };
 
   public async ExecuteAsync({ email }: IAuthenticationUsarioDTO): Promise<string> {
-    const usuario = await this.usuariosRepository.FindByEmailAsync(email);
+    const entity = await this.usuariosRepository.FindByEmailAsync(email);
 
-    if (!usuario) {
+    if (!entity) {
       throw new AppError('Usuário não cadastrado.');
     };
 
-    return usuario.accessKey;
+    return entity.accessKey;
   };
 };
 
