@@ -1,5 +1,3 @@
-import BaseModel from "../repositories/baseModel";
-
 export default interface IBaseRepository {
   GetAsync<T>(orderBy: string): Promise<T[]>;
   GetByIdAsync<T>(id: string): Promise<T | undefined>;

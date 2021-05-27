@@ -53,13 +53,16 @@ class UsuariosRepository extends BaseRepository implements IUsuariosRepository {
     return usuario;
   };
 
-  public async FindByEmailAsync(email: string): Promise<Usuario> {
+  public async FindByEmailAsync(email: string): Promise<Usuario | undefined> {
     const response = await this.contextDatabaseRef.orderByChild('email').equalTo(email).get();
-    let usuario: Usuario | null = new Usuario();
+    let usuario: Usuario | undefined = undefined;
 
-    const usuarioJson = response.toJSON() as objecToArray;
-    const hashkey = Object.keys(usuarioJson)[0];
-    Object.assign(usuario, usuarioJson[hashkey]);
+    if (response.exists()) {
+      usuario = new Usuario();
+      const usuarioJson = response.toJSON() as objecToArray;
+      const hashkey = Object.keys(usuarioJson)[0];
+      Object.assign(usuario, usuarioJson[hashkey]);
+    }
 
     return usuario;
   };

@@ -1,6 +1,10 @@
 import Agendamento from "../../../../agendamento/infra/firebase/entities/Agendamento";
 
 class Usuario {
+  constructor() {
+    this.agendamentos = new Array<Agendamento>();
+  };
+  
   id: string;
   accessKey: string;
   nome: string;
