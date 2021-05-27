@@ -1,6 +1,5 @@
 import 'reflect-metadata';
 import { inject, injectable } from 'tsyringe';
-import { uuid } from 'uuidv4';
 import AppError from '../../shared/erros';
 import ICreateUsuarioDTO from '../dtos/ICreateUsuarioDTO';
 import Usuario from '../infra/firebase/entities/Usuario';
