@@ -93,7 +93,7 @@ const NovoAgendamento: React.FC = () => {
                   </MenuItem>) : (<MenuItem value=''>
                     <em>Nenhum registro</em>
                   </MenuItem>)}
-                  {blocos.map(bloco => (<MenuItem value={bloco.id}>{bloco.nome}</MenuItem>))}
+                  {blocos.map(bloco => (<MenuItem key={bloco.id} value={bloco.id}>{bloco.nome}</MenuItem>))}
                 </Select>
               </FormControl>)}
             </Grid>
@@ -112,7 +112,7 @@ const NovoAgendamento: React.FC = () => {
                   </MenuItem>) : (<MenuItem value=''>
                     <em>Nenhum registro</em>
                   </MenuItem>)}
-                  {selectedIndexBloco !== -1 && blocos[selectedIndexBloco].laboratorios.map(laboratorio => (<MenuItem value={laboratorio.id}>{laboratorio.nome}</MenuItem>))}
+                  {selectedIndexBloco !== -1 && blocos[selectedIndexBloco].laboratorios.map(laboratorio => (<MenuItem key={laboratorio.id} value={laboratorio.id}>{laboratorio.nome}</MenuItem>))}
                 </Select>
               </FormControl>)}
             </Grid>

@@ -9,7 +9,6 @@ import TableDataRow from '../../components/table-data-row';
 import { IAgendamentoModel } from './model';
 import { ApiServiceRequestAsync, cancellationRequest } from '../../services';
 import { useNotifcation } from '../../components/hooks/notification';
-import { ContactSupportOutlined } from '@material-ui/icons';
 
 const LaboratoriosAgendados: React.FC = () => {
   const { addNotification } = useNotifcation();
