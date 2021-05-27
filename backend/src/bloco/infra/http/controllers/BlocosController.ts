@@ -5,12 +5,13 @@ import ICreteBlocoDTO from "../../../dtos/ICreteBlocoDTO";
 import IUpdateBlocoDTO from '../../../dtos/IUpdateBlocoDTO';
 import CreateBlocoService from "../../../services/CreateBlocoService";
 import UpdateBlocoService from '../../../services/UpdateBlocoService';
+import BlocoRepository from '../../firebase/repositories/BlocoRepository';
 
 export default class BlocosController {
   async GetAsync(request: Request, response: Response): Promise<Response> {
-    // TODO: ajuste para get de blocos 
-
-    return response.json({ status: 'sucess', message: 'Usuário criado com sucesso!' });
+    const blocoRepository = container.resolve(BlocoRepository);
+    const entities = await blocoRepository.GetAsync();
+    return response.json(entities);
   };
 
   async CreateAsync(request: Request, response: Response): Promise<Response> {

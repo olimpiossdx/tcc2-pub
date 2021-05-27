@@ -1,4 +1,5 @@
 import { database } from 'firebase-admin/lib/database';
+import { Laboratorio } from '../../../../agendamento/infra/firebase/entities/Agendamento';
 import { firebaseDatabase } from '../../../../config/firebase.config';
 import IBlocoRepository from '../../../repositories/IBlocoRepository';
 import Bloco from '../entities/Bloco';
@@ -15,14 +16,29 @@ class BlocosRepository implements IBlocoRepository {
   };
 
   public async GetAsync(): Promise<Bloco[]> {
-    const response = await this.blocosRepository.orderByChild('id').get();
+    const response = await this.blocosRepository.orderByChild('nome').get();
     const blocos = new Array<Bloco>();
 
     if (response.exists()) {
-      const blocoJson = response.toJSON() as objecToArray;
+      const blocosJson = response.toJSON() as objecToArray;
 
-      const hashkey = Object.keys(blocoJson)[0];
-      Object.assign(blocos, blocoJson[hashkey]);
+      const hashkeys = Object.keys(blocosJson);
+
+      for (const hashkey of hashkeys) {
+        const bloco = new Bloco();
+        const laboratorios = new Array<Laboratorio>();
+
+        for (const key in blocosJson[hashkey].laboratorios) {
+            laboratorios.push(blocosJson[hashkey].laboratorios[key]);
+        };
+
+        bloco.id = blocosJson[hashkey].id;;
+        bloco.nome = blocosJson[hashkey].nome;
+        bloco.laboratorios = laboratorios;
+
+        blocos.push(bloco);
+        // Object.assign(blocos, ...blocosJson[hashkey]);
+      }
     };
 
     return blocos;

@@ -7,6 +7,7 @@ const blocosController = new BlocosController();
 
 const blocosRouter = Router();
 
+blocosRouter.get('/', blocosController.GetAsync);
 blocosRouter.post('/', blocosController.CreateAsync);
 blocosRouter.patch('/chave-acesso', ensureAuthenticatedAsync, celebrate({
   [Segments.BODY]: {
