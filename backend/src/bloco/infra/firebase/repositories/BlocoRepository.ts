@@ -37,8 +37,7 @@ class BlocosRepository implements IBlocoRepository {
         bloco.laboratorios = laboratorios;
 
         blocos.push(bloco);
-        // Object.assign(blocos, ...blocosJson[hashkey]);
-      }
+      };
     };
 
     return blocos;
