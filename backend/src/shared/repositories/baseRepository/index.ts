@@ -36,7 +36,7 @@ class BaseRepository implements IBaseRepository {
 
     if (!response.exists()) {
       return undefined;
-    }
+    };
 
     let entity: T = {} as T;
     const entityJson = response.toJSON() as objecToArray;
