@@ -33,14 +33,14 @@ const LaboratoriosAgendados: React.FC = () => {
 
   useEffect(() => {
     const requestAsync = async () => {
-      // const response = await ApiServiceRequestAsync<IAgendamentoModel[]>({ method: 'get', url: 'usuarios/agendamentos' }, setLoading, addNotification);
+      const response = await ApiServiceRequestAsync<IAgendamentoModel[]>({ method: 'get', url: 'usuarios/agendamentos' }, setLoading, addNotification);
       
-      // if (!('status' in response)) {
-      //    setAgendamentos(response);
-      // };
+      if (!('status' in response)) {
+         setAgendamentos(response);
+      };
     };
 
-    // requestAsync();
+    requestAsync();
 
     return function cleanUpFunction() {
       cancellationRequest('cancelou');

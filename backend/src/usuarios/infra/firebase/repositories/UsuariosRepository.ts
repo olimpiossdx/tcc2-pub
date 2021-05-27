@@ -62,7 +62,7 @@ class UsuariosRepository extends BaseRepository implements IUsuariosRepository {
       const usuarioJson = response.toJSON() as objecToArray;
       const hashkey = Object.keys(usuarioJson)[0];
       Object.assign(usuario, usuarioJson[hashkey]);
-    }
+    };
 
     return usuario;
   };

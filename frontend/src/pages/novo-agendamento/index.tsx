@@ -17,11 +17,12 @@ const NovoAgendamento: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [blocos, setBlocos] = useState<BlocoModel[]>([]);
   const [selectBloco, setSelectBloco] = React.useState('');
-  const [selectedIndexBloco, setSelectedIndexBloco] = React.useState<number | undefined>();
-  const [selectSala, setSelectSala] = React.useState('');
+  const [selectedIndexBloco, setSelectedIndexBloco] = React.useState<number>(-1);
+  const [laboratorioSelected, setLaboratorioSelected] = React.useState('');
   const [data, setData] = useState<Date | null>(new Date());
   const [selectStartTime, setSelectStartTime] = useState<Date | null>(new Date());
   const [selectEndTime, setSelectEndTime] = useState<Date | null>(new Date());
+  // const [parametroAgendamento, setParametroAgendamento] = useState<any>();
 
   useEffect(() => {
     const requestAsync = async () => {
@@ -43,13 +44,11 @@ const NovoAgendamento: React.FC = () => {
   const handleSelectBlocoChange = useCallback((event: React.ChangeEvent<{ value: unknown }>) => {
     const id = event.target.value as string;
     setSelectBloco(id);
-
-    setSelectedIndexBloco(() => blocos.findIndex(bloco => bloco.id));
-
+    setSelectedIndexBloco(() => blocos.findIndex(bloco => bloco.id === id));
   }, [blocos]);
 
   const handleSelectSalaChange = useCallback((event: React.ChangeEvent<{ value: unknown }>) => {
-    setSelectSala(event.target.value as string);
+    setLaboratorioSelected(event.target.value as string);
   }, []);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -101,11 +100,11 @@ const NovoAgendamento: React.FC = () => {
             <Grid item xs={12}>
               {loading && <LinearProgress />}
               {!loading && (<FormControl variant='outlined' fullWidth>
-                <InputLabel id='select-sala-simple-select-outlined-label'>Selecione a sala</InputLabel>
+                <InputLabel id='select-sala-simple-select-outlined-label'>Selecione o laboratório</InputLabel>
                 <Select
                   labelId='select-sala-simple-select-outlined-label'
                   id='select-sala-simple-select-outlined'
-                  value={selectSala}
+                  value={laboratorioSelected}
                   onChange={handleSelectSalaChange}
                   label='Selecione laboratório'>
                   {!loading && blocos.length ? (<MenuItem value=''>
@@ -113,7 +112,7 @@ const NovoAgendamento: React.FC = () => {
                   </MenuItem>) : (<MenuItem value=''>
                     <em>Nenhum registro</em>
                   </MenuItem>)}
-                  {selectedIndexBloco && blocos[selectedIndexBloco].laboratorios.map(laboratorio => (<MenuItem value={laboratorio.id}>{laboratorio.nome}</MenuItem>))}
+                  {selectedIndexBloco !== -1 && blocos[selectedIndexBloco].laboratorios.map(laboratorio => (<MenuItem value={laboratorio.id}>{laboratorio.nome}</MenuItem>))}
                 </Select>
               </FormControl>)}
             </Grid>
