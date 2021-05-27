@@ -12,6 +12,10 @@ import { useNotifcation } from '../../components/hooks/notification';
 import Main from '../../components/main';
 import BlocoModel from './models/bloco.model';
 
+interface IArrayObject {
+  [key: string]: any;
+};
+
 const NovoAgendamento: React.FC = () => {
   const { addNotification } = useNotifcation();
   const [loading, setLoading] = useState(true);
@@ -52,10 +56,16 @@ const NovoAgendamento: React.FC = () => {
   }, []);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    //TODO ADICIONAR REGRA PARA CADASTRAMENTO
     event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+
+    formData.forEach((value: FormDataEntryValue, key: string, parent: FormData) => {
+      console.log(key, value);
+    });
+
 
     addNotification({ tipo: 'success', descricao: 'Agendamento realizado com sucesso! ' });
-    //TODO ADICIONAR REGRA PARA CADASTRAMENTO
   };
 
   return (<Main>
@@ -85,6 +95,7 @@ const NovoAgendamento: React.FC = () => {
                 <Select
                   labelId='select-bloco-simple-select-outlined-label'
                   id='select-bloco-simple-select-outlined'
+                  name='bloco'
                   value={selectBloco}
                   onChange={handleSelectBlocoChange}
                   label='Selecionie bloco'>
@@ -104,6 +115,7 @@ const NovoAgendamento: React.FC = () => {
                 <Select
                   labelId='select-sala-simple-select-outlined-label'
                   id='select-sala-simple-select-outlined'
+                  name='laboratorio'
                   value={laboratorioSelected}
                   onChange={handleSelectSalaChange}
                   label='Selecione laboratório'>
@@ -120,6 +132,7 @@ const NovoAgendamento: React.FC = () => {
               <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ptBRLocale}>
                 <KeyboardDatePicker
                   fullWidth
+                  name='dataInicio'
                   value={data}
                   onChange={(data) => setData(data)}
                   label='Data'
@@ -133,6 +146,7 @@ const NovoAgendamento: React.FC = () => {
               <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ptBRLocale}>
                 <KeyboardTimePicker
                   label='Horário de inicio'
+                  name='horarioInicio'
                   ampm={false}
                   fullWidth
                   value={selectStartTime}
@@ -145,6 +159,7 @@ const NovoAgendamento: React.FC = () => {
               <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ptBRLocale}>
                 <KeyboardTimePicker
                   label='Horário de final'
+                  name='horarioFim'
                   ampm={false}
                   fullWidth
                   value={selectEndTime}
