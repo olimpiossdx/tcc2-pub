@@ -12,10 +12,6 @@ import { useNotifcation } from '../../components/hooks/notification';
 import Main from '../../components/main';
 import BlocoModel from './models/bloco.model';
 
-interface IArrayObject {
-  [key: string]: any;
-};
-
 const NovoAgendamento: React.FC = () => {
   const { addNotification } = useNotifcation();
   const [loading, setLoading] = useState(true);
@@ -26,6 +22,7 @@ const NovoAgendamento: React.FC = () => {
   const [data, setData] = useState<Date | null>(new Date());
   const [selectStartTime, setSelectStartTime] = useState<Date | null>(new Date());
   const [selectEndTime, setSelectEndTime] = useState<Date | null>(new Date());
+  // TODO: ajustar get de parametro de agendamento
   // const [parametroAgendamento, setParametroAgendamento] = useState<any>();
 
   useEffect(() => {
