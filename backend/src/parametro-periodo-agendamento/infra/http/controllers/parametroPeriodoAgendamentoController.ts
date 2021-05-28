@@ -5,8 +5,17 @@ import ICreteParametroPeriodoAgendamentoDTO from "../../../dtos/ICreteParametroP
 import IUpdateParametroPeriodoAgendamentoDTO from "../../../dtos/IUpdateParametroPeriodoAgendamentoDTO";
 import CreateParametroPeriodoAgendamentoService from "../../../services/CreateParametroPeriodoAgendamentoService";
 import UpdateParametroPeriodoAgendamentoService from '../../../services/UpdateParametroPeriodoAgendamentoService';
+import ParametroPeriodoAgendamentoRepository from '../../firebase/repositories/parametroPeriodoAgendamentoRepository';
+
 
 export default class ParametroPeriodoAgendamentoController {
+  async GetAsync(request: Request, response: Response): Promise<Response> {
+    const parametroPeriodoAgendamentoRepository = container.resolve(ParametroPeriodoAgendamentoRepository);
+    const entity = await parametroPeriodoAgendamentoRepository.GetAsync();
+
+    return response.json(entity);
+  };
+
   async CreateAsync(request: Request, response: Response): Promise<Response> {
     const { periodo } = request.body as ICreteParametroPeriodoAgendamentoDTO;
 

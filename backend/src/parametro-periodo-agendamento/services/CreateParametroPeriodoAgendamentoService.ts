@@ -10,11 +10,11 @@ import IParametroPeriodoAgendamentoRepository from '../repositories/IParametroPe
 @injectable()
 class CreateParametroPeriodoAgendamentoService {
   constructor(
-    @inject('AgendamentoRepository')
+    @inject('ParametroPeriodoAgendamentoRepository')
     private parametroPeriodoAgendamentoRepository: IParametroPeriodoAgendamentoRepository) { };
 
   public async ExecuteAsync({ periodo }: ICreteParametroPeriodoAgendamentoDTO): Promise<ParametroPeriodoAgendamento> {
-    const parametroPeriodoAgendamentos = await this.parametroPeriodoAgendamentoRepository.GetAsync<ParametroPeriodoAgendamento>('nome');
+    const parametroPeriodoAgendamentos = await this.parametroPeriodoAgendamentoRepository.GetAsync<ParametroPeriodoAgendamento>('id');
 
     if (parametroPeriodoAgendamentos.length) {
       throw new AppError(`Não possível criar parâmetros iguais.`);

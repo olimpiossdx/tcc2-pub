@@ -6,11 +6,12 @@ import ensureAuthenticatedAsync from '../../../../usuarios/infra/http/middleware
 const parametroPeriodoAgendamentoController = new ParametroPeriodoAgendamentoController();
 const parametroPeriodoAgendamentoRouter = Router();
 
+parametroPeriodoAgendamentoRouter.get('/', ensureAuthenticatedAsync, parametroPeriodoAgendamentoController.GetAsync);
 parametroPeriodoAgendamentoRouter.post('/', ensureAuthenticatedAsync, parametroPeriodoAgendamentoController.CreateAsync);
-parametroPeriodoAgendamentoRouter.put('/update', ensureAuthenticatedAsync, celebrate({
+parametroPeriodoAgendamentoRouter.put('/', ensureAuthenticatedAsync, celebrate({
   [Segments.BODY]: {
     id: Joi.string().required(),
-    periodo: Joi.string().required()
+    periodo: Joi.number().required()
   }
 }), parametroPeriodoAgendamentoController.UpdateAsync);
 

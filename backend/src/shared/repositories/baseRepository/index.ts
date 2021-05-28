@@ -25,8 +25,9 @@ class BaseRepository implements IBaseRepository {
 
     const entitiesJson = response.toJSON() as objecToArray;
 
-    const hashkey = Object.keys(entitiesJson)[0];
-    Object.assign(entities, entitiesJson[hashkey]);
+     Object.entries(Object.assign({}, ...entities, entitiesJson)).map(([prop, value],index) => {
+      entities[index] = value as T
+    });
 
     return entities;
   };
