@@ -8,7 +8,6 @@ import Agendamento from '../infra/firebase/entities/Agendamento';
 import IAgendamentoRepository from '../repositories/IAgendmanetoRepository';
 import IParametroPeriodoAgendamentoRepository from '../../parametro-periodo-agendamento/repositories/IParametroPeriodoAgendamentoRepository';
 import ParametroPeriodoAgendamento from '../../parametro-periodo-agendamento/infra/firebase/entities/parametroPeriodoAgendamento';
-import { request } from 'express';
 import IUsuariosRepository from '../../usuarios/repositories/IUsuariosRepository';
 
 
