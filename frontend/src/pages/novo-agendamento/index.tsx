@@ -26,7 +26,7 @@ const NovoAgendamento: React.FC = () => {
   const [blocos, setBlocos] = useState<BlocoModel[]>([]);
   const [selectBloco, setSelectBloco] = React.useState('');
   const [selectedIndexBloco, setSelectedIndexBloco] = React.useState<number>(-1);
-  const [laboratorioSelected, setLaboratorioSelected] = React.useState('');
+  const [selectedLaboratorio, setSelectedLaboratorio] = React.useState('');
   const [data, setData] = useState<Date | null>(new Date());
   const [selectStartTime, setSelectStartTime] = useState<Date | null>(new Date());
   const [selectEndTime, setSelectEndTime] = useState<Date | null>(new Date());
@@ -64,7 +64,7 @@ const NovoAgendamento: React.FC = () => {
   }, [blocos]);
 
   const handleSelectSalaChange = useCallback((event: React.ChangeEvent<{ value: unknown }>) => {
-    setLaboratorioSelected(event.target.value as string);
+    setSelectedLaboratorio(event.target.value as string);
   }, []);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -78,7 +78,7 @@ const NovoAgendamento: React.FC = () => {
       return;
     };
 
-    const response = await ApiServiceRequestAsync<IParametroAgendamento[]>({ method: 'get', url: 'parametro-periodo-agendamento' }, setLoading, addNotification);
+    const response = await ApiServiceRequestAsync<IParametroAgendamento[]>({ method: 'post', url: 'agendamento', data: { selectBloco, selectedLaboratorio, selectStartTime} }, setLoading, addNotification);
 
     if (!('status' in response)) {
       history.push('/laboratorios-agendados');
@@ -134,7 +134,7 @@ const NovoAgendamento: React.FC = () => {
                   labelId='select-sala-simple-select-outlined-label'
                   id='select-sala-simple-select-outlined'
                   name='laboratorio'
-                  value={laboratorioSelected}
+                  value={selectedLaboratorio}
                   onChange={handleSelectSalaChange}
                   label='Selecione laboratório'
                   required>
