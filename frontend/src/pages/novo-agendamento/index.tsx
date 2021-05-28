@@ -1,4 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react';
+import { differenceInMinutes } from 'date-fns';
 
 import { Paper, Grid, Typography, FormControl, InputLabel, MenuItem, Select, Button, LinearProgress, Divider } from '@material-ui/core';
 
@@ -11,9 +12,16 @@ import { ApiServiceRequestAsync, cancellationRequest } from '../../services';
 import { useNotifcation } from '../../components/hooks/notification';
 import Main from '../../components/main';
 import BlocoModel from './models/bloco.model';
+import { useHistory } from 'react-router';
+
+interface IParametroAgendamento {
+  id: string;
+  periodo: number;
+};
 
 const NovoAgendamento: React.FC = () => {
   const { addNotification } = useNotifcation();
+  const history = useHistory();
   const [loading, setLoading] = useState(true);
   const [blocos, setBlocos] = useState<BlocoModel[]>([]);
   const [selectBloco, setSelectBloco] = React.useState('');
@@ -22,8 +30,7 @@ const NovoAgendamento: React.FC = () => {
   const [data, setData] = useState<Date | null>(new Date());
   const [selectStartTime, setSelectStartTime] = useState<Date | null>(new Date());
   const [selectEndTime, setSelectEndTime] = useState<Date | null>(new Date());
-  // TODO: ajustar get de parametro de agendamento
-  // const [parametroAgendamento, setParametroAgendamento] = useState<any>();
+  const [parametroAgendamento, setParametroAgendamento] = useState<IParametroAgendamento[]>([]);
 
   useEffect(() => {
     const requestAsync = async () => {
@@ -34,6 +41,14 @@ const NovoAgendamento: React.FC = () => {
       };
     };
 
+    const requesParametrotAsync = async () => {
+      const response = await ApiServiceRequestAsync<IParametroAgendamento[]>({ method: 'get', url: 'parametro-periodo-agendamento' }, setLoading, addNotification);
+
+      if (!('status' in response)) {
+        setParametroAgendamento(response);
+      };
+    };
+    requesParametrotAsync();
     requestAsync();
 
     return function cleanUpFunction() {
@@ -52,17 +67,22 @@ const NovoAgendamento: React.FC = () => {
     setLaboratorioSelected(event.target.value as string);
   }, []);
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     //TODO ADICIONAR REGRA PARA CADASTRAMENTO
     event.preventDefault();
-    const formData = new FormData(event.currentTarget);
 
-    formData.forEach((value: FormDataEntryValue, key: string, parent: FormData) => {
-      console.log(key, value);
-    });
+    const differenceMinutes = differenceInMinutes(selectEndTime as Date, selectStartTime as Date);
 
+    if (!(differenceMinutes > 0 && differenceMinutes >= parametroAgendamento[0].periodo)) {
+      addNotification({ tipo: 'error', descricao: `Período mínimo de ${parametroAgendamento[0].periodo} minutos` });
+      return;
+    };
 
-    addNotification({ tipo: 'success', descricao: 'Agendamento realizado com sucesso! ' });
+    const response = await ApiServiceRequestAsync<IParametroAgendamento[]>({ method: 'get', url: 'parametro-periodo-agendamento' }, setLoading, addNotification);
+
+    if (!('status' in response)) {
+      history.push('/laboratorios-agendados');
+    };
   };
 
   return (<Main>
@@ -87,7 +107,7 @@ const NovoAgendamento: React.FC = () => {
           <Grid container spacing={2} alignItems='center' style={{ padding: 10 }}>
             <Grid item xs={12}>
               {loading && <LinearProgress />}
-              {!loading && (<FormControl variant='outlined' fullWidth>
+              {!loading && (<FormControl variant='outlined' fullWidth required>
                 <InputLabel id='select-bloco-simple-select-outlined-label'>Selecione o bloco</InputLabel>
                 <Select
                   labelId='select-bloco-simple-select-outlined-label'
@@ -95,7 +115,8 @@ const NovoAgendamento: React.FC = () => {
                   name='bloco'
                   value={selectBloco}
                   onChange={handleSelectBlocoChange}
-                  label='Selecionie bloco'>
+                  label='Selecionie bloco'
+                  required>
                   {!loading && blocos.length ? (<MenuItem value=''>
                     <em>limpar seleção</em>
                   </MenuItem>) : (<MenuItem value=''>
@@ -107,7 +128,7 @@ const NovoAgendamento: React.FC = () => {
             </Grid>
             <Grid item xs={12}>
               {loading && <LinearProgress />}
-              {!loading && (<FormControl variant='outlined' fullWidth>
+              {!loading && (<FormControl variant='outlined' fullWidth required>
                 <InputLabel id='select-sala-simple-select-outlined-label'>Selecione o laboratório</InputLabel>
                 <Select
                   labelId='select-sala-simple-select-outlined-label'
@@ -115,7 +136,8 @@ const NovoAgendamento: React.FC = () => {
                   name='laboratorio'
                   value={laboratorioSelected}
                   onChange={handleSelectSalaChange}
-                  label='Selecione laboratório'>
+                  label='Selecione laboratório'
+                  required>
                   {!loading && blocos.length ? (<MenuItem value=''>
                     <em>limpar seleção</em>
                   </MenuItem>) : (<MenuItem value=''>
@@ -149,7 +171,8 @@ const NovoAgendamento: React.FC = () => {
                   value={selectStartTime}
                   onChange={(data) => setSelectStartTime(data)}
                   onError={console.log}
-                  disabled={loading} />
+                  disabled={loading}
+                  required />
               </MuiPickersUtilsProvider>
             </Grid>
             <Grid item xs={12} sm>
@@ -163,7 +186,7 @@ const NovoAgendamento: React.FC = () => {
                   onChange={(data) => setSelectEndTime(data)}
                   onError={console.log}
                   disabled={loading}
-                />
+                  required />
               </MuiPickersUtilsProvider>
             </Grid>
             <Grid item xs={12}>
