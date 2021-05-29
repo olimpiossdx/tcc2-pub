@@ -10,21 +10,11 @@ agendamentoRouter.post('/', ensureAuthenticatedAsync,
   celebrate({
     [Segments.BODY]: {
       agendamento: {
-        nome: Joi.string().required(),
+        id: Joi.string().required(),
+        blocoId: Joi.string().required(),
+        laboratorioId: Joi.string().required(),
         horarioInicio: Joi.string().required(),
-        horarioFim: Joi.string().required(),
-
-        bloco: {
-          id: Joi.string().required(),
-          nome: Joi.string().required(),
-          numero: Joi.number().required()
-        },
-
-        laboratorio: {
-          id: Joi.string().required(),
-          nome: Joi.string().required(),
-          numero: Joi.number().required()
-        }
+        horarioFim: Joi.string().required()
       }
     }
   }), agendamentoController.CreateAsync);

@@ -1,16 +1,16 @@
 export default interface IUpdateAgendamentoDTO {
   id: string,
   bloco: {
-    id: string,
-    nome: string
+    id: string;
+    nome: string;
     numero: number;
   },
   laboratorio: {
-    id:string;
+    id: string;
     nome: string;
-    numero: string,
+    numero: string;
   },
-  data: string,
-  horarioInicio: string,
-  horarioFim: string,
+  data: string;
+  horarioInicio: string;
+  horarioFim: string;
 };
