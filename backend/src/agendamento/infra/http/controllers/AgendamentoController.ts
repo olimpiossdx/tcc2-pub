@@ -6,7 +6,7 @@ import AppError from '../../../../shared/erros';
 import IUpdateAgendamentoDTO from "../../../dtos/IUpdateAgendamentoDTO";
 import CreateAgendamentoService from "../../../services/CreateAgendamentoService";
 import UpdateAgendamentoService from '../../../services/UpdateAgendamentoService';
-import BlocosRepository from '../../firebase/repositories/AgendamentoRepository';
+import BlocosRepository from '../../../../bloco/infra/firebase/repositories/BlocoRepository';
 
 export default class AgendamentoController {
   async CreateAsync(request: Request, response: Response): Promise<Response> {
@@ -21,13 +21,13 @@ export default class AgendamentoController {
       throw new AppError("Bloco não encontrado");
     };
 
-    const entityLaboratório = entityBloco.laboratorios.find(laboratorio => laboratorio.id === laboratorioId);
+    const entityLaboratorio = entityBloco.laboratorios.find(laboratorio => laboratorio.id === laboratorioId);
 
-    if (!entityLaboratório) {
+    if (!entityLaboratorio) {
       throw new AppError("Bloco não encontrado");
     };
 
-    await createAgendamentoService.ExecuteAsync({ usuarioId, bloco: entityBloco, laboratorio: entityLaboratório, data, horarioInicio, horarioFim });
+    await createAgendamentoService.ExecuteAsync({ usuarioId, bloco: entityBloco, laboratorio: entityLaboratorio, data, horarioInicio, horarioFim });
 
 
     return response.json({ status: 'sucess', message: 'Agendamento criado com sucesso!' });
@@ -45,9 +45,9 @@ export default class AgendamentoController {
       throw new AppError("Bloco não encontrado");
     };
 
-    const entityLaboratório = entityBloco.laboratorios.find(entityLaboratorio => entityLaboratorio.id === laboratorio.id);
+    const entityLaboratorio = entityBloco.laboratorios.find(entityLaboratorio => entityLaboratorio.id === laboratorio.id);
 
-    if (!entityLaboratório) {
+    if (!entityLaboratorio) {
       throw new AppError("laboratório não encontrado");
     };
 
@@ -57,7 +57,7 @@ export default class AgendamentoController {
 
     const updateAgendamentoService = container.resolve(UpdateAgendamentoService);
     await updateAgendamentoService.ExecuteAsync({
-      id, usuarioId, bloco: entityBloco, laboratorio: entityLaboratório, data: dateFormated, horarioInicio: horarioInicioFormated, horarioFim: horarioFimFormated,
+      id, usuarioId, bloco: entityBloco, laboratorio: entityLaboratorio, data: dateFormated, horarioInicio: horarioInicioFormated, horarioFim: horarioFimFormated,
       updated: new Date().getTime(), created: new Date().getTime()
     });
 

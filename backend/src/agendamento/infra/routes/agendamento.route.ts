@@ -9,13 +9,11 @@ const agendamentoController = new AgendamentoController();
 agendamentoRouter.post('/', ensureAuthenticatedAsync,
   celebrate({
     [Segments.BODY]: {
-      agendamento: {
-        id: Joi.string().required(),
-        blocoId: Joi.string().required(),
-        laboratorioId: Joi.string().required(),
-        horarioInicio: Joi.string().required(),
-        horarioFim: Joi.string().required()
-      }
+      blocoId: Joi.string().required(),
+      laboratorioId: Joi.string().required(),
+      data: Joi.string().required(),
+      horarioInicio: Joi.string().required(),
+      horarioFim: Joi.string().required()
     }
   }), agendamentoController.CreateAsync);
 

@@ -8,7 +8,7 @@ export interface objecToArray {
   [key: string]: any;
 };
 
-class BlocosRepository extends BaseRepository implements IAgendamentoRepository {
+class AgendamentoRepository extends BaseRepository implements IAgendamentoRepository {
   constructor() {
     super('agendamentos');
   };
@@ -35,4 +35,4 @@ class BlocosRepository extends BaseRepository implements IAgendamentoRepository 
   };
 };
 
-export default BlocosRepository;
+export default AgendamentoRepository;
