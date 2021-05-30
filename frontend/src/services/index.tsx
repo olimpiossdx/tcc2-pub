@@ -53,7 +53,7 @@ export async function ApiServiceRequestAsync<TViewModel = any>({ method = 'get',
   try {
     axiosResponse = await api.request<TViewModel>({ ...rest, method }) as AxiosResponse<TViewModel>;
   } catch (error) {
-    debugger;
+    
     axiosResponse = {
       data: { status: 'error', message: 'Ocorreu um erro, caso persista, contacte o suporte' },
       status: 500,
