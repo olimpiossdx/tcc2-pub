@@ -2,7 +2,6 @@ import { database } from 'firebase-admin/lib/database';
 import { firebaseDatabase } from '../../../config/firebase.config';
 import AppError from '../../erros';
 import IBaseRepository from '../../service/IBaseRepository';
-import BaseModel from '../baseModel';
 
 export interface objecToArray {
   [key: string]: any;
@@ -14,7 +13,8 @@ class BaseRepository implements IBaseRepository {
   constructor(databaseRef: string) {
     this.contextDatabaseRef = firebaseDatabase.ref(databaseRef);
   };
-
+  
+  //TODO: verificar outro modo de retorno
   public async GetAsync<T>(orderBy: string = 'id'): Promise<T[]> {
     const response = await this.contextDatabaseRef.orderByChild(orderBy).get();
     let entities = new Array<T>();
@@ -23,11 +23,9 @@ class BaseRepository implements IBaseRepository {
       return entities;
     };
 
-    const entitiesJson = response.toJSON() as objecToArray;
+    const entitiesJson = response.val() as objecToArray;
 
-     Object.entries(Object.assign({}, ...entities, entitiesJson)).map(([prop, value],index) => {
-      entities[index] = value as T
-    });
+    entities = Object.entries(entitiesJson).map(([prop, value], index) => (entities[index] = value as T));
 
     return entities;
   };
@@ -40,10 +38,10 @@ class BaseRepository implements IBaseRepository {
     };
 
     let entity: T = {} as T;
-    const entityJson = response.toJSON() as objecToArray;
+    const entitiesJson = response.val() as objecToArray;
 
-    const hashkey = Object.keys(entityJson)[0];
-    Object.assign(entity, entityJson[hashkey]);
+    const hashkey = Object.keys(entitiesJson)[0];
+    Object.assign(entity, entitiesJson[hashkey]);
 
     return entity;
   };
