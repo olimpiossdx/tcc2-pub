@@ -23,9 +23,8 @@ const NovoAgendamento: React.FC = () => {
   const { addNotification } = useNotifcation();
   const history = useHistory();
   const [loading, setLoading] = useState(true);
-  const [blocos, setBlocos] = useState<BlocoModel[]>([]);
-  const [selectBloco, setSelectBloco] = React.useState('');
-  const [selectedIndexBloco, setSelectedIndexBloco] = React.useState<number>(-1);
+  const [blocos, setBlocos] = useState<BlocoModel[]>(new Array<BlocoModel>());
+  const [selectBloco, setSelectBloco] = React.useState<{ id: string, pos: number }>({ id: '', pos: -1 });
   const [selectedLaboratorio, setSelectedLaboratorio] = React.useState('');
   const [data, setData] = useState<Date | null>(new Date());
   const [selectStartTime, setSelectStartTime] = useState<Date | null>(new Date());
@@ -48,6 +47,7 @@ const NovoAgendamento: React.FC = () => {
         setParametroAgendamento(response);
       };
     };
+
     requesParametrotAsync();
     requestAsync();
 
@@ -59,8 +59,13 @@ const NovoAgendamento: React.FC = () => {
 
   const handleSelectBlocoChange = useCallback((event: React.ChangeEvent<{ value: unknown }>) => {
     const id = event.target.value as string;
-    setSelectBloco(id);
-    setSelectedIndexBloco(() => blocos.findIndex(bloco => bloco.id === id));
+    const blocoIndex = blocos.findIndex(bloco => bloco.id === id);
+
+    if (blocoIndex === -1) {
+      setSelectedLaboratorio('');
+    };
+
+    setSelectBloco({ id, pos: blocoIndex });
   }, [blocos]);
 
   const handleSelectSalaChange = useCallback((event: React.ChangeEvent<{ value: unknown }>) => {
@@ -74,11 +79,13 @@ const NovoAgendamento: React.FC = () => {
     const differenceMinutes = differenceInMinutes(selectEndTime as Date, selectStartTime as Date);
 
     if (!(differenceMinutes > 0 && differenceMinutes >= parametroAgendamento[0].periodo)) {
-      addNotification({ tipo: 'error', descricao: `Período mínimo de ${parametroAgendamento[0].periodo} minutos` });
+      addNotification({ tipo: 'error', descricao: `Permanência mínima de ${parametroAgendamento[0].periodo} minutos.` });
       return;
     };
 
-    const response = await ApiServiceRequestAsync<IParametroAgendamento[]>({ method: 'post', url: 'agendamento', data: { selectBloco, selectedLaboratorio, selectStartTime} }, setLoading, addNotification);
+    const response = await ApiServiceRequestAsync<IParametroAgendamento[]>({ method: 'post', url: 'agendamentos', data: { blocoId: selectBloco.id, laboratorioId: selectedLaboratorio, data, horarioInicio: selectStartTime, horarioFim: selectEndTime } }, setLoading, addNotification);
+
+    console.log('response', response);
 
     if (!('status' in response)) {
       history.push('/laboratorios-agendados');
@@ -113,7 +120,7 @@ const NovoAgendamento: React.FC = () => {
                   labelId='select-bloco-simple-select-outlined-label'
                   id='select-bloco-simple-select-outlined'
                   name='bloco'
-                  value={selectBloco}
+                  value={selectBloco.id}
                   onChange={handleSelectBlocoChange}
                   label='Selecionie bloco'
                   required>
@@ -129,21 +136,21 @@ const NovoAgendamento: React.FC = () => {
             <Grid item xs={12}>
               {loading && <LinearProgress />}
               {!loading && (<FormControl variant='outlined' fullWidth required>
-                <InputLabel id='select-sala-simple-select-outlined-label'>Selecione o laboratório</InputLabel>
+                <InputLabel id='simple-select-outlined-label'>Selecione o laboratório</InputLabel>
                 <Select
-                  labelId='select-sala-simple-select-outlined-label'
-                  id='select-sala-simple-select-outlined'
+                  labelId='simple-select-outlined-label'
+                  id='simple-select-outlined-label'
                   name='laboratorio'
                   value={selectedLaboratorio}
                   onChange={handleSelectSalaChange}
                   label='Selecione laboratório'
                   required>
-                  {!loading && blocos.length ? (<MenuItem value=''>
+                  {selectBloco.pos !== -1 ? (<MenuItem value=''>
                     <em>limpar seleção</em>
                   </MenuItem>) : (<MenuItem value=''>
                     <em>Nenhum registro</em>
                   </MenuItem>)}
-                  {selectedIndexBloco !== -1 && blocos[selectedIndexBloco].laboratorios.map(laboratorio => (<MenuItem key={laboratorio.id} value={laboratorio.id}>{laboratorio.nome}</MenuItem>))}
+                  {selectBloco.pos !== -1 && blocos[selectBloco.pos].laboratorios.map(laboratorio => (<MenuItem key={laboratorio.id} value={laboratorio.id}>{laboratorio.nome}</MenuItem>))}
                 </Select>
               </FormControl>)}
             </Grid>

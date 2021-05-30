@@ -53,7 +53,7 @@ export async function ApiServiceRequestAsync<TViewModel = any>({ method = 'get',
   try {
     axiosResponse = await api.request<TViewModel>({ ...rest, method }) as AxiosResponse<TViewModel>;
   } catch (error) {
-
+    debugger;
     axiosResponse = {
       data: { status: 'error', message: 'Ocorreu um erro, caso persista, contacte o suporte' },
       status: 500,
@@ -76,7 +76,7 @@ export async function ApiServiceRequestAsync<TViewModel = any>({ method = 'get',
           request: error.response.request,
         }
       }
-
+      
       //TODO:alterar para um api de contexto
       if (!axios.isCancel(error) && error.response?.status === 401) {
         setNotification && setNotification({ tipo: 'error', descricao: (axiosResponse.data as IResponseError).message });
