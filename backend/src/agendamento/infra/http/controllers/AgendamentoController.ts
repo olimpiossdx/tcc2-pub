@@ -27,7 +27,12 @@ export default class AgendamentoController {
       throw new AppError("Bloco não encontrado");
     };
 
-    await createAgendamentoService.ExecuteAsync({ usuarioId, bloco: entityBloco, laboratorio: entityLaboratorio, data, horarioInicio, horarioFim });
+    await createAgendamentoService.ExecuteAsync({
+      usuarioId, bloco: entityBloco, laboratorio: entityLaboratorio,
+      data: new Date(data).getTime(),
+      horarioInicio: new Date(horarioInicio).getTime(), 
+      horarioFim: new Date(horarioFim).getTime()
+    });
 
 
     return response.json({ status: 'sucess', message: 'Agendamento criado com sucesso!' });

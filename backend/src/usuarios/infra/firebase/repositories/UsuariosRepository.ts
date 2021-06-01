@@ -13,12 +13,18 @@ class UsuariosRepository extends BaseRepository implements IUsuariosRepository {
   };
 
   public async AddOrUpdateAgendamentoAsync(id: string, agendamento: Agendamento): Promise<void> {
-    const response = await this.contextDatabaseRef.equalTo(id).get();
+    const response = await this.contextDatabaseRef.orderByChild('id').equalTo(id).get();
     let entity: Usuario | undefined = new Usuario();
 
-    const usuarioJson = response.toJSON() as objecToArray;
-    const hashkey = Object.keys(usuarioJson)[0];
-    Object.assign(entity, usuarioJson[hashkey])
+
+    const entitiesJson = response.val() as objecToArray;
+
+    entity = Object.entries(entitiesJson).map(([prop, value], index) => (value as Usuario))[0] as Usuario;
+
+    if (entity && !('agendamentos' in entity)) {
+      entity.agendamentos = new Array<Agendamento>();
+    }
+
     const entityAgendamentoIndex = entity.agendamentos.findIndex(item => item.id == agendamento.id);
 
     if (entityAgendamentoIndex == -1) {

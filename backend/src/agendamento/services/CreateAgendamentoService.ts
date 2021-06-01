@@ -32,7 +32,7 @@ class CreateAgendamentoService {
     if (entity) {
       throw new AppError(`Não possível agendar, existe um agendamento em ${entity.data} no período ${entity.horarioInicio} - ${entity.horarioFim}.`);
     };
-
+    
     if (differenceInMinutes(horarioFim, horarioInicio) < periodoMinimoAgendamentos[0].periodo) {
       throw new AppError(`O período mínimo para agendamento é ${periodoMinimoAgendamentos[0].periodo} minutos.`);
     };
