@@ -13,14 +13,14 @@ const TableDataRow: React.FC<{ agendamentos: IAgendamentoModel[] }> = ({ agendam
           {agendamento.laboratorio}
         </TableCell>
         <TableCell scope='row'>
-          {dataFormatter(agendamento.dataInicio, {})}
+          {dataFormatter(new Date(agendamento.data).toDateString(), {})}
         </TableCell>
-        <TableCell >{`${dataFormatter(agendamento.dataInicio, { type: 'HH:mm' })} às ${dataFormatter(agendamento.dataFim, { type: 'HH:mm' })}`}</TableCell>
+        <TableCell >{`${dataFormatter(new Date(agendamento.horarioInicio).toDateString(), { type: 'HH:mm' })} às ${dataFormatter(new Date(agendamento.horarioFim).toDateString(), { type: 'HH:mm' })}`}</TableCell>
       </TableRow>))) :
       (<TableRow>
         <TableCell scope='row' colSpan={3}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <FindInPageOutlinedIcon color='inherit'/>
+            <FindInPageOutlinedIcon color='inherit' />
             <Typography variant='h6' >
               Sem agendamentos
             </Typography>
