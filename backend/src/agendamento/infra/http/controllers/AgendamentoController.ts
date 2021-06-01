@@ -27,10 +27,12 @@ export default class AgendamentoController {
       throw new AppError("Bloco não encontrado");
     };
 
+    const { laboratorios, ...blocoAgendamento } = entityBloco;
+    
     await createAgendamentoService.ExecuteAsync({
-      usuarioId, bloco: entityBloco, laboratorio: entityLaboratorio,
+      usuarioId, bloco: blocoAgendamento, laboratorio: entityLaboratorio,
       data: new Date(data).getTime(),
-      horarioInicio: new Date(horarioInicio).getTime(), 
+      horarioInicio: new Date(horarioInicio).getTime(),
       horarioFim: new Date(horarioFim).getTime()
     });
 
@@ -56,13 +58,16 @@ export default class AgendamentoController {
       throw new AppError("laboratório não encontrado");
     };
 
+    const { laboratorios, ...blocoAgendamento } = entityBloco;
+
     const dateFormated = new Date(data).getTime();
     const horarioInicioFormated = new Date(horarioInicio).getTime();
     const horarioFimFormated = new Date(horarioFim).getTime();
 
     const updateAgendamentoService = container.resolve(UpdateAgendamentoService);
+
     await updateAgendamentoService.ExecuteAsync({
-      id, usuarioId, bloco: entityBloco, laboratorio: entityLaboratorio, data: dateFormated, horarioInicio: horarioInicioFormated, horarioFim: horarioFimFormated,
+      id, usuarioId, bloco: blocoAgendamento, laboratorio: entityLaboratorio, data: dateFormated, horarioInicio: horarioInicioFormated, horarioFim: horarioFimFormated,
       updated: new Date().getTime(), created: new Date().getTime()
     });
 
