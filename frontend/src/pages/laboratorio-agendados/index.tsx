@@ -14,7 +14,7 @@ const LaboratoriosAgendados: React.FC = () => {
   const { addNotification } = useNotifcation();
   const [agendamentos, setAgendamentos] = useState<IAgendamentoModel[]>([]);
   const [loading, setLoading] = useState(true);
-  
+
   useEffect(() => {
     const requestAsync = async () => {
       const response = await ApiServiceRequestAsync<IAgendamentoModel[]>({ method: 'get', url: 'usuarios/agendamentos' }, setLoading, addNotification);

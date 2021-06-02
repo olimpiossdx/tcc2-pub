@@ -15,7 +15,7 @@ interface IDataFormatterOptions {
   locale?: localeCodes;
 };
 
-export const dataFormatter = (data: string, { locale = 'pt-br', type = 'dd-mm-yyyy', }: IDataFormatterOptions): string => {
+export const dataFormatter = (data: string | number, { locale = 'pt-br', type = 'dd-mm-yyyy', }: IDataFormatterOptions): string => {
   let options = { day: 'numeric', month: 'numeric', year: 'numeric' } as Intl.DateTimeFormatOptions;
 
   if (type === 'HH:mm') {

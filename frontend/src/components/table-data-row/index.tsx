@@ -10,12 +10,12 @@ const TableDataRow: React.FC<{ agendamentos: IAgendamentoModel[] }> = ({ agendam
     {agendamentos.length ? (agendamentos.map(agendamento => (
       <TableRow key={agendamento.id} hover>
         <TableCell component='th' scope='row'>
-          {agendamento.laboratorio}
+          {agendamento.laboratorio.nome}
         </TableCell>
         <TableCell scope='row'>
-          {dataFormatter(new Date(agendamento.data).toDateString(), {})}
+          {dataFormatter(agendamento.data, {})}
         </TableCell>
-        <TableCell >{`${dataFormatter(new Date(agendamento.horarioInicio).toDateString(), { type: 'HH:mm' })} às ${dataFormatter(new Date(agendamento.horarioFim).toDateString(), { type: 'HH:mm' })}`}</TableCell>
+        <TableCell >{`${dataFormatter(agendamento.horarioInicio, { type: 'HH:mm' })} às ${dataFormatter(agendamento.horarioFim, { type: 'HH:mm' })}`}</TableCell>
       </TableRow>))) :
       (<TableRow>
         <TableCell scope='row' colSpan={3}>
