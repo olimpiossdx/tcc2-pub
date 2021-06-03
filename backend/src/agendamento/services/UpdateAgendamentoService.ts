@@ -1,13 +1,11 @@
-import { differenceInMinutes } from 'date-fns';
 import 'reflect-metadata';
+import { differenceInMinutes } from 'date-fns';
 import { inject, injectable } from 'tsyringe';
 import ParametroPeriodoAgendamento from '../../parametro-periodo-agendamento/infra/firebase/entities/parametroPeriodoAgendamento';
 import IParametroPeriodoAgendamentoRepository from '../../parametro-periodo-agendamento/repositories/IParametroPeriodoAgendamentoRepository';
 import AppError from '../../shared/erros';
 import Agendamento from '../infra/firebase/entities/Agendamento';
 import IAgendamentoRepository from '../repositories/IAgendmanetoRepository';
-
-
 
 @injectable()
 class UpdateAgendamentoService {

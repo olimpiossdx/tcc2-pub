@@ -1,6 +1,3 @@
-import { database } from 'firebase-admin/lib/database';
-import { Laboratorio } from '../../../../agendamento/infra/firebase/entities/Agendamento';
-import { firebaseDatabase } from '../../../../config/firebase.config';
 import BaseRepository from '../../../../shared/repositories/baseRepository';
 import IBlocoRepository from '../../../repositories/IBlocoRepository';
 import Bloco from '../entities/Bloco';
