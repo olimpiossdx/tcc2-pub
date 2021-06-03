@@ -9,8 +9,8 @@ class ParametroPeriodoAgendamento extends BaseModel {
 
   id: string;
   periodo: number;
-  horaInicio: number;
-  horaFim: number;
+  horarioInicio: number;
+  horarioFim: number;
 };
 
 export default ParametroPeriodoAgendamento;

@@ -13,14 +13,17 @@ class CreateParametroPeriodoAgendamentoService {
     @inject('ParametroPeriodoAgendamentoRepository')
     private parametroPeriodoAgendamentoRepository: IParametroPeriodoAgendamentoRepository) { };
 
-  public async ExecuteAsync({ periodo }: ICreteParametroPeriodoAgendamentoDTO): Promise<ParametroPeriodoAgendamento> {
+  public async ExecuteAsync({ periodo, horarioInicio, horarioFim }: ICreteParametroPeriodoAgendamentoDTO): Promise<ParametroPeriodoAgendamento> {
     const parametroPeriodoAgendamentos = await this.parametroPeriodoAgendamentoRepository.GetAsync<ParametroPeriodoAgendamento>('id');
 
     if (parametroPeriodoAgendamentos.length) {
       throw new AppError(`Não possível criar parâmetros iguais.`);
     };
 
-    return await this.parametroPeriodoAgendamentoRepository.CreateOrUpdateAsync({ id: uuid(), periodo });
+    return await this.parametroPeriodoAgendamentoRepository.CreateOrUpdateAsync({
+      created: new Date().getTime(), updated: new Date().getTime(),
+      id: uuid(), periodo, horarioInicio: horarioInicio.getTime(), horarioFim: horarioFim.getTime()
+    });
   };
 };
 

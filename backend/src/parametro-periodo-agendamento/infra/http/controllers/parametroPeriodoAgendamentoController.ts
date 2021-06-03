@@ -17,19 +17,19 @@ export default class ParametroPeriodoAgendamentoController {
   };
 
   async CreateAsync(request: Request, response: Response): Promise<Response> {
-    const { periodo } = request.body as ICreteParametroPeriodoAgendamentoDTO;
+    const { periodo, horarioInicio, horarioFim } = request.body as ICreteParametroPeriodoAgendamentoDTO;
 
     const createParametroPeriodoAgendamentoService = container.resolve(CreateParametroPeriodoAgendamentoService);
-    await createParametroPeriodoAgendamentoService.ExecuteAsync({ periodo });
+    await createParametroPeriodoAgendamentoService.ExecuteAsync({ periodo, horarioInicio, horarioFim });
 
     return response.json({ status: 'sucess', message: 'Periodo de agendamento criado com sucesso!' });
   };
 
   async UpdateAsync(request: Request, response: Response): Promise<Response> {
-    const { id, periodo } = request.body as IUpdateParametroPeriodoAgendamentoDTO;
+    const { id, periodo, horarioInicio, horarioFim } = request.body as IUpdateParametroPeriodoAgendamentoDTO;
 
     const updateParametroPeriodoAgendamentoService = container.resolve(UpdateParametroPeriodoAgendamentoService);
-    await updateParametroPeriodoAgendamentoService.ExecuteAsync({ id, periodo });
+    await updateParametroPeriodoAgendamentoService.ExecuteAsync({ id, periodo, horarioInicio, horarioFim });
 
     return response.status(200).json({ status: 'success', message: 'Periodo de agendamento atualizado' });
   };

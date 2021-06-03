@@ -19,14 +19,16 @@ describe('Atualizar parametro de Periodo para Agendamento', () => {
   });
 
   it('Parâmetro de periodo para Agendamento atualizado com sucesso.', async () => {
-    const parametroPeriodoAgendamento: ICreteParametroPeriodoAgendamentoDTO = { periodo: 50 };
+    const parametroPeriodoAgendamento: ICreteParametroPeriodoAgendamentoDTO = { periodo: 50, horarioInicio: new Date(), horarioFim: new Date() };
 
-    const novoParametroPeriodoAgendamento = await createParametroPeriodoAgendamentoService.ExecuteAsync(parametroPeriodoAgendamento);
+    const { id, horarioInicio, horarioFim } = await createParametroPeriodoAgendamentoService.ExecuteAsync(parametroPeriodoAgendamento);
 
     const updateParametroPeriodoAgendamento = {
-      ...novoParametroPeriodoAgendamento,
+      id,
+      horarioInicio: new Date(horarioInicio),
+      horarioFim: new Date(horarioFim),
       periodo: 55
-    } as ParametroPeriodoAgendamento;
+    } as IUpdateParametroPeriodoAgendamentoDTO;
 
     expect(await updateParametroPeriodoAgendamentoService.ExecuteAsync(updateParametroPeriodoAgendamento)).toHaveProperty('periodo', 55);
   });
@@ -34,7 +36,7 @@ describe('Atualizar parametro de Periodo para Agendamento', () => {
   it('Não é possível ataulizar parâmetro de periodo para Agendamento não cadastrado.', async () => {
     const parametroPeriodoAgendamento: IUpdateParametroPeriodoAgendamentoDTO = {
       id: 'teste-parametro-periodo-agendamento',
-      periodo: 50
+      periodo: 50, horarioInicio: new Date(), horarioFim: new Date()
     };
 
     await expect(updateParametroPeriodoAgendamentoService.ExecuteAsync(parametroPeriodoAgendamento)).rejects.toBeInstanceOf(AppError)
