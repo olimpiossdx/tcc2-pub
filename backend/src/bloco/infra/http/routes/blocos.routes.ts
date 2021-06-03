@@ -9,11 +9,5 @@ const blocosRouter = Router();
 
 blocosRouter.get('/', blocosController.GetAsync);
 blocosRouter.post('/', blocosController.CreateAsync);
-blocosRouter.patch('/chave-acesso', ensureAuthenticatedAsync, celebrate({
-  [Segments.BODY]: {
-    id: Joi.string().required(),
-    accessKey: Joi.string().required().min(8)
-  }
-}), blocosController.UpdateAsync);
 
 export default blocosRouter;

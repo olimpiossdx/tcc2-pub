@@ -1,6 +1,5 @@
 import 'reflect-metadata';
 import { inject, injectable } from 'tsyringe';
-import { uuid } from 'uuidv4';
 import AppError from '../../shared/erros';
 import IUpdateBlocoDTO from '../dtos/IUpdateBlocoDTO';
 import Bloco from '../infra/firebase/entities/Bloco';
@@ -23,13 +22,14 @@ class UpdateBlocoService {
       throw new AppError('Não é possível atualizar bloco sem ao menos ter um laboratório.');
     };
 
-    const updateBloco = {
-      id: id,
+    const updateBloco ={
+      ...bloco,
+      updated: new Date().getTime(),
       nome,
       laboratorios: laboratorios
     } as Bloco;
 
-    await this.blocoRepository.UpdateBlocoAsync(updateBloco);
+    await this.blocoRepository.CreateOrUpdateAsync<Bloco>(updateBloco);
   };
 };
 

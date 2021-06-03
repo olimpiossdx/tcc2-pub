@@ -5,6 +5,7 @@ import ICreteBlocoDTO from '../dtos/ICreteBlocoDTO';
 import Bloco from '../infra/firebase/entities/Bloco';
 import IBlocoRepository from '../repositories/IBlocoRepository';
 import { uuid } from 'uuidv4';
+import { Laboratorio } from '../../agendamento/infra/firebase/entities/Agendamento';
 
 @injectable()
 class CreateBlocoService {
@@ -22,11 +23,11 @@ class CreateBlocoService {
     if (!laboratorios.length) {
       throw new AppError('Bloco deve conter ao menos um laboratório.');
     };
+    
+    const novoLaboratorios = laboratorios.map(laboratorio => Object.assign({ id: uuid(), nome: laboratorio.nome, numero: laboratorio.numero }, new Laboratorio()));
+    const novoBloco = Object.assign({ id: uuid(), nome, laboratorios: novoLaboratorios }, new Bloco());
 
-    const novoLaboratorios = laboratorios.map(laboratorio => ({ id: uuid(), nome: laboratorio.nome, numero: laboratorio.numero }));
-    const novoBLoco = { id: uuid(), nome, laboratorios: novoLaboratorios } as Bloco;
-
-    return await this.blocoRepository.CreateAsync(novoBLoco);
+    return await this.blocoRepository.CreateOrUpdateAsync<Bloco>(novoBloco);
   };
 };
 
