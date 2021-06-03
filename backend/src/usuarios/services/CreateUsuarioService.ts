@@ -12,9 +12,9 @@ class CreateUsuarioService {
     private usuariosRepository: IUsuariosRepository) { };
 
   public async ExecuteAsync({ id, nome, email, accessKey, urlImg }: ICreateUsuarioDTO): Promise<Usuario> {
-    const existeUsuario = await this.usuariosRepository.FindByEmailAsync(email);
+    let entity = await this.usuariosRepository.FindByEmailAsync(email);
 
-    if (existeUsuario) {
+    if (entity) {
       throw new AppError('Usuário já cadastrado.');
     };
 
@@ -24,7 +24,9 @@ class CreateUsuarioService {
       throw new AppError('Chave de acesso ja cadastrada.');
     };
 
-    return await this.usuariosRepository.CreateOrUpdateAsync<Usuario>({ id, nome, email, accessKey, urlImg, agendamentos: [] });
+    entity = Object.assign({ id, nome, email, accessKey, urlImg }, new Usuario());
+
+    return await this.usuariosRepository.CreateOrUpdateAsync<Usuario>(entity);
   };
 };
 

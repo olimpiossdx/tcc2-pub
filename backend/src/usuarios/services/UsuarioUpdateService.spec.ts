@@ -1,5 +1,4 @@
 import AppError from '../../shared/erros';
-import ICreateUsuarioDTO from '../dtos/ICreateUsuarioDTO';
 import Usuario from '../infra/firebase/entities/Usuario';
 import FakeUsuariosRepository from '../repositories/fakes/FakesUsuariosRepository';
 import CreateUsuarioService from './CreateUsuarioService';
@@ -17,7 +16,7 @@ describe('Atualizar usuário', () => {
   });
 
   it('Usuário atualizado com sucesso.', async () => {
-    const entity = await createUsuarioService.ExecuteAsync({ nome: 'teste', email: 'teste@email.com', accessKey: 'teste-key', urlImg: 'http://teste.com' });
+    const entity = await createUsuarioService.ExecuteAsync(Object.assign({ nome: 'teste', email: 'teste@email.com', accessKey: 'teste-key', urlImg: 'http://teste.com' }, new Usuario));
 
     const updateUsuario = await updateUsuarioAccessKeyService.execute({ id: entity.id, accessKey: 'atulizacao-key' });
 
@@ -25,7 +24,7 @@ describe('Atualizar usuário', () => {
   });
 
   it('Erro ao atualizar chave de acesso do usuário.', async () => {
-    await createUsuarioService.ExecuteAsync({ nome: 'teste', email: 'teste@email.com', accessKey: 'teste-key', urlImg: 'http://teste.com' });
+    await createUsuarioService.ExecuteAsync(Object.assign({ nome: 'teste', email: 'teste@email.com', accessKey: 'teste-key', urlImg: 'http://teste.com' }, new Usuario()));
 
     await expect(updateUsuarioAccessKeyService.execute({ id: 'erro-ao-atualizar', accessKey: 'atulizacao-key' })).rejects.toBeInstanceOf(AppError);
   });

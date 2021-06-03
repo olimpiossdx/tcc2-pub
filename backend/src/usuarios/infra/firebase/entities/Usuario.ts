@@ -1,5 +1,5 @@
-import Agendamento from "../../../../agendamento/infra/firebase/entities/Agendamento";
-import BaseModel from "../../../../shared/repositories/baseModel";
+import Agendamento from '../../../../agendamento/infra/firebase/entities/Agendamento';
+import BaseModel from '../../../../shared/repositories/baseModel';
 
 class Usuario extends BaseModel{
   constructor() {

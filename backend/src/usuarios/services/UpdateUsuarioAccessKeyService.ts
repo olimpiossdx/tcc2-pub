@@ -19,7 +19,7 @@ class UpdateUsuarioAccessKeyService {
     };
     
     entity.accessKey = accessKey;
-    return await this.usuariosRepository.CreateOrUpdateAsync(entity);
+    return await this.usuariosRepository.CreateOrUpdateAsync<Usuario>(entity);
   };
 };
 

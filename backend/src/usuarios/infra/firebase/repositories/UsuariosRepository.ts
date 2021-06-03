@@ -16,7 +16,6 @@ class UsuariosRepository extends BaseRepository implements IUsuariosRepository {
     const response = await this.contextDatabaseRef.orderByChild('id').equalTo(id).get();
     let entity = new Usuario();
 
-
     const entitiesJson = response.val() as objecToArray;
 
     entity = Object.entries(entitiesJson).map(([prop, value], index) => (value as Usuario))[0] ;

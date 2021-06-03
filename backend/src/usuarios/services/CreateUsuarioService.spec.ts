@@ -13,17 +13,23 @@ describe('Criar usuário', () => {
   });
 
   it('Usuário criado com sucesso.', async () => {
-    const entity = await createUsuarioService.ExecuteAsync({ nome: 'teste', email: 'teste@email.com', accessKey: 'teste-key', urlImg: 'http://teste.com' });
-    expect(entity).toMatchObject(entity);
+    const entity = Object.assign({ id: 'teste', nome: 'teste', email: 'teste@email.com', accessKey: 'teste-key', urlImg: 'http://teste.com' }, new Usuario());
+
+    const newEntity = await createUsuarioService.ExecuteAsync(entity);
+    expect(newEntity).toMatchObject(entity);
   });
 
   it('Não é possível criar o mesmo ususário mais de uma vez.', async () => {
-    await createUsuarioService.ExecuteAsync({ nome: 'teste', email: 'teste@email.com', accessKey: 'teste-key', urlImg: 'http://teste.com' });
-    await expect(createUsuarioService.ExecuteAsync({ nome: 'teste', email: 'teste@email.com', accessKey: 'teste-key', urlImg: 'http://teste.com' })).rejects.toBeInstanceOf(AppError);
+    const entity = Object.assign({ id: 'teste', nome: 'teste', email: 'teste@email.com', accessKey: 'teste-key', urlImg: 'http://teste.com' }, new Usuario());
+
+    await createUsuarioService.ExecuteAsync(entity);
+    await expect(createUsuarioService.ExecuteAsync(entity)).rejects.toBeInstanceOf(AppError);
   });
 
   it('Não é possível criar ususário com mesmo cartão de acesso.', async () => {
-    await createUsuarioService.ExecuteAsync({ nome: 'teste', email: 'teste1@email.com', accessKey: 'teste-key', urlImg: 'http://teste.com' });
-    await expect(createUsuarioService.ExecuteAsync({ nome: 'teste', email: 'teste@email.com', accessKey: 'teste-key', urlImg: 'http://teste.com' })).rejects.toBeInstanceOf(AppError);
+    const entity = Object.assign({ id: 'teste', nome: 'teste', email: 'teste@email.com', accessKey: 'teste-key', urlImg: 'http://teste.com' }, new Usuario());
+
+    await createUsuarioService.ExecuteAsync(entity);
+    await expect(createUsuarioService.ExecuteAsync({ ...entity, email: 'teste@email.com', accessKey: 'teste-key' })).rejects.toBeInstanceOf(AppError);
   });
 });
