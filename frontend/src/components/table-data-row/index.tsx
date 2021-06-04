@@ -1,8 +1,8 @@
-import React from "react";
+import React from 'react';
 
-import { TableRow, TableCell, Typography } from "@material-ui/core";
-import { IAgendamentoModel } from "../../pages/laboratorio-agendados/model";
-import { dataFormatter } from "../../utils/formatted";
+import { TableRow, TableCell, Typography } from '@material-ui/core';
+import { IAgendamentoModel } from '../../pages/laboratorio-agendados/model';
+import { dataFormatter } from '../../utils/formatted';
 import FindInPageOutlinedIcon from '@material-ui/icons/FindInPageOutlined';
 
 const TableDataRow: React.FC<{ agendamentos: IAgendamentoModel[] }> = ({ agendamentos }) => {
@@ -22,7 +22,7 @@ const TableDataRow: React.FC<{ agendamentos: IAgendamentoModel[] }> = ({ agendam
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <FindInPageOutlinedIcon color='inherit' />
             <Typography variant='h6' >
-              Sem agendamentos
+              Nenhum agendamento encontrado.
             </Typography>
           </div>
         </TableCell>

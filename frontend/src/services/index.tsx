@@ -20,7 +20,7 @@ export const newCancellationToken = () => {
 const api: AxiosInstance = axios.create({ baseURL: process.env.REACT_APP_APP_BASE_URL, cancelToken: cancellationToken.token });
 
 export async function ApiServiceRequestAsync<TViewModel = any>({ method = 'get', retry = 2, retryDelay = 3000, ...rest }: IApiServiceConfig,
-  setLoad?: React.Dispatch<React.SetStateAction<boolean>>, setNotification?: (message: Omit<INotification, "id">) => void) {
+  setLoad?: React.Dispatch<React.SetStateAction<boolean>>, setNotification?: (message: Omit<INotification, 'id'>) => void) {
   newCancellationToken();
   let counter = 0;
 

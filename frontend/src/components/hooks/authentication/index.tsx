@@ -18,7 +18,7 @@ interface IAuthState {
 
 interface AuthContextData {
   user: IFirebaseUserInfo;
-  signInAsync(setNotification: ((message: Omit<INotification, "id">) => void)): Promise<void>;
+  signInAsync(setNotification: ((message: Omit<INotification, 'id'>) => void)): Promise<void>;
   signOut(): void;
   firebaseAuthAsync(): Promise<firebase.auth.UserCredential>
   updateAccesskey(accessKey: string): void;
@@ -44,7 +44,7 @@ const AuthenticationProvider: React.FC = ({ children }) => {
     return await firebase.auth().signInWithPopup(provider);
   }, []);
 
-  const signInAsync = React.useCallback(async (addNotification?: ((message: Omit<INotification, "id">) => void)) => {
+  const signInAsync = React.useCallback(async (addNotification?: ((message: Omit<INotification, 'id'>) => void)) => {
     const firebaseAuthResponse = await firebaseAuthAsync();
     const token = await firebaseAuthResponse.user?.getIdToken() as string;
 
