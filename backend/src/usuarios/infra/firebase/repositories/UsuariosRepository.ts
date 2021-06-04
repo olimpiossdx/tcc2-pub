@@ -18,18 +18,18 @@ class UsuariosRepository extends BaseRepository implements IUsuariosRepository {
 
     const entitiesJson = response.val() as objecToArray;
 
-    entity = Object.entries(entitiesJson).map(([prop, value], index) => (value as Usuario))[0] ;
+    entity = Object.entries(entitiesJson).map(([prop, value], index) => (value as Usuario))[0];
 
     if (entity && !('agendamentos' in entity)) {
       (entity as Usuario).agendamentos = new Array<Agendamento>();
     }
 
-    const entityAgendamentoIndex = entity.agendamentos.findIndex(item => item.id == agendamento.id);
+    const entityAgendamentoIndex = (entity.agendamentos as Agendamento[]).findIndex(item => item.id == agendamento.id);
 
     if (entityAgendamentoIndex == -1) {
-      entity.agendamentos.push(agendamento);
+      (entity.agendamentos as Agendamento[]).push(agendamento);
     } else {
-      entity.agendamentos[entityAgendamentoIndex] = agendamento;
+      (entity.agendamentos as Agendamento[])[entityAgendamentoIndex] = agendamento;
     };
 
     await this.contextDatabaseRef.child(entity.id).update(entity);
