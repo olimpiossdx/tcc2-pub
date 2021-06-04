@@ -20,7 +20,7 @@ export default class BlocosController {
     const createBlocoService = container.resolve(CreateBlocoService);
     await createBlocoService.ExecuteAsync({ nome, laboratorios });
 
-    return response.json({ status: 'sucess', message: 'Usuário criado com sucesso!' });
+    return response.json({ status: 'success', message: 'Bloco criado!' });
   };
 
   async UpdateAsync(request: Request, response: Response): Promise<Response> {
@@ -29,6 +29,6 @@ export default class BlocosController {
     const updateUsuarioAccessKeyService = container.resolve(UpdateBlocoService);
     await updateUsuarioAccessKeyService.execute({ id, nome, laboratorios });
 
-    return response.json({ status: 'success', message: 'Chave atualizada' });
+    return response.json({ status: 'success', message: 'Bloco atualizado!' });
   };
 };
