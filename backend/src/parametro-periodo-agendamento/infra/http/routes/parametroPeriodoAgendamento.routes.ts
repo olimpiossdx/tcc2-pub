@@ -7,11 +7,21 @@ const parametroPeriodoAgendamentoController = new ParametroPeriodoAgendamentoCon
 const parametroPeriodoAgendamentoRouter = Router();
 
 parametroPeriodoAgendamentoRouter.get('/', ensureAuthenticatedAsync, parametroPeriodoAgendamentoController.GetAsync);
-parametroPeriodoAgendamentoRouter.post('/', ensureAuthenticatedAsync, parametroPeriodoAgendamentoController.CreateAsync);
+parametroPeriodoAgendamentoRouter.post('/', ensureAuthenticatedAsync,
+  celebrate({
+    [Segments.BODY]: {
+      periodo: Joi.number().required(),
+      horarioInicio: Joi.string().required(),
+      horarioFim: Joi.string().required()
+    }
+  }), parametroPeriodoAgendamentoController.CreateAsync);
+
 parametroPeriodoAgendamentoRouter.put('/', ensureAuthenticatedAsync, celebrate({
   [Segments.BODY]: {
     id: Joi.string().required(),
-    periodo: Joi.number().required()
+    periodo: Joi.number().required(),
+    horarioInicio: Joi.string().required(),
+    horarioFim: Joi.string().required() 
   }
 }), parametroPeriodoAgendamentoController.UpdateAsync);
 
