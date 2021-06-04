@@ -1,7 +1,7 @@
-import AppError from "../../shared/erros";
-import Usuario from "../infra/firebase/entities/Usuario";
-import FakeUsuariosRepository from "../repositories/fakes/FakesUsuariosRepository";
-import AuhenticateUsuarioService from "./AuthenticationUsuarioService";
+import AppError from '../../shared/erros';
+import Usuario from '../infra/firebase/entities/Usuario';
+import FakeUsuariosRepository from '../repositories/fakes/FakesUsuariosRepository';
+import AuhenticateUsuarioService from './AuthenticationUsuarioService';
 
 let fakeUsuariosRepository: FakeUsuariosRepository;
 let auhenticateUsuarioService: AuhenticateUsuarioService;

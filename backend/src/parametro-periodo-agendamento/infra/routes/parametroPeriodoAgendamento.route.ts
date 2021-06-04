@@ -1,6 +1,6 @@
-import { Router } from "express";
+import { Router } from 'express';
 import { celebrate, Segments, Joi } from 'celebrate';
-import ParametroPeriodoAgendamentoController from "../http/controllers/parametroPeriodoAgendamentoController";
+import ParametroPeriodoAgendamentoController from '../http/controllers/parametroPeriodoAgendamentoController';
 
 const parametroPeriodoAgendamentoRouter = Router();
 const parametroPeriodoAgendamentoController = new ParametroPeriodoAgendamentoController();

@@ -25,16 +25,16 @@ describe('Criar agendamento', () => {
       bloco: {
         id: 'teste-criar-agendamento-bloco',
         nome: 'teste-criar-agendamento-bloco-nome',
-        created: new Date().getTime(),
-        updated: new Date().getTime(),
+        created: Date.now(),
+        updated: Date.now(),
       },
 
       laboratorio: {
         id: 'teste-criar-agendamento-laboratorio',
         nome: 'teste-criar-agendamento-laboratorio-nome',
         numero: 103,
-        created: new Date().getTime(),
-        updated: new Date().getTime(),
+        created: Date.now(),
+        updated: Date.now(),
       },
 
       data: new Date(2021, 6, 2, 12, 20, 0).getTime(),
@@ -56,16 +56,16 @@ describe('Criar agendamento', () => {
       bloco: {
         id: 'teste-criar-agendamento-bloco',
         nome: 'teste-criar-agendamento-bloco-nome',
-        created: new Date().getTime(),
-        updated: new Date().getTime(),
+        created: Date.now(),
+        updated: Date.now(),
       },
 
       laboratorio: {
         id: 'teste-criar-agendamento-laboratorio',
         nome: 'teste-criar-agendamento-laboratorio-nome',
         numero: 103,
-        created: new Date().getTime(),
-        updated: new Date().getTime(),
+        created: Date.now(),
+        updated: Date.now(),
       },
 
       data: new Date(2021, 6, 2, 12, 20, 0).getTime(),
@@ -87,16 +87,16 @@ describe('Criar agendamento', () => {
       bloco: {
         id: 'teste-criar-agendamento-bloco',
         nome: 'teste-criar-agendamento-bloco-nome',
-        created: new Date().getTime(),
-        updated: new Date().getTime(),
+        created: Date.now(),
+        updated: Date.now(),
       },
 
       laboratorio: {
         id: 'teste-criar-agendamento-laboratorio',
         nome: 'teste-criar-agendamento-laboratorio-nome',
         numero: 103,
-        created: new Date().getTime(),
-        updated: new Date().getTime(),
+        created: Date.now(),
+        updated: Date.now(),
       },
 
       data: new Date(2021, 6, 2, 12, 20, 0).getTime(),
@@ -116,16 +116,16 @@ describe('Criar agendamento', () => {
       bloco: {
         id: 'teste-criar-agendamento-bloco',
         nome: 'teste-criar-agendamento-bloco-nome',
-        created: new Date().getTime(),
-        updated: new Date().getTime(),
+        created: Date.now(),
+        updated: Date.now(),
       },
 
       laboratorio: {
         id: 'teste-criar-agendamento-laboratorio',
         nome: 'teste-criar-agendamento-laboratorio-nome',
         numero: 103,
-        created: new Date().getTime(),
-        updated: new Date().getTime(),
+        created: Date.now(),
+        updated: Date.now(),
       },
 
       data: new Date(2021, 6, 2, 12, 20, 0).getTime(),

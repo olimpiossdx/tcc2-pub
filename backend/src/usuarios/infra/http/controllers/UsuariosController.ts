@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
-import { container } from "tsyringe";
+import { container } from 'tsyringe';
 
-import ICreateUsuarioDTO from "../../../dtos/ICreateUsuarioDTO";
-import CreateUsuarioService from "../../../services/CreateUsuarioService";
+import ICreateUsuarioDTO from '../../../dtos/ICreateUsuarioDTO';
+import CreateUsuarioService from '../../../services/CreateUsuarioService';
 import UpdateUsuarioAccessKeyService from '../../../services/UpdateUsuarioAccessKeyService';
 
 export default class UsuariosController {

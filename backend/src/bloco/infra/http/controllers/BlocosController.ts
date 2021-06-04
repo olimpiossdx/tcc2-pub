@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
-import { container } from "tsyringe";
+import { container } from 'tsyringe';
 
-import ICreteBlocoDTO from "../../../dtos/ICreteBlocoDTO";
+import ICreteBlocoDTO from '../../../dtos/ICreteBlocoDTO';
 import IUpdateBlocoDTO from '../../../dtos/IUpdateBlocoDTO';
-import CreateBlocoService from "../../../services/CreateBlocoService";
+import CreateBlocoService from '../../../services/CreateBlocoService';
 import UpdateBlocoService from '../../../services/UpdateBlocoService';
 import BlocoRepository from '../../firebase/repositories/BlocoRepository';
 

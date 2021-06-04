@@ -15,11 +15,11 @@ class UpdateParametroPeriodoAgendamentoService {
     const parametroPeriodoAgendamento = await this.parametroPeriodoAgendamentoRepository.GetByIdAsync<ParametroPeriodoAgendamento>(id);
 
     if (!parametroPeriodoAgendamento) {
-      throw new AppError("Não é possível atualizar");
+      throw new AppError('Não é possível atualizar');
     };
 
     return await this.parametroPeriodoAgendamentoRepository.CreateOrUpdateAsync<ParametroPeriodoAgendamento>({
-      created: parametroPeriodoAgendamento.created, updated: new Date().getTime(),
+      created: parametroPeriodoAgendamento.created, updated: Date.now(),
       id, periodo, horarioInicio: horarioInicio.getTime(), horarioFim: horarioFim.getTime()
     });
   };

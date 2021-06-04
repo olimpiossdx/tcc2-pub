@@ -1,4 +1,4 @@
-import { Laboratorio } from "../infra/firebase/entities/Bloco";
+import { Laboratorio } from '../infra/firebase/entities/Bloco';
 
 export default interface IUpdateBlocoDTO {
   id: string;

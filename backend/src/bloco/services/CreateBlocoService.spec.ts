@@ -1,8 +1,8 @@
-import AppError from "../../shared/erros";
-import ICreteBlocoDTO from "../dtos/ICreteBlocoDTO";
-import Bloco from "../infra/firebase/entities/Bloco";
-import FakeBlocoRepository from "../repositories/fakes/FakeBlocoRepository";
-import CreateBlocoService from "./CreateBlocoService";
+import AppError from '../../shared/erros';
+import ICreteBlocoDTO from '../dtos/ICreteBlocoDTO';
+import Bloco from '../infra/firebase/entities/Bloco';
+import FakeBlocoRepository from '../repositories/fakes/FakeBlocoRepository';
+import CreateBlocoService from './CreateBlocoService';
 
 let fakeBlocoRepository: FakeBlocoRepository;
 let createBlocoService: CreateBlocoService;

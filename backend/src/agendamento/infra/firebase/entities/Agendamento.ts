@@ -1,10 +1,10 @@
-import BaseModel from "../../../../shared/repositories/baseModel";
+import BaseModel from '../../../../shared/repositories/baseModel';
 
 export class Bloco extends BaseModel {
   constructor() {
     super();
-  this.created = new Date().getTime();  
-  this.updated = new Date().getTime();  
+  this.created = Date.now();  
+  this.updated = Date.now();  
   };
   
   nome: string;
@@ -13,8 +13,8 @@ export class Bloco extends BaseModel {
 export class Laboratorio extends BaseModel {
   constructor() {
     super();
-  this.created = new Date().getTime();  
-  this.updated = new Date().getTime();  
+  this.created = Date.now();  
+  this.updated = Date.now();  
   };
 
   nome: string;
@@ -24,8 +24,8 @@ export class Laboratorio extends BaseModel {
 class Agendamento extends BaseModel {
   constructor() {
     super();
-  this.created = new Date().getTime();  
-  this.updated = new Date().getTime();  
+  this.created = Date.now();  
+  this.updated = Date.now();  
   };
 
   usuarioId: string;

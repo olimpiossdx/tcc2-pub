@@ -28,10 +28,10 @@ class UpdateAgendamentoService {
     };
 
     if (agendamento) {
-      throw new AppError("Não é possível atualizar, já existe um agendamento.");
+      throw new AppError('Não é possível atualizar, já existe um agendamento.');
     };
     
-    return await this.agendamentoRepository.CreateOrUpdateAsync({ id, usuarioId, bloco, laboratorio, data, horarioInicio, horarioFim, created: new Date().getTime(), updated: new Date().getTime() });
+    return await this.agendamentoRepository.CreateOrUpdateAsync({ id, usuarioId, bloco, laboratorio, data, horarioInicio, horarioFim, created: Date.now(), updated: Date.now() });
   };
 };
 

@@ -1,20 +1,20 @@
 import Agendamento from '../../../../agendamento/infra/firebase/entities/Agendamento';
 import BaseModel from '../../../../shared/repositories/baseModel';
 
-class Usuario extends BaseModel{
+class Usuario extends BaseModel {
   constructor() {
     super();
     this.agendamentos = new Array<Agendamento>();
-    this.updated = new Date().getTime();
-    this.created = new Date().getTime();
+    this.updated = Date.now();
+    this.created = Date.now();
   };
-  
+
   id: string;
   accessKey: string;
   nome: string;
   email: string;
   urlImg: undefined | string;
-  agendamentos: Agendamento[];
+  agendamentos: undefined | Agendamento[];
 };
 
 export default Usuario;

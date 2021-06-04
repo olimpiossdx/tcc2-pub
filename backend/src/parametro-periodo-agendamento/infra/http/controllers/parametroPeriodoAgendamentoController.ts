@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
-import { container } from "tsyringe";
+import { container } from 'tsyringe';
 
-import ICreteParametroPeriodoAgendamentoDTO from "../../../dtos/ICreteParametroPeriodoAgendamentoDTO";
-import IUpdateParametroPeriodoAgendamentoDTO from "../../../dtos/IUpdateParametroPeriodoAgendamentoDTO";
-import CreateParametroPeriodoAgendamentoService from "../../../services/CreateParametroPeriodoAgendamentoService";
+import ICreteParametroPeriodoAgendamentoDTO from '../../../dtos/ICreteParametroPeriodoAgendamentoDTO';
+import IUpdateParametroPeriodoAgendamentoDTO from '../../../dtos/IUpdateParametroPeriodoAgendamentoDTO';
+import CreateParametroPeriodoAgendamentoService from '../../../services/CreateParametroPeriodoAgendamentoService';
 import UpdateParametroPeriodoAgendamentoService from '../../../services/UpdateParametroPeriodoAgendamentoService';
 import ParametroPeriodoAgendamentoRepository from '../../firebase/repositories/parametroPeriodoAgendamentoRepository';
 

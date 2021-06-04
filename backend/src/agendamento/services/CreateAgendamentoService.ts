@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 import { differenceInMinutes } from 'date-fns';
 import { inject, injectable } from 'tsyringe';
-import { uuid } from 'uuidv4';
+import { v4 as uuidv4 } from 'uuid';
 import AppError from '../../shared/erros';
 import ICreteAgendamentoDTO from '../dtos/ICreteAgendamentoDTO';
 import Agendamento from '../infra/firebase/entities/Agendamento';
@@ -38,8 +38,8 @@ class CreateAgendamentoService {
     };
 
     entity = await this.agendamentoRepository.CreateOrUpdateAsync({
-      id: uuid(), usuarioId, bloco, laboratorio, data: data, horarioInicio: horarioInicio, horarioFim: horarioFim,
-      created: new Date().getTime(), updated: new Date().getTime()
+      id: uuidv4(), usuarioId, bloco, laboratorio, data: data, horarioInicio: horarioInicio, horarioFim: horarioFim,
+      created: Date.now(), updated: Date.now()
     });
 
     await this.usuariosRepository.AddOrUpdateAgendamentoAsync(usuarioId, entity);

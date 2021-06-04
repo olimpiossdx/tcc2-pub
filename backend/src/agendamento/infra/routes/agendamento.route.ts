@@ -1,7 +1,7 @@
-import { Router } from "express";
+import { Router } from 'express';
 import { celebrate, Segments, Joi } from 'celebrate';
-import AgendamentoController from "../http/controllers/AgendamentoController";
-import ensureAuthenticatedAsync from "../../../usuarios/infra/http/middlewares/ensureAuthenticated";
+import AgendamentoController from '../http/controllers/AgendamentoController';
+import ensureAuthenticatedAsync from '../../../usuarios/infra/http/middlewares/ensureAuthenticated';
 
 const agendamentoRouter = Router();
 const agendamentoController = new AgendamentoController();

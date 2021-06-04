@@ -4,19 +4,19 @@ import Usuario from '../../infra/firebase/entities/Usuario';
 import IUsuariosRepository from '../IUsuariosRepository';
 
 
-class FakeUsuariosRepository  extends FakeBaseRepository<Usuario> implements IUsuariosRepository  {
+class FakeUsuariosRepository extends FakeBaseRepository<Usuario> implements IUsuariosRepository {
   constructor() {
     super('usuario');
   };
-  
+
   public async AddOrUpdateAgendamentoAsync(id: string, agendamento: Agendamento): Promise<void> {
     const entity = this.contextDatabase.find(usuario => usuario.id === id) as Usuario;
-    const agendamentoIndex = entity.agendamentos.findIndex(item => item.id == agendamento.id);
+    const agendamentoIndex = (entity.agendamentos as Agendamento[]).findIndex(item => item.id == agendamento.id);
 
     if (agendamentoIndex === -1) {
-      entity.agendamentos.push(agendamento);
+      (entity.agendamentos as Agendamento[]).push(agendamento);
     } else {
-      entity.agendamentos[agendamentoIndex] = agendamento;
+      (entity.agendamentos as Agendamento[])[agendamentoIndex] = agendamento;
     }
   }
 

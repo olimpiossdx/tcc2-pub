@@ -24,7 +24,7 @@ class UpdateBlocoService {
 
     const updateBloco ={
       ...bloco,
-      updated: new Date().getTime(),
+      updated: Date.now(),
       nome,
       laboratorios: laboratorios
     } as Bloco;

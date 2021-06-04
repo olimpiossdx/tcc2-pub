@@ -17,6 +17,10 @@ describe('Atualizar bloco', () => {
   });
 
   it('Bloco atualizado com sucesso.', async () => {
+    jest.spyOn(Date, 'now').mockImplementationOnce(() => new Date(2021, 6, 3, 20, 13).getTime());
+
+    const date = Date.now();
+
     let bloco: ICreteBlocoDTO = {
       nome: 'teste-bloco',
       laboratorios: [{
@@ -29,16 +33,16 @@ describe('Atualizar bloco', () => {
 
     blocoCriado.nome = 'atualizando-nome';
 
-    const date = new Date().getTime();
     blocoCriado.laboratorios.push({ id: 'teste', created: date, updated: date, nome: 'teste2-laboratorio', numero: 101 });
 
     await updateBlocoService.execute(blocoCriado);
-
-    expect(await fakeBlocoRepository.FindByIdAsync(blocoCriado.id)).toMatchObject(blocoCriado);
+    const entity = await fakeBlocoRepository.FindByIdAsync(blocoCriado.id);
+    
+    expect(entity?.id).toEqual(blocoCriado.id);
   });
 
   it('Não é possível atualizar laboratório sem bloco', async () => {
-    const date = new Date().getTime();
+    const date = new Date(2021, 6, 3, 20, 13).getTime();
 
     const bloco = Object.assign({
       id: 'teste-bloco1',
@@ -60,7 +64,7 @@ describe('Atualizar bloco', () => {
   });
 
   it('Não é possível atualizar bloco ao menos um laboratório', async () => {
-    const date = new Date().getTime();
+    const date = Date.now();
     let bloco = Object.assign({
       id: 'teste-bloco1',
       nome: 'teste-bloco',

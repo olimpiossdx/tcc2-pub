@@ -1,4 +1,4 @@
-import { uuid } from 'uuidv4';
+import { v4  as uuidv4 } from 'uuid';
 import Agendamento from '../infra/firebase/entities/Agendamento';
 import AppError from '../../shared/erros';
 import CreateAgendamentoService from './CreateAgendamentoService';
@@ -30,16 +30,16 @@ describe('Atualizar agendamento', () => {
       bloco: {
         id: 'teste-criar-agendamento-bloco',
         nome: 'teste-criar-agendamento-bloco-nome',
-        created: new Date().getTime(),
-        updated: new Date().getTime(),
+        created: Date.now(),
+        updated: Date.now(),
       },
 
       laboratorio: {
         id: 'teste-criar-agendamento-laboratorio',
         nome: 'teste-criar-agendamento-laboratorio-nome',
         numero: 103,
-        created: new Date().getTime(),
-        updated: new Date().getTime(),
+        created: Date.now(),
+        updated: Date.now(),
       },
 
       data: new Date(2021, 6, 3, 12, 20, 0).getTime(),
@@ -66,16 +66,16 @@ describe('Atualizar agendamento', () => {
       bloco: {
         id: 'teste-criar-agendamento-bloco',
         nome: 'teste-criar-agendamento-bloco-nome',
-        created: new Date().getTime(),
-        updated: new Date().getTime(),
+        created: Date.now(),
+        updated: Date.now(),
       },
 
       laboratorio: {
         id: 'teste-criar-agendamento-laboratorio',
         nome: 'teste-criar-agendamento-laboratorio-nome',
         numero: 103,
-        created: new Date().getTime(),
-        updated: new Date().getTime(),
+        created: Date.now(),
+        updated: Date.now(),
       },
 
       data: new Date(2021, 6, 5, 12, 20, 0).getTime(),
@@ -96,16 +96,16 @@ describe('Atualizar agendamento', () => {
       bloco: {
         id: 'teste-criar-agendamento-bloco',
         nome: 'teste-criar-agendamento-bloco-nome',
-        created: new Date().getTime(),
-        updated: new Date().getTime(),
+        created: Date.now(),
+        updated: Date.now(),
       },
 
       laboratorio: {
         id: 'teste-criar-agendamento-laboratorio',
         nome: 'teste-criar-agendamento-laboratorio-nome',
         numero: 103,
-        created: new Date().getTime(),
-        updated: new Date().getTime(),
+        created: Date.now(),
+        updated: Date.now(),
       },
 
       data: new Date(2021, 6, 2, 12, 20, 0).getTime(),
@@ -131,16 +131,16 @@ describe('Atualizar agendamento', () => {
       bloco: {
         id: 'teste-criar-agendamento-bloco',
         nome: 'teste-criar-agendamento-bloco-nome',
-        created: new Date().getTime(),
-        updated: new Date().getTime(),
+        created: Date.now(),
+        updated: Date.now(),
       },
 
       laboratorio: {
         id: 'teste-criar-agendamento-laboratorio',
         nome: 'teste-criar-agendamento-laboratorio-nome',
         numero: 103,
-        created: new Date().getTime(),
-        updated: new Date().getTime(),
+        created: Date.now(),
+        updated: Date.now(),
       },
 
       data: new Date(2021, 6, 2, 12, 20, 0).getTime(),
@@ -149,7 +149,7 @@ describe('Atualizar agendamento', () => {
     };
 
     await fakeUsuarioRepository.CreateOrUpdateAsync({ id: 'teste-usuario-id', email: 'teste@teste.com.br', accessKey: '14253678', nome: 'Teste usuario', urlImg: 'https://usuarioTeste.png', agendamentos: [] });
-    const entityPeriodo = await fakeParametroPeriodoAgendamentoRepository.CreateOrUpdateAsync<ParametroPeriodoAgendamento>({ id: uuid(), periodo: 35 });
+    const entityPeriodo = await fakeParametroPeriodoAgendamentoRepository.CreateOrUpdateAsync<ParametroPeriodoAgendamento>({ id: uuidv4(), periodo: 35 });
     const entity = await fakeAgendamentoRepository.CreateOrUpdateAsync<Agendamento>(agendamento);
 
     const entityUpdate = {

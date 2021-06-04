@@ -1,8 +1,6 @@
-import { isEqual } from 'date-fns';
 import AppError from '../../shared/erros';
 import ICreteParametroPeriodoAgendamentoDTO from '../dtos/ICreteParametroPeriodoAgendamentoDTO';
 import IUpdateParametroPeriodoAgendamentoDTO from '../dtos/IUpdateParametroPeriodoAgendamentoDTO';
-import ParametroPeriodoAgendamento from '../infra/firebase/entities/parametroPeriodoAgendamento';
 import FakeParametroPeriodoAgendamentoRepository from '../repositories/fakes/FakeParametroPeriodoAgendamentoRepository';
 import CreateParametroPeriodoAgendamentoService from './CreateParametroPeriodoAgendamentoService';
 import UpdateParametroPeriodoAgendamentoService from './UpdateParametroPeriodoAgendamentoService';

@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 import { inject, injectable } from 'tsyringe';
-import { uuid } from 'uuidv4';
+import { v4 as uuidv4 } from 'uuid';
 import AppError from '../../shared/erros';
 import ICreteParametroPeriodoAgendamentoDTO from '../dtos/ICreteParametroPeriodoAgendamentoDTO';
 import ParametroPeriodoAgendamento from '../infra/firebase/entities/parametroPeriodoAgendamento';
@@ -21,8 +21,8 @@ class CreateParametroPeriodoAgendamentoService {
     };
 
     return await this.parametroPeriodoAgendamentoRepository.CreateOrUpdateAsync({
-      created: new Date().getTime(), updated: new Date().getTime(),
-      id: uuid(), periodo, horarioInicio: horarioInicio.getTime(), horarioFim: horarioFim.getTime()
+      created: Date.now(), updated: Date.now(),
+      id: uuidv4(), periodo, horarioInicio: horarioInicio.getTime(), horarioFim: horarioFim.getTime()
     });
   };
 };
