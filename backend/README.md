@@ -29,4 +29,4 @@
  
 ## Testes de cobertura de funcionalidades.
 
- <img alt='GitHub language count' src='.github/teste-parametro-periodo-agendamento-2021-05-17 21-02-10.png'>
+ <img alt='GitHub language count' src='.github/teste-usuario-agendamentos-2021-06-03-21-53-38.png'>
