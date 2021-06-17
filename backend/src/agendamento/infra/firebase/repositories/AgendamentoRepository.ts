@@ -5,7 +5,7 @@ import Agendamento from '../entities/Agendamento';
 import BaseRepository from '../../../../shared/repositories/baseRepository';
 import { differenceInMinutes, isEqual } from 'date-fns';
 import ParametroPeriodoAgendamento from '../../../../parametro-periodo-agendamento/infra/firebase/entities/parametroPeriodoAgendamento';
-import { IResponse } from '../../../../bloco/services/LaboratorioDisponiveis';
+import { IResponse } from '../../../../bloco/services/LaboratorioDisponiveisService';
 
 export interface objecToArray {
   [key: string]: any;

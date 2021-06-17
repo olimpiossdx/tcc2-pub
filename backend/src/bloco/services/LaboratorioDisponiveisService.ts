@@ -6,6 +6,8 @@ import IBlocoLaboratorioDisponivelDTO from '../dtos/IBlocoLaboratorioDisponivelD
 import AppError from '../../shared/erros';
 import IParametroPeriodoAgendamentoRepository from '../../parametro-periodo-agendamento/repositories/IParametroPeriodoAgendamentoRepository';
 import ParametroPeriodoAgendamento from '../../parametro-periodo-agendamento/infra/firebase/entities/parametroPeriodoAgendamento';
+import Agendamento from '../../agendamento/infra/firebase/entities/Agendamento';
+import { isEqual } from 'date-fns';
 
 export interface IResponse {
   blocoId: string;
@@ -16,7 +18,7 @@ export interface IResponse {
 };
 
 @injectable()
-class BlocoLaboratorioDisponiveis {
+class BlocoLaboratorioDisponiveisService {
   constructor(
     @inject('BlocoRepository')
     private blocoRepository: IBlocoRepository,
@@ -40,17 +42,30 @@ class BlocoLaboratorioDisponiveis {
 
     if (!laboratorio) {
       throw new AppError('Não é possível listar os horaríos disponíveis para laboratório não cadastrado');
-    }
+    };
 
-    const entities = await this.agendamentoRepository.SearchByPeriodAsync(parametroPeriodoAgendamento[0], blocoId,
+    const agendamentos = await this.agendamentoRepository.SearchByPeriodAsync(parametroPeriodoAgendamento[0], blocoId,
       laboratorioId, laboratorio.nome, new Date(data).getTime());
 
-    if (!bloco) {
-      throw new AppError('Bloco não encontrado');
+    const periodo = parametroPeriodoAgendamento[0].periodo;
+    const parsedHorarioInicio = new Date(parametroPeriodoAgendamento[0].horarioInicio);
+    const parsedHorarioFim = new Date(parametroPeriodoAgendamento[0].horarioFim);
+
+    const entities = new Array<IResponse>();
+    //TODO: ajustar para data correta
+    for (let time = new Date(); time <= parsedHorarioFim; time.setMinutes(time.getMinutes() + periodo)) {
+      const agendamento = agendamentos.find(agendamento => time.getTime() >= agendamento.horarioInicio && time.getTime() <= agendamento.horarioFim);
+
+      if (!agendamento) {
+        const horarioFim = new Date(time);
+        horarioFim.setMinutes(horarioFim.getMinutes() + periodo);
+
+        entities.push({ blocoId, laboratorioNome: laboratorio.nome, data: new Date(data), horarioInicio: time, horarioFim })
+      }
     };
 
     return entities;
   };
 };
 
-export default BlocoLaboratorioDisponiveis;
+export default BlocoLaboratorioDisponiveisService;
