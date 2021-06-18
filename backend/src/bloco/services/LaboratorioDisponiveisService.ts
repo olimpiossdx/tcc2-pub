@@ -51,14 +51,18 @@ class BlocoLaboratorioDisponiveisService {
     const parsedHorarioInicio = new Date(parametroPeriodoAgendamento[0].horarioInicio);
     const parsedHorarioFim = new Date(parametroPeriodoAgendamento[0].horarioFim);
     const todayEnd = new Date();
+    const todayStart = new Date();
+
+    todayStart.setHours(parsedHorarioInicio.getHours());
+    todayStart.setMinutes(parsedHorarioInicio.getMinutes());
 
     todayEnd.setHours(parsedHorarioFim.getHours());
     todayEnd.setMinutes(parsedHorarioFim.getMinutes());
 
 
     const entities = new Array<IResponse>();
-   
-    for (let time = new Date(); time <= todayEnd; time.setMinutes(time.getMinutes() + periodo)) {
+
+    for (let time = new Date(); time >= todayStart && time <= todayEnd; time.setMinutes(time.getMinutes() + periodo)) {
       const agendamento = agendamentos.find(agendamento => time.getTime() >= agendamento.horarioInicio && time.getTime() <= agendamento.horarioFim);
 
       if (!agendamento) {
