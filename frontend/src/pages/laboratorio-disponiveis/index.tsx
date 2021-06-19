@@ -4,46 +4,88 @@ import { TableRow, TableCell, Button, Grid, Paper, TableContainer, Toolbar, Typo
 import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import SearchIcon from '@material-ui/icons/Search';
-
+import CloseIcon from '@material-ui/icons/Close';
 
 import Main from '../../components/main';
-import { IAgendamentoModel } from '../laboratorio-agendados/model';
-import TableDataRow from '../../components/table-data-row';
 import TableDataAnimatedLoading from '../../components/skeleton/table-data';
+import BlocoModel from '../novo-agendamento/models/bloco.model';
+import { ApiServiceRequestAsync } from '../../services';
+import { useNotifcation } from '../../components/hooks/notification';
+import ILaboratorioDisponivel from './model';
+import TableLaboratorioDisponivel from '../../components/table-laboratorio-disponivel';
 
 
 const LaboratorioDisponiveis: React.FC = () => {
-  const [agendamentos, setAgendamentos] = useState<IAgendamentoModel[]>([]);
+  const { addNotification } = useNotifcation();
+  const [blocos, setBlocos] = useState<BlocoModel[]>([]);
+  const [selectedBlocoId, setSelectedBlocoId] = useState('');
+  const [selectedLaboratorioId, setSelectedLaboratorioId] = useState('');
+  const [laboratoriosDisponiveis, setLaboratoriosDisponiveis] = useState<ILaboratorioDisponivel[]>([]);
   const [loading, setLoading] = useState(true);
   const [open, setOpen] = useState(true);
+  const [disabled, setDisabled] = useState(!selectedBlocoId || !selectedLaboratorioId);
+
 
   //TODO: alterar fake mock para, fake api e adicionar filtro
   useEffect(() => {
-    new Promise(resolve => {
-      setTimeout(() => {
-        resolve(setAgendamentos([
-          { id: '1', usuarioId: '123', data: new Date().getTime(), bloco: { id: '', nome: 'A' }, laboratorio: { id: '1', nome: 'A200', numero: 200 }, horarioInicio: new Date().getTime(), horarioFim: new Date().getTime() },
-          { id: '2', usuarioId: '124', data: new Date().getTime(), bloco: { id: '', nome: 'A' }, laboratorio: { id: '1', nome: 'A200', numero: 200 }, horarioInicio: new Date().getTime(), horarioFim: new Date().getTime() },
-          { id: '2', usuarioId: '124', data: new Date().getTime(), bloco: { id: '', nome: 'A' }, laboratorio: { id: '1', nome: 'A200', numero: 200 }, horarioInicio: new Date().getTime(), horarioFim: new Date().getTime() },
-          { id: '2', usuarioId: '124', data: new Date().getTime(), bloco: { id: '', nome: 'A' }, laboratorio: { id: '1', nome: 'A200', numero: 200 }, horarioInicio: new Date().getTime(), horarioFim: new Date().getTime() },
-          { id: '2', usuarioId: '124', data: new Date().getTime(), bloco: { id: '', nome: 'A' }, laboratorio: { id: '1', nome: 'A200', numero: 200 }, horarioInicio: new Date().getTime(), horarioFim: new Date().getTime() }
-        ]));
-      }, 300);
-    }).then(() => setLoading(false));
-  }, []);
+
+    const requestAsync = async () => {
+      const response = await ApiServiceRequestAsync<BlocoModel[]>({ method: 'get', url: 'blocos' }, setLoading, addNotification);
+
+      if (!('status' in response)) {
+        setBlocos(response);
+      };
+    };
+
+    requestAsync();
+    
+    // TODO; remover
+    // new Promise(resolve => {
+    //   setTimeout(() => {
+    //     resolve(setAgendamentos([
+    //       { id: '11', usuarioId: '123', data: new Date().getTime(), bloco: { id: '6', nome: 'A' }, laboratorio: { id: '1', nome: 'A200', numero: 200 }, horarioInicio: new Date().getTime(), horarioFim: new Date().getTime() },
+    //       { id: '12', usuarioId: '124', data: new Date().getTime(), bloco: { id: '7', nome: 'A' }, laboratorio: { id: '2', nome: 'A200', numero: 200 }, horarioInicio: new Date().getTime(), horarioFim: new Date().getTime() },
+    //       { id: '13', usuarioId: '124', data: new Date().getTime(), bloco: { id: '8', nome: 'A' }, laboratorio: { id: '3', nome: 'A200', numero: 200 }, horarioInicio: new Date().getTime(), horarioFim: new Date().getTime() },
+    //       { id: '14', usuarioId: '124', data: new Date().getTime(), bloco: { id: '9', nome: 'A' }, laboratorio: { id: '4', nome: 'A200', numero: 200 }, horarioInicio: new Date().getTime(), horarioFim: new Date().getTime() },
+    //       { id: '15', usuarioId: '124', data: new Date().getTime(), bloco: { id: '10', nome: 'A' }, laboratorio: { id: '51', nome: 'A200', numero: 200 }, horarioInicio: new Date().getTime(), horarioFim: new Date().getTime() }
+    //     ]));
+    //   }, 600);
+    // }).then(() => setLoading(false));
+
+  }, [addNotification]);
+
+  useEffect(() => {
+    setDisabled(!selectedBlocoId || !selectedLaboratorioId);
+  }, [selectedBlocoId, selectedLaboratorioId]);
 
   const handleOpen = () => {
     setOpen(!open);
+    setSelectedBlocoId('');
+    setSelectedLaboratorioId('');
+  };
+
+  const handleChangeBloco = (event: React.ChangeEvent<{ name?: string; value: string; }>, _child: React.ReactNode) => {
+    setSelectedBlocoId(event.target.value);
+  };
+
+  const handleChangeLaboratorio = (event: React.ChangeEvent<{ name?: string; value: string; }>, _child: React.ReactNode) => {
+    setSelectedLaboratorioId(event.target.value);
+  };
+
+  const handleChangeSearchAsync = async () => {
+    const response = await ApiServiceRequestAsync<ILaboratorioDisponivel[]>({ method: 'get', url: 'blocos' }, setLoading, addNotification);
+
+    if (!('status' in response)) {
+      setLaboratoriosDisponiveis(response);
+    };
   };
 
   return (<Main>
     <Grid container justifyContent='center' alignItems='center' style={{ height: 'calc(100vh - 13vh)' }}>
       <Grid item xs={11} sm={10} md={8}>
-        <Grid component={Paper} container spacing={2} justifyContent='center' alignItems='center' style={{ height: '100%', padding: '1%' }} >
+        <Grid component={Paper} container justifyContent='center' alignItems='center' style={{ height: '100%', padding: '2%' }} >
           <TableContainer>
-            <Toolbar
-            // style={{ padding: 0 }}
-            >
+            <Toolbar style={{ padding: 10 }}>
               <Grid container spacing={1} justifyContent='space-between' alignItems='center'>
                 {open ? (<>
                   <Grid item>
@@ -67,52 +109,48 @@ const LaboratorioDisponiveis: React.FC = () => {
                   </Grid>
                 </>) : (<>
                   <Grid item xs={12} sm>
-                    <FormControl variant='outlined' fullWidth size='small'>
-                      <InputLabel id='demo-simple-select-outlined-label'>Selecione laboratório</InputLabel>
+                    <FormControl variant='outlined' size='small' fullWidth >
+                      <InputLabel id='simple-select-outlined-bloco'>Selecione bloco</InputLabel>
                       <Select
-                        labelId='demo-simple-select-outlined-label'
-                        id='demo-simple-select-outlined'
-                        // value={age}
-                        // onChange={handleChange}
-                        label='Selecione laboratório'
-                      >
+                        name='simple-select-bloco'
+                        id='demo-simple-select-bloco'
+                        labelId='simple-select-outlined-bloco'
+                        label='Selecione bloco'
+                        value={selectedBlocoId}
+                        onChange={handleChangeBloco}>
                         <MenuItem value=''>
                           <em>None</em>
                         </MenuItem>
-                        <MenuItem value={10}>Ten</MenuItem>
-                        <MenuItem value={20}>Twenty</MenuItem>
-                        <MenuItem value={30}>Thirty</MenuItem>
+                        {blocos.map(bloco => (<MenuItem value={bloco.id}>{bloco.nome}</MenuItem>))}
                       </Select>
                     </FormControl>
                   </Grid>
                   <Grid item xs={12} sm>
-                    <FormControl variant='outlined' fullWidth size='small'>
-                      <InputLabel id='demo-simple-select-outlined-label'>Selecione bloco</InputLabel>
+                    <FormControl variant='outlined' size='small' fullWidth>
+                      <InputLabel id='simple-select-outlined-laboratorio'>Selecione laboratório</InputLabel>
                       <Select
-                        labelId='demo-simple-select-outlined-label'
-                        id='demo-simple-select-outlined'
-                        // value={age}
-                        // onChange={handleChange}
-                        label='Selecione bloco'
-                      >
+                        name='simple-select-laboratorio'
+                        labelId='simple-select-outlined-laboratorio'
+                        id='simple-select-laboratorio'
+                        label='Selecione laboratório'
+                        value={selectedLaboratorioId}
+                        onChange={handleChangeLaboratorio}>
                         <MenuItem value=''>
                           <em>None</em>
                         </MenuItem>
-                        <MenuItem value={10}>Ten</MenuItem>
-                        <MenuItem value={20}>Twenty</MenuItem>
-                        <MenuItem value={30}>Thirty</MenuItem>
+                        {selectedBlocoId.length > 0 && blocos.find(bloco => bloco.id === selectedBlocoId)?.laboratorios.map(laboratorio => (<MenuItem value={laboratorio.id}>{laboratorio.nome}</MenuItem>))}
                       </Select>
                     </FormControl>
                   </Grid>
                   <Grid item>
-                    <Button endIcon={<SearchIcon />}>
+                    <Button variant='outlined' endIcon={<SearchIcon />} onClick={handleChangeSearchAsync} disabled={disabled}>
                       Buscar
                     </Button>
                   </Grid>
                   <Grid item>
-                    <Tooltip title='Filtro'>
-                      <IconButton aria-label='filter' onClick={handleOpen}>
-                        <FilterListIcon />
+                    <Tooltip title='Fechar filtro '>
+                      <IconButton aria-label='close-filter' onClick={handleOpen}>
+                        <CloseIcon />
                       </IconButton>
                     </Tooltip>
                   </Grid>
@@ -129,7 +167,7 @@ const LaboratorioDisponiveis: React.FC = () => {
               </TableHead>
               <TableBody>
                 {loading ? <TableDataAnimatedLoading /> :
-                  <TableDataRow agendamentos={agendamentos} />}
+                  <TableLaboratorioDisponivel laboratoriosDisponiveis={laboratoriosDisponiveis} />}
               </TableBody>
             </Table>
           </TableContainer>
