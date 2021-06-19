@@ -6,11 +6,10 @@ import IBlocoLaboratorioDisponivelDTO from '../dtos/IBlocoLaboratorioDisponivelD
 import AppError from '../../shared/erros';
 import IParametroPeriodoAgendamentoRepository from '../../parametro-periodo-agendamento/repositories/IParametroPeriodoAgendamentoRepository';
 import ParametroPeriodoAgendamento from '../../parametro-periodo-agendamento/infra/firebase/entities/parametroPeriodoAgendamento';
-import Agendamento from '../../agendamento/infra/firebase/entities/Agendamento';
-import { isEqual } from 'date-fns';
 
 export interface IResponse {
   blocoId: string;
+  laboratorioId: string;
   laboratorioNome: string;
   data: Date;
   horarioInicio: Date;
@@ -69,7 +68,7 @@ class BlocoLaboratorioDisponiveisService {
         const horarioFim = new Date(time);
         horarioFim.setMinutes(horarioFim.getMinutes() + periodo);
 
-        entities.push({ blocoId, laboratorioNome: laboratorio.nome, data: new Date(data), horarioInicio: time, horarioFim })
+        entities.push({ blocoId, laboratorioId: laboratorio.id, laboratorioNome: laboratorio.nome, data: new Date(data), horarioInicio: time, horarioFim })
       }
     };
 
