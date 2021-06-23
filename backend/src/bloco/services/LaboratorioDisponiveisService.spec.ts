@@ -35,10 +35,8 @@ describe('Laboratórios disponíveis', () => {
   });
 
   it('Laboratórios disponíveis com sucesso.', async () => {
-    const entityUsuario = await createUsuarioService.ExecuteAsync({ id: 'teste-usuario', nome: 'teste', email: 'teste@email.com', accessKey: 'teste-key', urlImg: 'http://teste.com' });
-    const entityParametroPeriodoAgendamento = await createParametroPeriodoAgendamentoServeice.ExecuteAsync({
-      periodo: 50, horarioInicio: new Date(2021, 5, 10, 8), horarioFim: new Date(2021, 5, 10, 23, 0)
-    });
+    await createUsuarioService.ExecuteAsync({ id: 'teste-usuario', nome: 'teste', email: 'teste@email.com', accessKey: 'teste-key', urlImg: 'http://teste.com' });
+    await createParametroPeriodoAgendamentoServeice.ExecuteAsync({ periodo: 50, horarioInicio: new Date(2021, 5, 10, 8), horarioFim: new Date(2021, 5, 10, 23, 0) });
 
     const entityBloco = await createBlocoService.ExecuteAsync({
       nome: 'teste-bloco',

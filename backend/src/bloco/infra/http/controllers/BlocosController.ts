@@ -4,6 +4,7 @@ import { container } from 'tsyringe';
 import ICreteBlocoDTO from '../../../dtos/ICreteBlocoDTO';
 import IUpdateBlocoDTO from '../../../dtos/IUpdateBlocoDTO';
 import CreateBlocoService from '../../../services/CreateBlocoService';
+import LaboratorioDisponiveisService from '../../../services/LaboratorioDisponiveisService';
 import UpdateBlocoService from '../../../services/UpdateBlocoService';
 import BlocoRepository from '../../firebase/repositories/BlocoRepository';
 
@@ -30,5 +31,14 @@ export default class BlocosController {
     await updateUsuarioAccessKeyService.execute({ id, nome, laboratorios });
 
     return response.json({ status: 'success', message: 'Bloco atualizado!' });
+  };
+
+  async GetLaboratorioDisponiveisAsync(request: Request, response: Response): Promise<Response> {
+    const { blocoId, laboratorioId, data } = request.body;
+
+    const laboratorioDisponiveisService = container.resolve(LaboratorioDisponiveisService);
+    const entities = await laboratorioDisponiveisService.ExecuteAsync({ blocoId, laboratorioId, data });
+    
+    return response.json(entities);
   };
 };

@@ -6,6 +6,7 @@ import IBlocoLaboratorioDisponivelDTO from '../dtos/IBlocoLaboratorioDisponivelD
 import AppError from '../../shared/erros';
 import IParametroPeriodoAgendamentoRepository from '../../parametro-periodo-agendamento/repositories/IParametroPeriodoAgendamentoRepository';
 import ParametroPeriodoAgendamento from '../../parametro-periodo-agendamento/infra/firebase/entities/parametroPeriodoAgendamento';
+import { differenceInMinutes, isSameDay } from 'date-fns';
 
 export interface IResponse {
   blocoId: string;
@@ -23,7 +24,7 @@ class BlocoLaboratorioDisponiveisService {
     private blocoRepository: IBlocoRepository,
     @inject('AgendamentoRepository')
     private agendamentoRepository: IAgendamentoRepository,
-    @inject('AgendamentoRepository')
+    @inject('ParametroPeriodoAgendamentoRepository')
     private parametroPeriodoAgendamentoRepository: IParametroPeriodoAgendamentoRepository) { }
   public async ExecuteAsync({ blocoId, laboratorioId, data }: IBlocoLaboratorioDisponivelDTO): Promise<IResponse[]> {
     const bloco = await this.blocoRepository.FindByIdAsync(blocoId);
@@ -51,6 +52,7 @@ class BlocoLaboratorioDisponiveisService {
     const parsedHorarioFim = new Date(parametroPeriodoAgendamento[0].horarioFim);
     const todayEnd = new Date();
     const todayStart = new Date();
+    let currentDate = new Date(data);
 
     todayStart.setHours(parsedHorarioInicio.getHours());
     todayStart.setMinutes(parsedHorarioInicio.getMinutes());
@@ -58,17 +60,30 @@ class BlocoLaboratorioDisponiveisService {
     todayEnd.setHours(parsedHorarioFim.getHours());
     todayEnd.setMinutes(parsedHorarioFim.getMinutes());
 
+    if (!isSameDay(currentDate, new Date())) {
+      currentDate.setHours(parsedHorarioInicio.getHours());
+      currentDate.setMinutes(parsedHorarioInicio.getMinutes());
+    };
+
 
     const entities = new Array<IResponse>();
 
-    for (let time = new Date(); time >= todayStart && time <= todayEnd; time.setMinutes(time.getMinutes() + periodo)) {
+    for (let time = currentDate; time >= todayStart && time <= todayEnd; time.setMinutes(time.getMinutes() + periodo)) {
       const agendamento = agendamentos.find(agendamento => time.getTime() >= agendamento.horarioInicio && time.getTime() <= agendamento.horarioFim);
 
       if (!agendamento) {
+        const horarioInicio = new Date(time);
         const horarioFim = new Date(time);
-        horarioFim.setMinutes(horarioFim.getMinutes() + periodo);
+        
+        if (differenceInMinutes(todayEnd.getMinutes(), horarioInicio.getMinutes()) > 0) {
+          horarioFim.setMinutes(horarioFim.getMinutes() + periodo);
+        } else {
+          horarioFim.setHours(todayEnd.getHours());
+          horarioFim.setMinutes(todayEnd.getMinutes());
+        }
 
-        entities.push({ blocoId, laboratorioId: laboratorio.id, laboratorioNome: laboratorio.nome, data: new Date(data), horarioInicio: time, horarioFim })
+
+        entities.push({ blocoId, laboratorioId: laboratorio.id, laboratorioNome: laboratorio.nome, data: new Date(data), horarioInicio, horarioFim })
       }
     };
 

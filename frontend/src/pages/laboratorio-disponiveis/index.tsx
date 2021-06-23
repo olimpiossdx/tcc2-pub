@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from 'react';
 
 import { TableRow, TableCell, Button, Grid, Paper, TableContainer, Toolbar, Typography, Table, TableHead, TableBody, IconButton, Tooltip, FormControl, InputLabel, MenuItem, Select } from '@material-ui/core';
+
+import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
+import DateFnsUtils from '@date-io/date-fns';
+import ptBRLocale from 'date-fns/locale/pt-BR'
+
 import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import SearchIcon from '@material-ui/icons/Search';
@@ -14,12 +19,12 @@ import { useNotifcation } from '../../components/hooks/notification';
 import ILaboratorioDisponivel from './model';
 import TableLaboratorioDisponivel from '../../components/table-laboratorio-disponivel';
 
-
 const LaboratorioDisponiveis: React.FC = () => {
   const { addNotification } = useNotifcation();
   const [blocos, setBlocos] = useState<BlocoModel[]>([]);
   const [selectedBlocoId, setSelectedBlocoId] = useState('');
   const [selectedLaboratorioId, setSelectedLaboratorioId] = useState('');
+  const [data, setData] = useState<Date | null>(new Date());
   const [laboratoriosDisponiveis, setLaboratoriosDisponiveis] = useState<ILaboratorioDisponivel[]>([]);
   const [loading, setLoading] = useState(true);
   const [open, setOpen] = useState(true);
@@ -38,7 +43,7 @@ const LaboratorioDisponiveis: React.FC = () => {
     };
 
     requestAsync();
-    
+
     // TODO; remover
     // new Promise(resolve => {
     //   setTimeout(() => {
@@ -73,7 +78,13 @@ const LaboratorioDisponiveis: React.FC = () => {
   };
 
   const handleChangeSearchAsync = async () => {
-    const response = await ApiServiceRequestAsync<ILaboratorioDisponivel[]>({ method: 'get', url: 'blocos' }, setLoading, addNotification);
+    const response = await ApiServiceRequestAsync<ILaboratorioDisponivel[]>({
+      method: 'post', url: 'blocos/laboratorios-disponiveis', data: {
+        blocoId: selectedBlocoId,
+        laboratorioId: selectedLaboratorioId,
+        data
+      }
+    }, setLoading, addNotification);
 
     if (!('status' in response)) {
       setLaboratoriosDisponiveis(response);
@@ -110,12 +121,12 @@ const LaboratorioDisponiveis: React.FC = () => {
                 </>) : (<>
                   <Grid item xs={12} sm>
                     <FormControl variant='outlined' size='small' fullWidth >
-                      <InputLabel id='simple-select-outlined-bloco'>Selecione bloco</InputLabel>
+                      <InputLabel id='simple-select-outlined-bloco'>bloco</InputLabel>
                       <Select
                         name='simple-select-bloco'
                         id='demo-simple-select-bloco'
                         labelId='simple-select-outlined-bloco'
-                        label='Selecione bloco'
+                        label='bloco'
                         value={selectedBlocoId}
                         onChange={handleChangeBloco}>
                         <MenuItem value=''>
@@ -127,12 +138,12 @@ const LaboratorioDisponiveis: React.FC = () => {
                   </Grid>
                   <Grid item xs={12} sm>
                     <FormControl variant='outlined' size='small' fullWidth>
-                      <InputLabel id='simple-select-outlined-laboratorio'>Selecione laboratório</InputLabel>
+                      <InputLabel id='simple-select-outlined-laboratorio'>laboratório</InputLabel>
                       <Select
                         name='simple-select-laboratorio'
                         labelId='simple-select-outlined-laboratorio'
                         id='simple-select-laboratorio'
-                        label='Selecione laboratório'
+                        label='laboratório'
                         value={selectedLaboratorioId}
                         onChange={handleChangeLaboratorio}>
                         <MenuItem value=''>
@@ -141,6 +152,20 @@ const LaboratorioDisponiveis: React.FC = () => {
                         {selectedBlocoId.length > 0 && blocos.find(bloco => bloco.id === selectedBlocoId)?.laboratorios.map(laboratorio => (<MenuItem value={laboratorio.id}>{laboratorio.nome}</MenuItem>))}
                       </Select>
                     </FormControl>
+                  </Grid>
+                  <Grid item xs={5} sm={4}>
+                    <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ptBRLocale}>
+                      <KeyboardDatePicker
+                        size='small'
+                        name='dataInicio'
+                        value={data}
+                        onChange={(data) => setData(data)}
+                        label='Data'
+                        onError={console.log}
+                        minDate={new Date()}
+                        format='dd/MM/yyyy'
+                        disabled={loading} />
+                    </MuiPickersUtilsProvider>
                   </Grid>
                   <Grid item>
                     <Button variant='outlined' endIcon={<SearchIcon />} onClick={handleChangeSearchAsync} disabled={disabled}>

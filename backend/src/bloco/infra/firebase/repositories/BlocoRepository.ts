@@ -26,22 +26,27 @@ class BlocosRepository extends BaseRepository implements IBlocoRepository {
     return bloco;
   };
 
-
+// TODO: melhorar código e padronizar
   public async FindByIdAsync(id: string): Promise<Bloco | undefined> {
     const response = await this.contextDatabaseRef.orderByChild('id').equalTo(id).get();
-    let bloco: Bloco | undefined = undefined;;
+    let bloco: Array<Bloco> | undefined = undefined;;
 
     if (!response.exists()) {
       return bloco;
     };
 
-    bloco = new Bloco();
+    bloco = new Array<Bloco>();
     const blocoJson = response.toJSON() as objecToArray;
 
     const hashkey = Object.keys(blocoJson)[0];
     Object.assign(bloco, blocoJson[hashkey]);
 
-    return bloco;
+    let entity= {} as Bloco;
+    const entitiesJson = response.val() as objecToArray;    
+
+    bloco = Object.entries(entitiesJson).map(([prop, value], index) => (value as Bloco)) as Bloco[];
+
+    return bloco[0];
   };
 };
 

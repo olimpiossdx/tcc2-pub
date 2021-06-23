@@ -47,11 +47,14 @@ class AgendamentoRepository extends BaseRepository implements IAgendamentoReposi
     return entity;
   };
 
-  public async SearchByPeriodAsync(parametroPeriodoAgendamento: ParametroPeriodoAgendamento, blocoId: string, laboratorioId: string, laboratorioNome: string, data: number): Promise<IResponse[]> {
-    const date = new Date(data);
+  public async SearchByPeriodAsync(parametroPeriodoAgendamento: ParametroPeriodoAgendamento, blocoId: string, laboratorioId: string, laboratorioNome: string, data: number): Promise<Agendamento[]> {
     let entities = new Array<Agendamento>();
     const response = await this.contextDatabaseRef.orderByChild('data').equalTo(data).get();
 
+    if (!response.exists()) {
+      return entities;
+    };
+    
     entities = Object.entries(response.val() as objecToArray).map(([prop, value], index) => {
       return (entities[index] = {
         ...value,
@@ -61,28 +64,7 @@ class AgendamentoRepository extends BaseRepository implements IAgendamentoReposi
       } as Agendamento);
     });
 
-    const entitiesPeriod: IResponse[] = [];
-    const horarioInicio = new Date(parametroPeriodoAgendamento.horarioInicio);
-    const horarioFim = new Date(parametroPeriodoAgendamento.horarioFim);
-
-    for (let hourStart = horarioInicio; horarioInicio <= horarioFim; hourStart.setHours(hourStart.getHours() + 1)) {
-      const entity = entities.find(agendamento => agendamento.bloco.id == blocoId &&
-        agendamento.laboratorio.id == laboratorioId &&
-        (differenceInMinutes(agendamento.horarioFim, agendamento.horarioInicio) > parametroPeriodoAgendamento.periodo));
-
-      if (!entity) {
-        const hourEnd = hourStart;
-        hourEnd.setMinutes(parametroPeriodoAgendamento.periodo);
-        entitiesPeriod.push({
-          blocoId,
-          laboratorioNome,
-          data: date,
-          horarioInicio: hourStart,
-          horarioFim: hourEnd
-        });
-      };
-    };
-    return entitiesPeriod;
+    return entities.filter(agendamento => agendamento.bloco.id === blocoId && agendamento.data === data);
   };
 };
 
