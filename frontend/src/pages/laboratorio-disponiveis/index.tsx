@@ -153,7 +153,7 @@ const LaboratorioDisponiveis: React.FC = () => {
                       </Select>
                     </FormControl>
                   </Grid>
-                  <Grid item xs={5} sm={4}>
+                  <Grid item xs={12} sm={4}>
                     <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ptBRLocale}>
                       <KeyboardDatePicker
                         size='small'
@@ -161,7 +161,6 @@ const LaboratorioDisponiveis: React.FC = () => {
                         value={data}
                         onChange={(data) => setData(data)}
                         label='Data'
-                        onError={console.log}
                         minDate={new Date()}
                         format='dd/MM/yyyy'
                         disabled={loading} />

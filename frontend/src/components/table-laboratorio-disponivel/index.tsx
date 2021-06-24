@@ -19,8 +19,8 @@ const LaboratorioDisponivelRow: React.FC<ILaboratorioDisponivel> = ({ blocoId, l
 
 const TableLaboratorioDisponivel: React.FC<{ laboratoriosDisponiveis: ILaboratorioDisponivel[] }> = ({ laboratoriosDisponiveis }) => {
   return (<>
-    {laboratoriosDisponiveis.length ? laboratoriosDisponiveis.map(laboratorioDisponivel => <LaboratorioDisponivelRow key={`${laboratorioDisponivel.blocoId}${laboratorioDisponivel.laboratorioId}`} {...laboratorioDisponivel} />) :
-      (<TableRow key='nenhum-registro'>
+    {laboratoriosDisponiveis.length ? laboratoriosDisponiveis.map((laboratorioDisponivel, index) => <LaboratorioDisponivelRow key={index} {...laboratorioDisponivel} />) :
+      (<TableRow>
         <TableCell scope='row' colSpan={3}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <FindInPageOutlinedIcon color='inherit' />

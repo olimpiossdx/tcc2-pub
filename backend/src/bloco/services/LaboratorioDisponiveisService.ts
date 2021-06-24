@@ -50,8 +50,8 @@ class BlocoLaboratorioDisponiveisService {
     const periodo = parametroPeriodoAgendamento[0].periodo;
     const parsedHorarioInicio = new Date(parametroPeriodoAgendamento[0].horarioInicio);
     const parsedHorarioFim = new Date(parametroPeriodoAgendamento[0].horarioFim);
-    const todayEnd = new Date();
-    const todayStart = new Date();
+    const todayEnd = new Date(data);
+    const todayStart = new Date(data);
     let currentDate = new Date(data);
 
     todayStart.setHours(parsedHorarioInicio.getHours());
@@ -74,16 +74,16 @@ class BlocoLaboratorioDisponiveisService {
       if (!agendamento) {
         const horarioInicio = new Date(time);
         const horarioFim = new Date(time);
-        
-        if (differenceInMinutes(todayEnd.getMinutes(), horarioInicio.getMinutes()) > 0) {
-          horarioFim.setMinutes(horarioFim.getMinutes() + periodo);
-        } else {
+        horarioFim.setMinutes(horarioFim.getMinutes() + periodo);
+
+        if (horarioFim.getHours() === todayEnd.getHours() && horarioFim.getMinutes() > todayEnd.getMinutes()) {
           horarioFim.setHours(todayEnd.getHours());
           horarioFim.setMinutes(todayEnd.getMinutes());
+        };
+
+        if (horarioFim <= todayEnd) {
+          entities.push({ blocoId, laboratorioId: laboratorio.id, laboratorioNome: laboratorio.nome, data: new Date(data), horarioInicio, horarioFim })
         }
-
-
-        entities.push({ blocoId, laboratorioId: laboratorio.id, laboratorioNome: laboratorio.nome, data: new Date(data), horarioInicio, horarioFim })
       }
     };
 
