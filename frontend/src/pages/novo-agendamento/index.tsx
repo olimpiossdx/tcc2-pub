@@ -73,7 +73,6 @@ const NovoAgendamento: React.FC = () => {
   }, []);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    //TODO ADICIONAR REGRA PARA CADASTRAMENTO
     event.preventDefault();
 
     const differenceMinutes = differenceInMinutes(selectEndTime as Date, selectStartTime as Date);
@@ -83,11 +82,18 @@ const NovoAgendamento: React.FC = () => {
       return;
     };
 
-    const response = await ApiServiceRequestAsync<IParametroAgendamento[]>({ method: 'post', url: 'agendamentos', data: { blocoId: selectBloco.id, laboratorioId: selectedLaboratorio, data, horarioInicio: selectStartTime, horarioFim: selectEndTime } }, setLoading, addNotification);
+    const response = await ApiServiceRequestAsync<IParametroAgendamento[]>({
+      method: 'post', url: 'agendamentos',
+      data: {
+        blocoId: selectBloco.id,
+        laboratorioId: selectedLaboratorio,
+        data,
+        horarioInicio: selectStartTime,
+        horarioFim: selectEndTime
+      }
+    }, setLoading, addNotification);
 
-    console.log('response', response);
-
-    if (!('status' in response)) {
+    if (('status' in response) && response.status === 'success') {
       history.push('/laboratorios-agendados');
     };
   };
@@ -162,7 +168,6 @@ const NovoAgendamento: React.FC = () => {
                   value={data}
                   onChange={(data) => setData(data)}
                   label='Data'
-                  onError={console.log}
                   minDate={new Date()}
                   format='dd/MM/yyyy'
                   disabled={loading} />
@@ -174,11 +179,11 @@ const NovoAgendamento: React.FC = () => {
                   label='Horário de inicio'
                   name='horarioInicio'
                   ampm={false}
-                  fullWidth
                   value={selectStartTime}
                   onChange={(data) => setSelectStartTime(data)}
-                  onError={console.log}
                   disabled={loading}
+                  minutesStep={5}
+                  fullWidth
                   required />
               </MuiPickersUtilsProvider>
             </Grid>
@@ -190,8 +195,8 @@ const NovoAgendamento: React.FC = () => {
                   ampm={false}
                   fullWidth
                   value={selectEndTime}
+                  minutesStep={5}
                   onChange={(data) => setSelectEndTime(data)}
-                  onError={console.log}
                   disabled={loading}
                   required />
               </MuiPickersUtilsProvider>
