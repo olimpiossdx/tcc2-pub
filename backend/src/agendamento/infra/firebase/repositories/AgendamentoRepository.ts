@@ -3,7 +3,7 @@ import IAgendamentoRepository from '../../../repositories/IAgendmanetoRepository
 import Agendamento from '../entities/Agendamento';
 
 import BaseRepository from '../../../../shared/repositories/baseRepository';
-import { differenceInMinutes, isEqual } from 'date-fns';
+import { isEqual } from 'date-fns';
 import ParametroPeriodoAgendamento from '../../../../parametro-periodo-agendamento/infra/firebase/entities/parametroPeriodoAgendamento';
 import { IResponse } from '../../../../bloco/services/LaboratorioDisponiveisService';
 
@@ -54,7 +54,7 @@ class AgendamentoRepository extends BaseRepository implements IAgendamentoReposi
     if (!response.exists()) {
       return entities;
     };
-    
+
     entities = Object.entries(response.val() as objecToArray).map(([prop, value], index) => {
       return (entities[index] = {
         ...value,
@@ -64,7 +64,7 @@ class AgendamentoRepository extends BaseRepository implements IAgendamentoReposi
       } as Agendamento);
     });
 
-    return entities.filter(agendamento => agendamento.bloco.id === blocoId && agendamento.data === data);
+    return entities.filter(agendamento => agendamento.bloco.id === blocoId);
   };
 };
 
