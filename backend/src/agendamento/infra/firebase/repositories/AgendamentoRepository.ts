@@ -64,7 +64,7 @@ class AgendamentoRepository extends BaseRepository implements IAgendamentoReposi
       } as Agendamento);
     });
 
-    return entities.filter(agendamento => agendamento.bloco.id === blocoId);
+    return entities.filter(agendamento => agendamento.bloco.id === blocoId && agendamento.laboratorio.id === laboratorioId);
   };
 };
 
