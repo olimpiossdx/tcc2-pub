@@ -37,7 +37,7 @@ export default class AgendamentoController {
     });
 
 
-    return response.json({ status: 'sucess', message: 'Agendamento criado com sucesso!' });
+    return response.json({ status: 'success', message: 'Agendamento criado com sucesso!' });
   };
 
   // TODO: ajustar atualização de registro.
