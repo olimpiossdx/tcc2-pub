@@ -38,7 +38,7 @@ const NotFound = () => {
         </Grid>
       </Grid>
     </Grid>
-  </Grid >)
-}
+  </Grid >);
+};
 
 export default NotFound;
