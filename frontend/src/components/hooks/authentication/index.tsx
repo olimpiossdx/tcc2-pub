@@ -1,5 +1,6 @@
 import React from 'react';
-import firebase from '../../../config/firebase';
+import {  getAuth, GoogleAuthProvider, signInWithPopup, UserCredential } from 'firebase/auth';
+import { firebaseApp } from '../../../config/firebase';
 import { ApiServiceRequestAsync } from '../../../services';
 import INotification from '../notification/model';
 
@@ -20,7 +21,7 @@ interface AuthContextData {
   user: IFirebaseUserInfo;
   signInAsync(setNotification: ((message: Omit<INotification, 'id'>) => void)): Promise<void>;
   signOut(): void;
-  firebaseAuthAsync(): Promise<firebase.auth.UserCredential>
+  firebaseAuthAsync(): Promise<UserCredential>
   updateAccesskey(accessKey: string): void;
 };
 
@@ -39,9 +40,10 @@ const AuthenticationProvider: React.FC = ({ children }) => {
     return {} as IAuthState;
   });
 
-  const firebaseAuthAsync = React.useCallback(async (): Promise<firebase.auth.UserCredential> => {
-    const provider = new firebase.auth.GoogleAuthProvider();
-    return await firebase.auth().signInWithPopup(provider);
+  const firebaseAuthAsync = React.useCallback(async (): Promise<UserCredential> => {
+    const provider = new GoogleAuthProvider();
+    const auth = getAuth(firebaseApp);
+    return await signInWithPopup(auth, provider);
   }, []);
 
   const signInAsync = React.useCallback(async (addNotification?: ((message: Omit<INotification, 'id'>) => void)) => {
