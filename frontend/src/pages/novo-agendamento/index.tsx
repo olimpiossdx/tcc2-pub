@@ -13,13 +13,9 @@ import { useNotifcation } from '../../components/hooks/notification';
 import Main from '../../components/main';
 import BlocoModel from './models/bloco.model';
 import { useHistory } from 'react-router';
+import { IParametroAgendamento } from './models/agendamento.model';
 
-interface IParametroAgendamento {
-  id: string;
-  periodo: number;
-};
-
-const NovoAgendamento: React.FC = () => {
+const NovoAgendamento = () => {
   const { addNotification } = useNotifcation();
   const history = useHistory();
   const [loading, setLoading] = useState(true);
@@ -213,7 +209,6 @@ const NovoAgendamento: React.FC = () => {
       </Grid>
     </form>
   </Main>);
-
-}
+};
 
 export default NovoAgendamento;

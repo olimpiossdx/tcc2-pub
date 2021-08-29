@@ -1,3 +1,8 @@
+export interface IParametroAgendamento {
+  id: string;
+  periodo: number;
+};
+
 export default class AgendamentoModel {
   id?: string;
   idUsuario?: string;
