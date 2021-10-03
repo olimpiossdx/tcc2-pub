@@ -47,7 +47,7 @@ const MeuPefil: React.FC = () => {
 
 
   return (<Main>
-    <Grid container justifyContent='center' alignItems='center' style={{ height: 'calc(100vh - 13vh)' }}>
+    <Grid container justifyContent='center' alignItems='center'>
       {loadingData ? <MeuPerfilAnimatedLoading /> : <Grid item xs={11} sm={10} md={6} component={Paper}>
         <Grid container spacing={2} alignItems='center' style={{ height: '100%', padding: '2%' }} >
           <Grid item>

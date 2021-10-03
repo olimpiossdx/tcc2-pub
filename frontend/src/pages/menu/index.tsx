@@ -11,7 +11,7 @@ import Main from '../../components/main';
 
 const Menu: React.FC = () => {
   return (<Main>
-    <Grid container justifyContent='center' alignItems='center' style={{ height: 'calc(100vh - 13vh)' }}>
+    <Grid container justifyContent='center' alignItems='center'>
       <Grid item xs={11}>
         <Grid container justifyContent='center' spacing={2}>
           <Grid item xs={12} sm={6} md={5} component={Link} to='novo-agendamento'>

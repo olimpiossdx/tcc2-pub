@@ -32,7 +32,7 @@ const LaboratoriosAgendados: React.FC = () => {
   }, [addNotification]);
 
   return (<Main>
-    <Grid container justifyContent='center' alignItems='center' style={{ height: 'calc(100vh - 13vh)' }}>
+    <Grid container justifyContent='center' alignItems='center' >
       <Grid item xs={11} sm={10} md={6}>
         <Grid component={Paper} container spacing={2} justifyContent='center' alignItems='center' style={{ height: '100%', padding: '1%' }} >
           <TableContainer>

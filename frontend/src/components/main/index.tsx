@@ -23,16 +23,18 @@ const Main: React.FC = ({ children }) => {
     push(newValue);
   };
 
-  return (<>
+  return (<div  style={{ minHeight: '100vh', display:'flex', flexDirection:'column' }}>
     <Header />
-    {children}
+    <div style={{flexGrow:1, display:'flex'}}>
+      {children}
+    </div>
     {isBottomNavigation ? (<BottomNavigation showLabels value={value} onChange={handleChange}>
       <BottomNavigationAction label="Novo agendamento" value="novo-agendamento" icon={<EventNoteIcon />} />
       <BottomNavigationAction label="Laboratórios agendados" value="laboratorios-agendados" icon={<InsertInvitation />} />
       <BottomNavigationAction label="Laboratórios disponíveis" value="laboratorios-disponiveis" icon={<CalendarToday />} />
       <BottomNavigationAction label="Sair" value="/" icon={<ExitToAppIcon />} onClick={signOut} />
     </BottomNavigation>) : (null)}
-  </>)
+  </div>)
 }
 
 export default Main;

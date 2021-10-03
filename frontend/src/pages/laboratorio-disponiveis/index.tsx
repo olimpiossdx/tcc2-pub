@@ -92,8 +92,8 @@ const LaboratorioDisponiveis: React.FC = () => {
   };
 
   return (<Main>
-    <Grid container justifyContent='center' alignItems='center' style={{ height: 'calc(100vh - 13vh)' }}>
-      <Grid item xs={11} sm={10} md={8}>
+    <Grid container justifyContent='center' alignItems='center'>
+      <Grid item xs={11} sm={10} md={10}>
         <Grid component={Paper} container justifyContent='center' alignItems='center' style={{ height: '100%', padding: '2%' }} >
           <TableContainer>
             <Toolbar style={{ padding: 10 }}>
